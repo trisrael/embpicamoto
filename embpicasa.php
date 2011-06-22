@@ -226,7 +226,8 @@ add_shortcode('embpicasa', 'add_embpicasa_shortcode');
 
 // add jquery ui styles
 function embpicasa_init() {
-	if(is_admin() && current_user_can('edit_posts') && current_user_can('edit_pages') && get_user_option('rich_editing') == 'true') {
+	if(is_admin() && current_user_can('edit_posts') && current_user_can('edit_pages') && get_user_option('rich_editing') == 'true') {	
+		//In case of page not getting loaded with jquery-ui automatically
 		wp_register_style( 'jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/themes/smoothness/jquery-ui.css', true);
 		wp_enqueue_style( 'jquery-style' );	
 	}
@@ -372,11 +373,14 @@ add_action( 'admin_footer', 'embpicasa_js_dlg_markup' );
 function add_embpicasa_button() {
    if ( ! current_user_can('edit_posts') && ! current_user_can('edit_pages') )
      return;
-   if ( get_user_option('rich_editing') == 'true') {
+   if ( get_user_option('rich_editing') == 'true') {		
      add_filter('mce_external_plugins', 'add_embpicasa_tinymce_plugin');
      add_filter('mce_buttons', 'register_embpicasa_button');
+ 
+	 wp_enqueue_script('jquery-ui-dialog');	 //Ensure jquery-ui-dialog is available on clientside (will add in jQuery automatically)
    }
 }
+
 add_action('init', 'add_embpicasa_button');
 
 function register_embpicasa_button($buttons) {
