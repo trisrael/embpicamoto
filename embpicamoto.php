@@ -76,10 +76,9 @@ function add_embpicamoto_shortcode($atts, $content = null) {
 				$has_pages= isset($per_page) && is_numeric($per_page) && $per_page > 0;
 				$page_names = array();
 
-
 				$html = '';
 				
-				$pageElId = create_function("$loc_pid", "return 'embpicamoto_album_$id' . '_page_$loc_pid'"); #creates a unique id for an album page
+				//$pageElId = create_function("$loc_pid", "return 'embpicamoto_album_$id' . '_page_$loc_pid'"); #creates a unique id for an album page
 
 				#foreach temporary variables
 				$page_name = null;
@@ -104,6 +103,7 @@ function add_embpicamoto_shortcode($atts, $content = null) {
 					$html = $html . '</a>';
 					$html = $html . '</li>';
 				}
+
 				$html = $html . '</ul></div>'; #Finish the last page
 
 				#Container html element variables
@@ -127,7 +127,8 @@ function add_embpicamoto_shortcode($atts, $content = null) {
 					$html_page_names = $html_page_names . '</ul>';
 				}
 				
-				return $html;
+				return $wrap_pre . $html_page_names . $html . $wrap_post . $script;
+
 			} catch(Exception $ex) {
 				return '<p style="color:red">' . $ex->getMessage() . '</p>';					
 			}
