@@ -44,6 +44,7 @@ function add_embpicasa_shortcode($atts, $content = null) {
 				$photos = array();
 				$query = new Zend_Gdata_Photos_AlbumQuery();
 				$query->setAlbumId($id);
+
 				// http://code.google.com/intl/ru/apis/picasaweb/docs/1.0/reference.html
 				$suffix = $options['embpicasa_options_crop'] == 'no' ? 'u' : 'c';
 				$query->setThumbsize($options['embpicasa_options_thumb_size'] . $suffix);

@@ -3,6 +3,22 @@
 //add plugin options page
 add_action( 'admin_menu', 'embpicasa_admin_menu' );
 
+
+class EmbpicasaImageSizes {
+
+	public static $thumbnails = array('32', '48', '64', '72', '104', '144', '150', '160', '180', '200', '240', '280', '320');
+	
+	public function thumbnails() { return self::$thumbnails; }	
+
+	public static $fulls = array('94', '110', '128', '200', '220', '288', '320', '400', '512', '576', '640', '720', '800', '912', '1024', '1152', '1280', '1440', '1600');
+	
+	public function fulls() { return self::$fulls; }		
+
+}
+
+$embpica_img_sizes = new EmbpicasaImageSizes();
+
+
 function embpicasa_admin_menu() {
 	add_options_page('Picasa settings', 'Picasa', 'manage_options', __FILE__, 'embpicasa_settings_page');
 }
@@ -60,7 +76,7 @@ function embpicasa_options_password_field_renderer() {
 
 function embpicasa_options_thumb_size_field_renderer() {
 	$options = get_option('embpicasa_options');
-	$items = array('32', '48', '64', '72', '104', '144', '150', '160', '180', '200', '240', '280', '320');
+	$items = $GLOBALS[embpica_img_sizes]->thumbs();
 	echo "<select id='embpicasa_options_thumb_size' name='embpicasa_options[embpicasa_options_thumb_size]'>";
 	foreach($items as $item) {
 		$selected = ($options['embpicasa_options_thumb_size']==$item) ? 'selected="selected"' : '';
@@ -71,7 +87,7 @@ function embpicasa_options_thumb_size_field_renderer() {
 
 function embpicasa_options_full_size_field_renderer() {
 	$options = get_option('embpicasa_options');
-	$items = array('94', '110', '128', '200', '220', '288', '320', '400', '512', '576', '640', '720', '800', '912', '1024', '1152', '1280', '1440', '1600');
+	$items = $GLOBALS[embpica_img_sizes]->fulls();
 	echo "<select id='embpicasa_options_full_size' name='embpicasa_options[embpicasa_options_full_size]'>";
 	foreach($items as $item) {
 		$selected = ($options['embpicasa_options_full_size']==$item) ? 'selected="selected"' : '';
@@ -92,6 +108,7 @@ function embpicasa_options_crop_field_renderer() {
 }
 
 function embpicasa_options_validate($input) {
+	global $embpica_img_sizes;
 	// strip all fields
 	$input['embpicasa_options_login'] 	   =  wp_filter_nohtml_kses($input['embpicasa_options_login']);
 	$input['embpicasa_options_password']   =  wp_filter_nohtml_kses($input['embpicasa_options_password']);
@@ -99,12 +116,12 @@ function embpicasa_options_validate($input) {
 	$input['embpicasa_options_full_size']  =  wp_filter_nohtml_kses($input['embpicasa_options_full_size']);
 	
 	// check image dimensions, defaulting to some size when not in valid options
-	$items = array('32', '48', '64', '72', '104', '144', '150', '160');
+	$items = $embpica_img_sizes->thumbs();
 	if(!in_array($input['embpicasa_options_thumb_size'], $items)) { 
 		$input['embpicasa_options_thumb_size'] = '150';
 	}
 	
-	$items = array('32', '48', '64', '72', '104', '144', '150', '160');
+	$items = $embpica_img_sizes->fulls();
 	if(!in_array($input['embpicasa_options_full_size'], $items)) {
 		$input['embpicasa_options_full_size'] = '640';
 	}
