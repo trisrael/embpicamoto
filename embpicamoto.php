@@ -76,9 +76,9 @@ function add_embpicamoto_shortcode($atts, $content = null) {
 				$has_pages= isset($per_page) && is_numeric($per_page) && $per_page > 0;
 				$page_names = array();
 
-				$html = '';
+				$html = "";
 				
-				//$pageElId = create_function("$loc_pid", "return 'embpicamoto_album_$id' . '_page_$loc_pid'"); #creates a unique id for an album page
+				$pageElId = create_function("$loc_pid", "return 'embpicamoto_album_$id' . '_page_$loc_pid'"); #creates a unique id for an album page
 
 				#foreach temporary variables
 				$page_name = null;
@@ -89,7 +89,7 @@ function add_embpicamoto_shortcode($atts, $content = null) {
 					
 					if($has_new_page){
 						$page_name = $index / $per_page;
-						$page_names << $page_name;
+						$page_names[] = $page_name;
 
 					   if($index > 0) { $html = $html . '</ul></div>'; #End the last page  }
 
