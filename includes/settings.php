@@ -98,9 +98,9 @@ function embpicasa_options_validate($input) {
 	$input['embpicasa_options_thumb_size'] =  wp_filter_nohtml_kses($input['embpicasa_options_thumb_size']);
 	$input['embpicasa_options_full_size']  =  wp_filter_nohtml_kses($input['embpicasa_options_full_size']);
 	
-	// check image dimensions
+	// check image dimensions, defaulting to some size when not in valid options
 	$items = array('32', '48', '64', '72', '104', '144', '150', '160');
-	if(!in_array($input['embpicasa_options_thumb_size'], $items)) {
+	if(!in_array($input['embpicasa_options_thumb_size'], $items)) { 
 		$input['embpicasa_options_thumb_size'] = '150';
 	}
 	
@@ -114,6 +114,7 @@ function embpicasa_options_validate($input) {
 
 // Define default option settings
 register_activation_hook(__FILE__, 'embpicasa_options_add_defaults');
+
 function embpicasa_options_add_defaults() {
     update_option('embpicasa_options', array(
 		'embpicasa_options_login' 	   => 'LOGIN@gmail.com',
