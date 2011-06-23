@@ -106,27 +106,7 @@ function add_embpicamoto_shortcode($atts, $content = null) {
 				}
 				$html = $html . '</ul></div>'; #Finish the last page
 
-				#Container html element variables
-			    $wrap_el_id = "embpicamoto_album_$id";
-				$wrap_pre = "<div id='$wrap_el_id'>";
-				$wrap_post = "</div>";
-
-				if($has_pages){
-					#Initiate pages using jQuery tabs
-					$script = '<script type=”text/javascript”>';
-					$script = $script . '(function($){';
-					$script = $script . "$( '#$wrap_el_id' ).tabs();";
-					$script = $script . '})(jQuery);</script>';						
-
-					#Build the html for the jQuery tabs
-					$html_page_names = '<ul>';
-					foreach($p_name as $page_names){
-						$p_id = $pageElId($p_name);
-						$html_page_names = $html_page_names . "<li><a href='#$p_id'>$p_name</a></li>";			
-					}
-					$html_page_names = $html_page_names . '</ul>';
-				}
-				
+		
 				return $wrap_pre . $html_page_names . $html . $wrap_post . $script;
 			} catch(Exception $ex) {
 				return '<p style="color:red">' . $ex->getMessage() . '</p>';					
