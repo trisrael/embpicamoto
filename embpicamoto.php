@@ -67,31 +67,66 @@ function add_embpicamoto_shortcode($atts, $content = null) {
 					catch(Exception $e) {$results = null;}
 				}
 				
-				//TODO: here is theming, change it as u need
-				
-				$html = '<ul class="embpicamoto">';
+				//TODO: here is theming, change it as u need		
+
 
 				$has_rows =	isset($per_line); #Check if user supplied a number per line
-				$has_pages= isset($per_page) && is_numeric($per_page); #Check if user supplied a number per line
-				if($has_pages){ $page_names = array(); } #
+				$has_pages= isset($per_page) && is_numeric($per_page) && $per_page > 0;
+				$page_names = array();
+
+
+				$html = '';
 				
+				$pageElId = create_function("$loc_pid", "return 'embpicamoto_album_$id' . '_page_$loc_pid'"); #creates a unique id for an album page
+
+				#foreach temporary variables
+				$page_name = null;
+ 
 				foreach($photos as $index => $photo) {
-					$html = $html . '<li>' . $index;
+					#Per page variables
+					$has_new_page = $index == 0 || ($has_pages  && ($index % $per_page) == 0); #If on first page add ul,  
+					
+					if($has_new_page){
+						$page_name = $index / $per_page;
+						$page_names << $page_name;
+
+					   if($index > 0) { $html = $html . '</ul></div>'; #End the last page  }
+
+						#Add new page
+						$html = $html . "<div id='$pageElId($page_name)'><ul class='embpicamoto'>";					
+					}
+
+					$html = $html . '<li>';
 					$html = $html . '<a rel="lightbox[' . $album['id'] . ']" target="_blank" href="' . $photo['fullsize'] . '">';
 					$html = $html . '<img src="' . $photo['thumbnail'] . '" />';
 					$html = $html . '</a>';
 					$html = $html . '</li>';
 				}
-				$html = $html . '</ul>';	
+				$html = $html . '</ul></div>'; #Finish the last page
 
-				if($has_rows)
+				#Container html element variables
+			    $wrap_el_id = "embpicamoto_album_$id";
+				$wrap_pre = "<div id='$wrap_el_id'>";
+				$wrap_post = "</div>";
+
+				if($has_pages)
 				{
-					//$html = $html . '<style type="text/css">';
-					//$html = $html . '.embpicamoto li {width:' . $options['embpicamoto_options_thumb_size'] . 'px;height:' . $options['embpicamoto_options_thumb_size'] . 'px;}';
-					//$html = $html . '</style>';
+					#Initiate pages using jQuery tabs
+					$script = '<script type=”text/javascript”>';
+					$script = $script . '(function($){';
+					$script = $script . "$( '#$wrap_el_id' ).tabs();"
+					$script = $script . '})(jQuery);</script>';									
+
+					#Build the html for the jQuery tabs
+					$html_page_names = '<ul>';
+					foreach($p_name in $page_names){
+						$p_id = $pageElId($p_name);
+						$html_page_names = $html_page_names . "<li><a href='#$p_id'>$p_name</a></li>";			
+					}
+					$html_page_names = $html_page_names . '</ul>';
 				}
 				
-				return $html;
+				return $wrap_pre . $html_page_names . $html . $wrap_post . $script;
 				
 			} catch(Exception $ex) {
 				return '<p style="color:red">' . $ex->getMessage() . '</p>';					
