@@ -71,9 +71,11 @@ function add_embpicamoto_shortcode($atts, $content = null) {
 				
 				//TODO: here is theming, change it as u need		
 
-
 				$has_rows =	isset($per_line); #Check if user supplied a number per line
 				$has_pages= isset($per_page) && is_numeric($per_page) && $per_page > 0;
+				if(!$has_pages){ 
+					$per_page = count($photos); #To avoid division by zero (and other possibly bad side effects), if no photos lower foreach won't enter
+				}
 				$page_names = array();
 
 				$html = "";
@@ -88,7 +90,7 @@ function add_embpicamoto_shortcode($atts, $content = null) {
 					$has_new_page = $index == 0 || ($has_pages  && ($index % $per_page) == 0); #If on first page add ul,  
 					
 					if($has_new_page){
-						$page_name = $index / $per_page;
+						$page_name = ($index + 1) / $per_page;
 						$page_names[] = $page_name;
 
 					   if($index > 0) { 
