@@ -72,18 +72,17 @@ function add_embpicamoto_shortcode($atts, $content = null) {
 				$html = '<ul class="embpicamoto">';
 
 				$has_rows =	isset($per_line); #Check if user supplied a number per line
+				$has_pages= isset($per_page) && is_numeric($per_page); #Check if user supplied a number per line
+				if($has_pages){ $page_names = array(); } #
 				
 				foreach($photos as $index => $photo) {
-					
-					$html = $html . '<li>';
+					$html = $html . '<li>' . $index;
 					$html = $html . '<a rel="lightbox[' . $album['id'] . ']" target="_blank" href="' . $photo['fullsize'] . '">';
 					$html = $html . '<img src="' . $photo['thumbnail'] . '" />';
 					$html = $html . '</a>';
 					$html = $html . '</li>';
 				}
-				$html = $html . '</ul>';
-				
-
+				$html = $html . '</ul>';	
 
 				if($has_rows)
 				{
