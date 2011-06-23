@@ -12,7 +12,7 @@ function embpicasa_settings_page() {
 	<div class="wrap">
 		<div class="icon32" id="icon-options-general"><br></div>
 		<h2>Picasa settings</h2>
-		Enter auth params and select preferred image dimensions
+		Enter authentication parameters and select preferred image dimensions
 		<form action="options.php" method="post">
 		<?php settings_fields('embpicasa_options'); ?>
 		<?php do_settings_sections(__FILE__); ?>
