@@ -1,5 +1,5 @@
-.embpicasa,
-.embpicasa li {
+.embpicamoto,
+.embpicamoto li {
 	display:inline;
 	list-style:none;
 	padding:0;
@@ -7,7 +7,7 @@
 }
 
 /* inline-block */
-.embpicasa li, .embpicasa li a {
+.embpicamoto li, .embpicamoto li a {
   display: -moz-inline-box;
   -moz-box-orient: vertical;
   display: inline-block;
@@ -15,23 +15,23 @@
   *vertical-align: auto;
 }
 
-.embpicasa li, .embpicasa li a {
+.embpicamoto li, .embpicamoto li a {
   *display: inline;
 }
 
 
-.embpicasa li {
+.embpicamoto li {
 	margin:5px;
 }
 
-.embpicasa li a img {
+.embpicamoto li a img {
 	border:3px solid #fff;	
 	-moz-box-shadow: 0 0 5px #ccc;
 	-webkit-box-shadow: 0 0 5px #ccc;
 	box-shadow: 0 0 5px #ccc;
 }
 
-.embpicasa li a:hover img {
+.embpicamoto li a:hover img {
 	-moz-box-shadow: 0 0 5px #000;
 	-webkit-box-shadow: 0 0 5px #000;
 	box-shadow: 0 0 5px #000;

@@ -1,13 +1,13 @@
 (function() {
-    tinymce.create('tinymce.plugins.embpicasa', {
+    tinymce.create('tinymce.plugins.embpicamoto', {
         init : function(ed, url) {
-            if ( typeof embpicasa_dlg_open == 'undefined' ) return;
+            if ( typeof embpicamoto_dlg_open == 'undefined' ) return;
 			
-			ed.addButton('embpicasa', {
+			ed.addButton('embpicamoto', {
                 title : 'Picasa',
                 image : url+'/embpicasa.gif',
                 onclick : function() {
-                    embpicasa_dlg_open();
+                    embpicamoto_dlg_open();
                 }
             });
         },
@@ -24,5 +24,5 @@
             };
         }
     });
-    tinymce.PluginManager.add('embpicasa', tinymce.plugins.embpicasa);
+    tinymce.PluginManager.add('embpicamoto', tinymce.plugins.embpicamoto);
 })();

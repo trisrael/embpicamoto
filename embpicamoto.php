@@ -86,7 +86,7 @@ function add_embpicamoto_shortcode($atts, $content = null) {
 				
 
 
-				if()
+				if($has_rows)
 				{
 					//$html = $html . '<style type="text/css">';
 					//$html = $html . '.embpicamoto li {width:' . $options['embpicamoto_options_thumb_size'] . 'px;height:' . $options['embpicamoto_options_thumb_size'] . 'px;}';
