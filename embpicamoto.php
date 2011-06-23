@@ -90,7 +90,7 @@ function add_embpicamoto_shortcode($atts, $content = null) {
 					$has_new_page = $index == 0 || ($has_pages  && ($index % $per_page) == 0); #If on first page add ul,  
 					
 					if($has_new_page){
-						$page_name = ($index + 1) / $per_page;
+						$page_name = floor(($index + 1) / $per_page);
 						$page_names[] = $page_name;
 
 					   if($index > 0) { 
@@ -116,6 +116,7 @@ function add_embpicamoto_shortcode($atts, $content = null) {
 				$wrap_post = "</div>";
 
 				if($has_pages){
+                    wp_enqueue_script('jquery-ui-tabs');#Ensure jquery-ui-tabs is available on clientside (will add in jQuery automatically)
 					#Initiate pages using jQuery tabs
 					$script = '<script type=”text/javascript”>';
 					$script = $script . '(function($){';
