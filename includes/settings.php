@@ -8,7 +8,7 @@ class EmbpicasaImageSizes {
 
 	public static $thumbnails = array('32', '48', '64', '72', '104', '144', '150', '160', '180', '200', '240', '280', '320');
 	
-	public function thumbnails() { return self::$thumbnails; }	
+	public function thumbs() { return self::$thumbnails; }	
 
 	public static $fulls = array('94', '110', '128', '200', '220', '288', '320', '400', '512', '576', '640', '720', '800', '912', '1024', '1152', '1280', '1440', '1600');
 	
