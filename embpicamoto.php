@@ -80,7 +80,6 @@ function add_embpicamoto_shortcode($atts, $content = null) {
 					$html = $html . '<img src="' . $photo['thumbnail'] . '" />';
 					$html = $html . '</a>';
 					$html = $html . '</li>';
-//					$opts = $opts . '<option value="' . $album['id'] . '">' . $album['name'] . '</option>';
 				}
 				$html = $html . '</ul>';
 				

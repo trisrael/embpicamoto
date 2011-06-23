@@ -119,7 +119,7 @@ function embpicamoto_options_crop_field_renderer() {
 function embpicamoto_options_validate($input) {
 	global $embpica_img_sizes;
 	// strip all fields
-	$input['embpicamoto_options_login'] 	   =  wp_filter_nohtml_kses($input['embpicamoto_options_login']);
+	$input['embpicamoto_options_login'] 	 =  wp_filter_nohtml_kses($input['embpicamoto_options_login']);
 	$input['embpicamoto_options_password']   =  wp_filter_nohtml_kses($input['embpicamoto_options_password']);
 	$input['embpicamoto_options_thumb_size'] =  wp_filter_nohtml_kses($input['embpicamoto_options_thumb_size']);
 	$input['embpicamoto_options_full_size']  =  wp_filter_nohtml_kses($input['embpicamoto_options_full_size']);
@@ -144,7 +144,7 @@ register_activation_hook(__FILE__, 'embpicamoto_options_add_defaults');
 function embpicamoto_options_add_defaults() {
     update_option('embpicamoto_options', array(
 		'embpicamoto_options_login' 	   => 'LOGIN@gmail.com',
-		'embpicamoto_options_password'   => '',
+		'embpicamoto_options_password'   => 'your password',
 		'embpicamoto_options_thumb_size' => $embpica_img_sizes->defaultThumb(),
 		'embpicamoto_options_full_size'  => $embpica_img_sizes->defaultFull(),
 		'embpicamoto_options_crop'       => 'no'
