@@ -9,7 +9,8 @@ Author URI: github.com/trisrael
 */
 
 
-require_once('includes/settings.php'); #Load wordpress settings 
+require_once('includes/settings.php'); #Load wordpress settings
+require_once('includes/tinyMCE.php'); #Add picasa shortcode addition to tinyMCE
 
 /////////////////////////////////////////////////////////////////////
 // add the shortcode handler for picasa galleries
@@ -96,8 +97,5 @@ function add_embpicasa_shortcode($atts, $content = null) {
 		return '<p style="text-align:center">'.$id.'</p>';
 }
 add_shortcode('embpicasa', 'add_embpicasa_shortcode');
-
-
-require_once('includes/tinyMCE.php'); #Add picasa shortcode addition to tinyMCE
 
 ?>

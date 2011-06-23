@@ -181,6 +181,6 @@ function embpicasa_refresh_mce($ver) {
   return $ver;
 } 
 
-add_filter( 'tiny_mce_version', 'embpicasa_refresh_mce')
+add_filter( 'tiny_mce_version', 'embpicasa_refresh_mce');
 
 ?>
