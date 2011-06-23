@@ -25,6 +25,7 @@ function add_embpicamoto_shortcode($atts, $content = null) {
 		
 		if(!empty($options['embpicamoto_options_login']) && !empty($options['embpicamoto_options_password'])) {
 			try {
+
 				set_include_path(implode(PATH_SEPARATOR, array(
 					realpath(dirname(__FILE__) . '/library'),
 					get_include_path(),
@@ -52,6 +53,7 @@ function add_embpicamoto_shortcode($atts, $content = null) {
 				$query->setThumbsize($options['embpicamoto_options_thumb_size'] . $suffix);
 				$query->setImgMax($options['embpicamoto_options_full_size'] . $suffix);
 				$results = $service->getAlbumFeed($query);
+				
 				while($results != null) {
 					foreach($results as $entry) {
 						foreach($results as $photo) {
@@ -77,57 +79,8 @@ function add_embpicamoto_shortcode($atts, $content = null) {
 
 				$html = '';
 				
-				$pageElId = create_function("$loc_pid", "return 'embpicamoto_album_$id' . '_page_$loc_pid'"); #creates a unique id for an album page
-
-				#foreach temporary variables
-				$page_name = null;
- 
-				foreach($photos as $index => $photo) {
-					#Per page variables
-					$has_new_page = $index == 0 || ($has_pages  && ($index % $per_page) == 0); #If on first page add ul,  
-					
-					if($has_new_page){
-						$page_name = $index / $per_page;
-						$page_names << $page_name;
-
-					   if($index > 0) { $html = $html . '</ul></div>'; #End the last page  }
-
-						#Add new page
-						$html = $html . "<div id='$pageElId($page_name)'><ul class='embpicamoto'>";					
-					}
-
-					$html = $html . '<li>';
-					$html = $html . '<a rel="lightbox[' . $album['id'] . ']" target="_blank" href="' . $photo['fullsize'] . '">';
-					$html = $html . '<img src="' . $photo['thumbnail'] . '" />';
-					$html = $html . '</a>';
-					$html = $html . '</li>';
-				}
-				$html = $html . '</ul></div>'; #Finish the last page
-
-				#Container html element variables
-			    $wrap_el_id = "embpicamoto_album_$id";
-				$wrap_pre = "<div id='$wrap_el_id'>";
-				$wrap_post = "</div>";
-
-				if($has_pages)
-				{
-					#Initiate pages using jQuery tabs
-					$script = '<script type=”text/javascript”>';
-					$script = $script . '(function($){';
-					$script = $script . "$( '#$wrap_el_id' ).tabs();";
-					$script = $script . '})(jQuery);</script>';						
-
-					#Build the html for the jQuery tabs
-					$html_page_names = '<ul>';
-					foreach($p_name as $page_names){
-						$p_id = $pageElId($p_name);
-						$html_page_names = $html_page_names . "<li><a href='#$p_id'>$p_name</a></li>";			
-					}
-					$html_page_names = $html_page_names . '</ul>';
-				}
-				
-				return $wrap_pre . $html_page_names . $html . $wrap_post . $script;
-				
+		
+				return $wrap_pre . $html_page_names . $html . $wrap_post . $script;				
 			} catch(Exception $ex) {
 				return '<p style="color:red">' . $ex->getMessage() . '</p>';					
 			}
