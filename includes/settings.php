@@ -1,9 +1,9 @@
 <?php
 
 //add plugin options page
-add_action( 'admin_menu', 'embpicasa_admin_menu' );
+add_action( 'admin_menu', 'embpicamoto_admin_menu' );
 
-class EmbpicasaImageSizes {
+class embpicamotoImageSizes {
 
 	public static $thumbnails = array('32', '48', '64', '72', '104', '144', '150', '160', '180', '200', '240', '280', '320');
 
@@ -24,13 +24,13 @@ class EmbpicasaImageSizes {
 	public function defaultFull() { return self::$defFull; }
 }
 
-$embpica_img_sizes = new EmbpicasaImageSizes(); #Simple object containing size of pictures arrays 'namespacing' variables to avoid conflicts
+$embpica_img_sizes = new embpicamotoImageSizes(); #Simple object containing size of pictures arrays 'namespacing' variables to avoid conflicts
 
-function embpicasa_admin_menu() {
-	add_options_page('Picasa settings', 'Picasa', 'manage_options', __FILE__, 'embpicasa_settings_page');
+function embpicamoto_admin_menu() {
+	add_options_page('Picasa settings', 'Picasa', 'manage_options', __FILE__, 'embpicamoto_settings_page');
 }
 
-function embpicasa_settings_page() {
+function embpicamoto_settings_page() {
 
 ?>
 	<div class="wrap">
@@ -38,7 +38,7 @@ function embpicasa_settings_page() {
 		<h2>Picasa settings</h2>
 		Enter authentication parameters and select preferred image dimensions
 		<form action="options.php" method="post">
-		<?php settings_fields('embpicasa_options'); ?>
+		<?php settings_fields('embpicamoto_options'); ?>
 		<?php do_settings_sections(__FILE__); ?>
 		<p class="submit">
 			<input name="Submit" type="submit" class="button-primary" value="<?php esc_attr_e('Save Changes'); ?>" />
@@ -51,103 +51,103 @@ function embpicasa_settings_page() {
 
 /////////////////////////////////////////////////////////////////////
 //register plugin options
-add_action('admin_init', 'embpicasa_admin_init' );
-function embpicasa_admin_init(){
-	register_setting('embpicasa_options', 'embpicasa_options', 'embpicasa_options_validate' ); // group, name in db, validation func
+add_action('admin_init', 'embpicamoto_admin_init' );
+function embpicamoto_admin_init(){
+	register_setting('embpicamoto_options', 'embpicamoto_options', 'embpicamoto_options_validate' ); // group, name in db, validation func
 	
-	add_settings_section('auth_section', 'Auth Settings', 'embpicasa_options_section_auth', __FILE__);
-	add_settings_field('embpicasa_options_login', 'Login', 'embpicasa_options_login_field_renderer', __FILE__, 'auth_section');
-	add_settings_field('embpicasa_options_password', 'Password', 'embpicasa_options_password_field_renderer', __FILE__, 'auth_section');	
+	add_settings_section('auth_section', 'Auth Settings', 'embpicamoto_options_section_auth', __FILE__);
+	add_settings_field('embpicamoto_options_login', 'Login', 'embpicamoto_options_login_field_renderer', __FILE__, 'auth_section');
+	add_settings_field('embpicamoto_options_password', 'Password', 'embpicamoto_options_password_field_renderer', __FILE__, 'auth_section');	
 	
-	add_settings_section('img_section', 'Image Settings', 'embpicasa_options_section_img', __FILE__);
-	add_settings_field('embpicasa_options_thumb_size', 'Thumbnail size', 'embpicasa_options_thumb_size_field_renderer', __FILE__, 'img_section');
-	add_settings_field('embpicasa_options_full_size', 'Full image size', 'embpicasa_options_full_size_field_renderer', __FILE__, 'img_section');
-	add_settings_field('embpicasa_options_crop', 'Crop images', 'embpicasa_options_crop_field_renderer', __FILE__, 'img_section');
+	add_settings_section('img_section', 'Image Settings', 'embpicamoto_options_section_img', __FILE__);
+	add_settings_field('embpicamoto_options_thumb_size', 'Thumbnail size', 'embpicamoto_options_thumb_size_field_renderer', __FILE__, 'img_section');
+	add_settings_field('embpicamoto_options_full_size', 'Full image size', 'embpicamoto_options_full_size_field_renderer', __FILE__, 'img_section');
+	add_settings_field('embpicamoto_options_crop', 'Crop images', 'embpicamoto_options_crop_field_renderer', __FILE__, 'img_section');
 }
 
-function embpicasa_options_section_auth() {
+function embpicamoto_options_section_auth() {
 	echo '<p>Your login and password in picasa</p>';
 }
 
-function embpicasa_options_section_img() {
+function embpicamoto_options_section_img() {
 	echo '<p>Preferred image dimensions</p>';
 }
 
-function embpicasa_options_login_field_renderer() {
-	$options = get_option('embpicasa_options');
-	echo "<input id='embpicasa_options_login' name='embpicasa_options[embpicasa_options_login]' size='40' type='text' value='{$options['embpicasa_options_login']}' />";
+function embpicamoto_options_login_field_renderer() {
+	$options = get_option('embpicamoto_options');
+	echo "<input id='embpicamoto_options_login' name='embpicamoto_options[embpicamoto_options_login]' size='40' type='text' value='{$options['embpicamoto_options_login']}' />";
 }
 
-function embpicasa_options_password_field_renderer() {
-	$options = get_option('embpicasa_options');
-	echo "<input id='embpicasa_options_password' name='embpicasa_options[embpicasa_options_password]' size='40' type='password' value='{$options['embpicasa_options_password']}' />";
+function embpicamoto_options_password_field_renderer() {
+	$options = get_option('embpicamoto_options');
+	echo "<input id='embpicamoto_options_password' name='embpicamoto_options[embpicamoto_options_password]' size='40' type='password' value='{$options['embpicamoto_options_password']}' />";
 }
 
-function embpicasa_options_thumb_size_field_renderer() {
-	$options = get_option('embpicasa_options');
+function embpicamoto_options_thumb_size_field_renderer() {
+	$options = get_option('embpicamoto_options');
 	$items = $GLOBALS[embpica_img_sizes]->thumbs();
-	echo "<select id='embpicasa_options_thumb_size' name='embpicasa_options[embpicasa_options_thumb_size]'>";
+	echo "<select id='embpicamoto_options_thumb_size' name='embpicamoto_options[embpicamoto_options_thumb_size]'>";
 	foreach($items as $item) {
-		$selected = ($options['embpicasa_options_thumb_size']==$item) ? 'selected="selected"' : '';
+		$selected = ($options['embpicamoto_options_thumb_size']==$item) ? 'selected="selected"' : '';
 		echo "<option value='$item' $selected>$item</option>";
 	}
 	echo "</select>";
 }
 
-function embpicasa_options_full_size_field_renderer() {
-	$options = get_option('embpicasa_options');
+function embpicamoto_options_full_size_field_renderer() {
+	$options = get_option('embpicamoto_options');
 	$items = $GLOBALS[embpica_img_sizes]->fulls();
-	echo "<select id='embpicasa_options_full_size' name='embpicasa_options[embpicasa_options_full_size]'>";
+	echo "<select id='embpicamoto_options_full_size' name='embpicamoto_options[embpicamoto_options_full_size]'>";
 	foreach($items as $item) {
-		$selected = ($options['embpicasa_options_full_size']==$item) ? 'selected="selected"' : '';
+		$selected = ($options['embpicamoto_options_full_size']==$item) ? 'selected="selected"' : '';
 		echo "<option value='$item' $selected>$item</option>";
 	}
 	echo "</select>";
 }
 
-function embpicasa_options_crop_field_renderer() {
-	$options = get_option('embpicasa_options');
+function embpicamoto_options_crop_field_renderer() {
+	$options = get_option('embpicamoto_options');
 	$items = array('no', 'yes');
-	echo "<select id='embpicasa_options_crop' name='embpicasa_options[embpicasa_options_crop]'>";
+	echo "<select id='embpicamoto_options_crop' name='embpicamoto_options[embpicamoto_options_crop]'>";
 	foreach($items as $item) {
-		$selected = ($options['embpicasa_options_crop']==$item) ? 'selected="selected"' : '';
+		$selected = ($options['embpicamoto_options_crop']==$item) ? 'selected="selected"' : '';
 		echo "<option value='$item' $selected>$item</option>";
 	}
 	echo "</select>";
 }
 
-function embpicasa_options_validate($input) {
+function embpicamoto_options_validate($input) {
 	global $embpica_img_sizes;
 	// strip all fields
-	$input['embpicasa_options_login'] 	   =  wp_filter_nohtml_kses($input['embpicasa_options_login']);
-	$input['embpicasa_options_password']   =  wp_filter_nohtml_kses($input['embpicasa_options_password']);
-	$input['embpicasa_options_thumb_size'] =  wp_filter_nohtml_kses($input['embpicasa_options_thumb_size']);
-	$input['embpicasa_options_full_size']  =  wp_filter_nohtml_kses($input['embpicasa_options_full_size']);
+	$input['embpicamoto_options_login'] 	   =  wp_filter_nohtml_kses($input['embpicamoto_options_login']);
+	$input['embpicamoto_options_password']   =  wp_filter_nohtml_kses($input['embpicamoto_options_password']);
+	$input['embpicamoto_options_thumb_size'] =  wp_filter_nohtml_kses($input['embpicamoto_options_thumb_size']);
+	$input['embpicamoto_options_full_size']  =  wp_filter_nohtml_kses($input['embpicamoto_options_full_size']);
 	
 	// check image dimensions, defaulting to some size when not in valid options
 	$items = $embpica_img_sizes->thumbs();
-	if(!in_array($input['embpicasa_options_thumb_size'], $items)) { 
-		$input['embpicasa_options_thumb_size'] = $embpica_img_sizes->defaultThumb();
+	if(!in_array($input['embpicamoto_options_thumb_size'], $items)) { 
+		$input['embpicamoto_options_thumb_size'] = $embpica_img_sizes->defaultThumb();
 	}
 	
 	$items = $embpica_img_sizes->fulls();
-	if(!in_array($input['embpicasa_options_full_size'], $items)) {
-		$input['embpicasa_options_full_size'] = $embpica_img_sizes->defaultFull();
+	if(!in_array($input['embpicamoto_options_full_size'], $items)) {
+		$input['embpicamoto_options_full_size'] = $embpica_img_sizes->defaultFull();
 	}
 	
 	return $input;
 }
 
 // Define default option settings
-register_activation_hook(__FILE__, 'embpicasa_options_add_defaults');
+register_activation_hook(__FILE__, 'embpicamoto_options_add_defaults');
 
-function embpicasa_options_add_defaults() {
-    update_option('embpicasa_options', array(
-		'embpicasa_options_login' 	   => 'LOGIN@gmail.com',
-		'embpicasa_options_password'   => '',
-		'embpicasa_options_thumb_size' => $embpica_img_sizes->defaultThumb(),
-		'embpicasa_options_full_size'  => $embpica_img_sizes->defaultFull(),
-		'embpicasa_options_crop'       => 'no'
+function embpicamoto_options_add_defaults() {
+    update_option('embpicamoto_options', array(
+		'embpicamoto_options_login' 	   => 'LOGIN@gmail.com',
+		'embpicamoto_options_password'   => '',
+		'embpicamoto_options_thumb_size' => $embpica_img_sizes->defaultThumb(),
+		'embpicamoto_options_full_size'  => $embpica_img_sizes->defaultFull(),
+		'embpicamoto_options_crop'       => 'no'
 	));
 }
 
