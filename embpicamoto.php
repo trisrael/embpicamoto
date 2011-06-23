@@ -80,7 +80,7 @@ function add_embpicamoto_shortcode($atts, $content = null) {
 					$html = $html . '<img src="' . $photo['thumbnail'] . '" />';
 					$html = $html . '</a>';
 					$html = $html . '</li>';
-					$opts = $opts . '<option value="' . $album['id'] . '">' . $album['name'] . '</option>';
+//					$opts = $opts . '<option value="' . $album['id'] . '">' . $album['name'] . '</option>';
 				}
 				$html = $html . '</ul>';
 				
@@ -249,8 +249,8 @@ if(!empty($options['embpicamoto_options_login']) && !empty($options['embpicamoto
 	</div>
 </div>
 <style type="text/css">
-.ui-button-text-only .ui-button-text {padding:0;}
-.ui-widget-overlay {background:#AAAAAA;}
+	.ui-button-text-only .ui-button-text {padding:0;}
+	.ui-widget-overlay {background:#AAAAAA;}
 </style>
 
 <?php

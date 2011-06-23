@@ -5,7 +5,7 @@
 			
 			ed.addButton('embpicamoto', {
                 title : 'Picasa',
-                image : url+'/embpicasa.gif',
+                image : url+'/embpicamoto.gif',
                 onclick : function() {
                     embpicamoto_dlg_open();
                 }
@@ -16,10 +16,10 @@
         },
         getInfo : function() {
             return {
-                longname : "Embed picasa album",
-                author : 'Marchenko Alexandr',
-                authorurl : 'http://mac-blog.org.ua/',
-                infourl : 'http://mac-blog.org.ua/',
+                longname : "Simple Picasa Albums",
+                author : 'Tristan Goffman',
+                authorurl : 'http://github.com/trisrael/',
+                infourl : 'http://github.com/trisrael/Embed-Picasa-Plugin',
                 version : "1.0"
             };
         }
