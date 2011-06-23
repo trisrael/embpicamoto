@@ -114,8 +114,8 @@ function add_embpicamoto_shortcode($atts, $content = null) {
 					#Initiate pages using jQuery tabs
 					$script = '<script type=”text/javascript”>';
 					$script = $script . '(function($){';
-					$script = $script . "$( '#$wrap_el_id' ).tabs();"
-					$script = $script . '})(jQuery);</script>';									
+					$script = $script . "$( '#$wrap_el_id' ).tabs();";
+					$script = $script . '})(jQuery);</script>';						
 
 					#Build the html for the jQuery tabs
 					$html_page_names = '<ul>';
