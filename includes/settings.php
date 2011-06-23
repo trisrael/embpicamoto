@@ -3,7 +3,7 @@
 //add plugin options page
 add_action( 'admin_menu', 'embpicamoto_admin_menu' );
 
-class embpicamotoImageSizes {
+class EmbpicamotoImageSizes {
 
 	public static $thumbnails = array('32', '48', '64', '72', '104', '144', '150', '160', '180', '200', '240', '280', '320');
 
@@ -24,7 +24,7 @@ class embpicamotoImageSizes {
 	public function defaultFull() { return self::$defFull; }
 }
 
-$embpica_img_sizes = new embpicamotoImageSizes(); #Simple object containing size of pictures arrays 'namespacing' variables to avoid conflicts
+$embpica_img_sizes = new EmbpicamotoImageSizes(); #Simple object containing size of pictures arrays 'namespacing' variables to avoid conflicts
 
 function embpicamoto_admin_menu() {
 	add_options_page('Picasa settings', 'Picasa', 'manage_options', __FILE__, 'embpicamoto_settings_page');
@@ -55,7 +55,7 @@ add_action('admin_init', 'embpicamoto_admin_init' );
 function embpicamoto_admin_init(){
 	register_setting('embpicamoto_options', 'embpicamoto_options', 'embpicamoto_options_validate' ); // group, name in db, validation func
 	
-	add_settings_section('auth_section', 'Auth Settings', 'embpicamoto_options_section_auth', __FILE__);
+	add_settings_section('auth_section', 'Authentication Settings', 'embpicamoto_options_section_auth', __FILE__);
 	add_settings_field('embpicamoto_options_login', 'Login', 'embpicamoto_options_login_field_renderer', __FILE__, 'auth_section');
 	add_settings_field('embpicamoto_options_password', 'Password', 'embpicamoto_options_password_field_renderer', __FILE__, 'auth_section');	
 	
