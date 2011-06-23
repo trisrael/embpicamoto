@@ -119,7 +119,7 @@ function add_embpicamoto_shortcode($atts, $content = null) {
 
 					#Build the html for the jQuery tabs
 					$html_page_names = '<ul>';
-					foreach($p_name in $page_names){
+					foreach($p_name as $page_names){
 						$p_id = $pageElId($p_name);
 						$html_page_names = $html_page_names . "<li><a href='#$p_id'>$p_name</a></li>";			
 					}
