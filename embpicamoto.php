@@ -81,7 +81,7 @@ function add_embpicamoto_shortcode($atts, $content = null) {
 				$pageElId = create_function("$loc_pid", "return 'embpicamoto_album_$id' . '_page_$loc_pid'"); #creates a unique id for an album page
 
 				#foreach temporary variables
-				$page_name = null;
+				$page_name = '';
  
 				foreach($photos as $index => $photo) {
 					#Per page variables
@@ -91,7 +91,9 @@ function add_embpicamoto_shortcode($atts, $content = null) {
 						$page_name = $index / $per_page;
 						$page_names[] = $page_name;
 
-					   if($index > 0) { $html = $html . '</ul></div>'; #End the last page  }
+					   if($index > 0) { 
+						$html = $html . '</ul></div>'; #End the last page  
+						}
 
 						#Add new page
 						$html = $html . "<div id='$pageElId($page_name)'><ul class='embpicamoto'>";					
@@ -120,7 +122,7 @@ function add_embpicamoto_shortcode($atts, $content = null) {
 
 					#Build the html for the jQuery tabs
 					$html_page_names = '<ul>';
-					foreach($p_name as $page_names){
+					foreach($page_names as $p_name){
 						$p_id = $pageElId($p_name);
 						$html_page_names = $html_page_names . "<li><a href='#$p_id'>$p_name</a></li>";			
 					}
