@@ -1,3 +1,5 @@
+<?php
+
 //add plugin options page
 add_action( 'admin_menu', 'embpicasa_admin_menu' );
 
