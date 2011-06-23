@@ -176,4 +176,8 @@ function add_embpicasa_tinymce_plugin($plugin_array) {
 function embpicasa_refresh_mce($ver) {
   $ver += 3;
   return $ver;
-} add_filter( 'tiny_mce_version', 'embpicasa_refresh_mce');
+} 
+
+add_filter( 'tiny_mce_version', 'embpicasa_refresh_mce');
+
+?>

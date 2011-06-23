@@ -97,4 +97,7 @@ function add_embpicasa_shortcode($atts, $content = null) {
 }
 add_shortcode('embpicasa', 'add_embpicasa_shortcode');
 
+
 require_once('includes/tinyMCE.php'); #Add picasa shortcode addition to tinyMCE
+
+?>

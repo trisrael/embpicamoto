@@ -124,3 +124,5 @@ function embpicasa_options_add_defaults() {
 		'embpicasa_options_crop'       => 'no'
 	));
 }
+
+?>
