@@ -3,27 +3,35 @@
 //add plugin options page
 add_action( 'admin_menu', 'embpicasa_admin_menu' );
 
-
 class EmbpicasaImageSizes {
 
 	public static $thumbnails = array('32', '48', '64', '72', '104', '144', '150', '160', '180', '200', '240', '280', '320');
-	
-	public function thumbs() { return self::$thumbnails; }	
+
+	public static $defThumb = '150';
 
 	public static $fulls = array('94', '110', '128', '200', '220', '288', '320', '400', '512', '576', '640', '720', '800', '912', '1024', '1152', '1280', '1440', '1600');
 	
-	public function fulls() { return self::$fulls; }		
+	public static $defFull = '640';
+	
+	public function thumbs() { return self::$thumbnails; }	
 
+	#Returns the default size thumbnailed images images should use	
+	public function defaultThumb() { return self::$defThumb; }
+
+	public function fulls() { return self::$fulls; }	
+
+	#Returns the default size fullsized images should use
+	public function defaultFull() { return self::$defFull; }
 }
 
-$embpica_img_sizes = new EmbpicasaImageSizes();
-
+$embpica_img_sizes = new EmbpicasaImageSizes(); #Simple object containing size of pictures arrays 'namespacing' variables to avoid conflicts
 
 function embpicasa_admin_menu() {
 	add_options_page('Picasa settings', 'Picasa', 'manage_options', __FILE__, 'embpicasa_settings_page');
 }
 
 function embpicasa_settings_page() {
+
 ?>
 	<div class="wrap">
 		<div class="icon32" id="icon-options-general"><br></div>
@@ -37,6 +45,7 @@ function embpicasa_settings_page() {
 		</p>
 		</form>
 	</div>
+
 <?php
 }
 
@@ -118,12 +127,12 @@ function embpicasa_options_validate($input) {
 	// check image dimensions, defaulting to some size when not in valid options
 	$items = $embpica_img_sizes->thumbs();
 	if(!in_array($input['embpicasa_options_thumb_size'], $items)) { 
-		$input['embpicasa_options_thumb_size'] = '150';
+		$input['embpicasa_options_thumb_size'] = $embpica_img_sizes->defaultThumb();
 	}
 	
 	$items = $embpica_img_sizes->fulls();
 	if(!in_array($input['embpicasa_options_full_size'], $items)) {
-		$input['embpicasa_options_full_size'] = '640';
+		$input['embpicasa_options_full_size'] = $embpica_img_sizes->defaultFull();
 	}
 	
 	return $input;
@@ -136,8 +145,8 @@ function embpicasa_options_add_defaults() {
     update_option('embpicasa_options', array(
 		'embpicasa_options_login' 	   => 'LOGIN@gmail.com',
 		'embpicasa_options_password'   => '',
-		'embpicasa_options_thumb_size' => '150',
-		'embpicasa_options_full_size'  => '640',
+		'embpicasa_options_thumb_size' => $embpica_img_sizes->defaultThumb(),
+		'embpicasa_options_full_size'  => $embpica_img_sizes->defaultFull(),
 		'embpicasa_options_crop'       => 'no'
 	));
 }
