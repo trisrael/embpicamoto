@@ -16,13 +16,14 @@ function embpicasa_init() {
 		wp_enqueue_style( 'embpicasa-style' );	
 	}
 }
+
 add_action( 'init', 'embpicasa_init' );
-
-
 add_action( 'edit_form_advanced', 'embpicasa_embed_js' );
 add_action( 'edit_page_form', 'embpicasa_embed_js' );
+
 function embpicasa_embed_js() {	
 ?>
+
 <script type="text/javascript">
 	function embpicasa_dlg_open() {
 		embpicasa_dlg_close();
@@ -119,6 +120,7 @@ if(!empty($options['embpicasa_options_login']) && !empty($options['embpicasa_opt
 	}
 }
 ?>
+
 <div class="hidden">
 	<div id="embpicasa_dlg" title="Picasa">
 		<div class="embpicasa_dlg_content">
@@ -141,6 +143,7 @@ if(!empty($options['embpicasa_options_login']) && !empty($options['embpicasa_opt
 .ui-button-text-only .ui-button-text {padding:0;}
 .ui-widget-overlay {background:#AAAAAA;}
 </style>
+
 <?php
 }
 add_action( 'admin_footer', 'embpicasa_js_dlg_markup' );
@@ -178,6 +181,6 @@ function embpicasa_refresh_mce($ver) {
   return $ver;
 } 
 
-add_filter( 'tiny_mce_version', 'embpicasa_refresh_mce');
+add_filter( 'tiny_mce_version', 'embpicasa_refresh_mce')
 
 ?>
