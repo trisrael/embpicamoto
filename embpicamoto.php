@@ -98,7 +98,7 @@ function add_embpicamoto_shortcode($atts, $content = null) {
 						}
 
 						#Add new page
-						$html = $html . "<div id='$pageElId($page_name)'><ul class='embpicamoto'>";					
+						$html = $html . "<div id='" . $pageElId($page_name) . "'><ul class='embpicamoto'>";					
 					}
 
 					$html = $html . '<li>';
