@@ -114,13 +114,14 @@ function add_embpicamoto_shortcode($atts, $content = null) {
 			    $wrap_el_id = "embpicamoto_album_$id";
 				$wrap_pre = "<div id='$wrap_el_id'>";
 				$wrap_post = "</div>";
-
+				$html = $html . "<span>Does it have pages? :  $has_pages";
 				if($has_pages){
                     wp_enqueue_script('jquery-ui-tabs');#Ensure jquery-ui-tabs is available on clientside (will add in jQuery automatically)
+
 					#Initiate pages using jQuery tabs
 					$script = '<script type=”text/javascript”>';
 					$script = $script . '(function($){';
-					$script = $script . "$( '#$wrap_el_id' ).tabs();";
+					$script = $script . "$(document).ready(function($){ $( '#$wrap_el_id' ).tabs();});";
 					$script = $script . '})(jQuery);</script>';						
 
 					#Build the html for the jQuery tabs
