@@ -122,7 +122,10 @@ function add_embpicamoto_shortcode($atts, $content = null) {
                     wp_enqueue_script('jquery-ui-tabs');#Ensure jquery-ui-tabs is available on clientside (will add in jQuery automatically)
 
 					#Initiate pages using jQuery tabs
-					$script = '<script type=”text/javascript”>';
+
+					#Continue developing with jquery ui tabs loading before finding a better solution to loading the script
+					$script = '<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.7.3/jquery-ui.min.js"></script>'; 
+					$script = $script . '<script type=”text/javascript”>';
 					$script = $script . '(function($){';
 					$script = $script . "$(document).ready(function($){ $( '#$wrap_el_id' ).tabs();});";
 					$script = $script . '})(jQuery);</script>';						
