@@ -76,6 +76,9 @@ function add_embpicamoto_shortcode($atts, $content = null) {
 				if(!$has_pages){ 
 					$per_page = count($photos); #To avoid division by zero (and other possibly bad side effects), if no photos lower foreach won't enter
 				}
+
+	            wp_enqueue_script('jquery-ui-core');
+
 				$page_names = array();
 
 				$html = "";
