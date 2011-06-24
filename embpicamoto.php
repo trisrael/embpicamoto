@@ -80,7 +80,7 @@ function add_embpicamoto_shortcode($atts, $content = null) {
 
 				$html = "";
 				
-				$pageElId = create_function('$loc_pid', "return 'embpicamoto_album_$id' . '_page_\$loc_pid';"); #creates a unique id for an album page
+				$pageElId = create_function('$a', 'return "embpicamoto_album_' + $id + '_page_$a";'); #creates a unique id for an album page
 
 				#foreach temporary variables
 				$page_name = '';
