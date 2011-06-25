@@ -127,6 +127,7 @@ function add_embpicamoto_shortcode($atts, $content = null) {
 					$script = '<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>';
 					$script = $script . '<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js"></script>';
 					$script = $script . '<script type=”text/javascript”>';
+					$script = $script . 'jQuery.noConflict();';
 					$script = $script . '(function($){';
 					$script = $script . "$(document).ready(function($){ $( '#$wrap_el_id' ).tabs();});";
 					$script = $script . '})(jQuery);</script>';						
