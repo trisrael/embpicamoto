@@ -124,8 +124,8 @@ function add_embpicamoto_shortcode($atts, $content = null) {
 					#Initiate pages using jQuery tabs
 
 					#Continue developing with jquery ui tabs loading before finding a better solution to loading the script
-					$script = '<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>';
-					$script = $script . '<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js"></script>';
+				#	$script = '<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>';
+				#	$script = $script . '<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js"></script>';
 					$script = $script . '<script type=”text/javascript”>';
 					$script = $script . 'jQuery.noConflict();';
 					$script = $script . '(function($){';
