@@ -125,7 +125,7 @@ function add_embpicamoto_shortcode($atts, $content = null) {
 					$script = '<script type=”text/javascript”>';					
 					$script = $script . "(function(){";
 					$script = $script . "var t = setTimeout('initTabs()', 500);"; #Attempt to setup tabs every 1/2 second
-					$script = $script . "function initTabs(){";
+					$script = $script . "var initTabs = function(){";
 					$script = $script . "if(jQuery && jQuery.ui && jQuery.ui.tabs){ clearTimeout(t); jQuery('#$wrap_el_id').tabs();}";
 					$script = $script . "}";
 					$script = $script . '})();</script>';
