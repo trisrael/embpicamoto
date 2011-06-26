@@ -117,17 +117,14 @@ function add_embpicamoto_shortcode($atts, $content = null) {
 			    $wrap_el_id = "embpicamoto_album_$id";
 				$wrap_pre = "<div id='$wrap_el_id'>";
 				$wrap_post = "</div>";
-				$html = $html . "<span>Does it have pages? :  $has_pages";
 				if($has_pages){
                     wp_enqueue_script('jquery-ui-tabs');#Ensure jquery-ui-tabs is available on clientside (will add in jQuery automatically)
 
 					#Initiate pages using jQuery tabs
 
 					#Continue developing with jquery ui tabs loading before finding a better solution to loading the script
-				#	$script = '<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>';
-				#	$script = $script . '<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js"></script>';
-					$script = $script . '<script type=”text/javascript”>';
-					$script = $script . 'jQuery.noConflict();';
+
+					$script = '<script type=”text/javascript”>';
 					$script = $script . '(function($){';
 					$script = $script . "$(document).ready(function($){ $( '#$wrap_el_id' ).tabs();});";
 					$script = $script . '})(jQuery);</script>';						
@@ -328,7 +325,7 @@ function register_embpicamoto_button($buttons) {
 }
 
 function add_embpicamoto_tinymce_plugin($plugin_array) {
-   $plugin_array['embpicamoto'] = WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"", plugin_basename(__FILE__)) . 'embpicamoto.js';
+   $plugin_array['embpicamoto'] = WP_PLUGIN_URL . '/'.str_replace(basename( __FILE__),"", plugin_basename(__FILE__)) . 'embpicamoto.js';
    return $plugin_array;
 }
 
@@ -339,5 +336,15 @@ function embpicamoto_refresh_mce($ver) {
 } 
 
 add_filter( 'tiny_mce_version', 'embpicamoto_refresh_mce');
+
+#Include jQuery and jQuery UI tabs with no conflict mode to HEAD (ensuring they are added first to avoid overwriting library code in Prototype, and other libraries)
+#TODO: Find a better way of including this so it doesn't need to be added in all the time 
+function js_includes(){
+	wp_enqueue_script('jquery');
+	wp_enqueue_script('jquery-ui-tabs');	
+	wp_enqueue_script('jquery-no-conflict', plugins_url('noconflict.js', __FILE__);
+}
+
+add_action('wp_head', js_includes, 1);
 
 ?>
