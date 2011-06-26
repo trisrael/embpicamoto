@@ -342,7 +342,7 @@ add_filter( 'tiny_mce_version', 'embpicamoto_refresh_mce');
 function js_includes(){
 	wp_enqueue_script('jquery');
 	wp_enqueue_script('jquery-ui-tabs');	
-	wp_enqueue_script('jquery-no-conflict', plugins_url('noconflict.js', __FILE__);
+	wp_enqueue_script('jquery-no-conflict', plugins_url('noconflict.js', __FILE__));
 }
 
 add_action('wp_head', js_includes, 1);
