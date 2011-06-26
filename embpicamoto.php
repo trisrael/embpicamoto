@@ -117,17 +117,18 @@ function add_embpicamoto_shortcode($atts, $content = null) {
 			    $wrap_el_id = "embpicamoto_album_$id";
 				$wrap_pre = "<div id='$wrap_el_id'>";
 				$wrap_post = "</div>";
-				if($has_pages){
-                    wp_enqueue_script('jquery-ui-tabs');#Ensure jquery-ui-tabs is available on clientside (will add in jQuery automatically)
+				if($has_pages){ #Add in jQuery tabs conditionally
+					//This line does not add in jQuery UI correctly
+					#wp_enqueue_script('jquery-ui-tabs');#Ensure jquery-ui-tabs is available on clientside (will add in jQuery automatically)
 
 					#Initiate pages using jQuery tabs
-
-					#Continue developing with jquery ui tabs loading before finding a better solution to loading the script
-
-					$script = '<script type=”text/javascript”>';
-					$script = $script . '(function($){';
-					$script = $script . "$(document).ready(function($){ $( '#$wrap_el_id' ).tabs();});";
-					$script = $script . '})(jQuery);</script>';						
+					$script = '<script type=”text/javascript”>';					
+					$script = $script . "(function(){"
+					$script = $script . "var t = setTimeout('initTabs()', 500);";#Attempt to setup tabs every 1/2 second
+					$script = $script . "var initTabs = function(){";
+					$script = $script . "if(jQuery && jQuery.ui && jQuery.ui.tabs){ clearTimeout(t); jQuery('#$wrap_el_id').tabs(); }";
+					$script = $script . "}";
+					$script = $script . '})();</script>';
 
 					#Build the html for the jQuery tabs
 					$html_page_names = '<ul>';
