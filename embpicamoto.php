@@ -123,11 +123,11 @@ function add_embpicamoto_shortcode($atts, $content = null) {
 
 					#Initiate pages using jQuery tabs
 					$script = '<script type=\'text/javascript\'>';					
-					$script = $script . "(function(){}";
+					$script = $script . "(function(){";
 					$script = $script . "var timesTried=0;";
 					$script = $script . "var jLoaded = function(){return (typeof jQuery == 'function' && typeof jQuery.ui == 'object' && typeof jQuery.ui.tabs == 'function');}";
 					$script = $script . "var timed = function(){ setTimeout(function(){if(timesTried>20){return;} if(jLoaded()  ) { setTabs(); } else{ alert('not done still'); timesTried++;timed(); }  }, 500) };";
-					$script = $script . "timed();){}";
+					$script = $script . "timed();}){}";
 					$script = $script . "</script>";
 			
 					$html_page_names = '<ul>';
