@@ -124,11 +124,9 @@ function add_embpicamoto_shortcode($atts, $content = null) {
 					#Initiate pages using jQuery tabs
 					$script = '<script type=”text/javascript”>';					
 					$script = $script . "(function(){";
-
-					$script = $script . "var initTabs = function(){";
+					$script = $script . "try{";
 					$script = $script . "if(jQuery && jQuery.ui && jQuery.ui.tabs){ clearTimeout(t); jQuery('#$wrap_el_id').tabs();}";
-					$script = $script . "}};";
-					$script = $script . "var t = setTimeout('initTabs()', 500);"; #Attempt to setup tabs every 1/2 second
+					$script = $script . "}catch(err){//alert('Javascript libary missing: jQuery UI tabs has not loaded properly'};";
 					$script = $script . '})();</script>';
 
 					#Build the html for the jQuery tabs
