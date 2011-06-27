@@ -123,7 +123,9 @@ function add_embpicamoto_shortcode($atts, $content = null) {
 
 					#Initiate pages using jQuery tabs
 					$script = '<script type=\'text/javascript\'>';					
-					$script = $script . "(function(){ try{if(jQuery && jQuery.ui && jQuery.ui.tabs){ jQuery('#$wrap_el_id').tabs();} }catch(err){alert('Javascript libary missing: jQuery UI tabs has not loaded properly')} })();";
+					$script = $script . "(function(){ "
+					$script = $script . "var isLoaded=false;"
+					$script = $script . "try{while(!isLoaded){if(jQuery && jQuery.ui && jQuery.ui.tabs){ jQuery('#$wrap_el_id').tabs(); isLoaded= true;} }catch(err){alert('Javascript libary missing: jQuery UI tabs has not loaded properly')} }})();";
 					$script = $script . "</script>";
 			
 					$html_page_names = '<ul>';
