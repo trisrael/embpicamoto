@@ -158,6 +158,19 @@ add_shortcode('embpicamoto', 'add_embpicamoto_shortcode');
 /////////////////////////////////////////////////////////////////////
 // embed some javascript for tinymce plugin
 
+
+class EmbpicamotoDlgIds{
+	private static $prefix = "embpicamoto_dlg_";
+		
+	public function customPerPage(){ return self::pre("custom_per_page");}	
+	public function perPage(){ return self::pre("per_page");}	
+	public function contentAlbum(){ return self::pre("album_id");}	
+
+	private static function pre($to_app){
+		return self::$prefix . $to_app;
+	}	
+}
+
 // add jquery ui styles
 function embpicamoto_init() {
 	if(is_admin() && current_user_can('edit_posts') && current_user_can('edit_pages') && get_user_option('rich_editing') == 'true') {	
@@ -194,7 +207,7 @@ function embpicamoto_embed_js() {
 	}
 
 	function embpicamoto_dlg_insert() {
-		var album_id = jQuery("#embpicamoto_dlg_content_album").val();
+		var album_id = jQuery("#<?php echo(EmbpicamotoDlgIds::contentAlbum())?>").val();
 		var s_pp_val = jQuery("#embpicamoto_dlg_album_per_page").val();
 		var c_pp_val = jQuery("#embpicamoto_dlg_album_custom_per_page").val();
 		var pp_val = -1; //Default to infinity (Show all images on one page)
@@ -228,6 +241,7 @@ function embpicamoto_embed_js() {
 
 <?php
 }
+
 
 
 function embpicamoto_js_dlg_markup() {
@@ -283,7 +297,7 @@ if(!empty($options['embpicamoto_options_login']) && !empty($options['embpicamoto
 		$pp_opts = array(3, 4, 5, 6, 8, 9, 10, 12, 14);
 		$pp_opts_html = '';
 		foreach($pp_opts as $pp_opt){									
-       		$pp_opts_html = $opts . '<option value="' . $pp_opt . '">' . $pp_opt . '</option>';							
+       		$pp_opts_html = $pp_opts_html . '<option value="' . $pp_opt . '">' . $pp_opt . '</option>';							
 		}
 		
 	} catch(Exception $ex) {
@@ -304,15 +318,15 @@ if(!empty($options['embpicamoto_options_login']) && !empty($options['embpicamoto
 					</label>
 				</p>
 				<p>
-					<label title='Choose how many images should show per page'>
+					<label title="Choose how many images should show per page">
 						Per page:
 						<select id="embpicamoto_dlg_album_per_page">
 							<?php echo $pp_opts_html;?>
 						</select>
 					</label>
-					<label title='Enter a custom value for how many images should be shown per page'>
+					<label title="Enter a custom value for how many images should be shown per page">
 						Custom Per Page:	
-						<input type='text' id="embpicamoto_dlg_album_custom_per_page'/>
+						<input type='text' id="<?php echo EmbpicamotoDlgIds::customPerPage() ?>"/>
 					</label>
 				</p>
 			<?php else:?>
