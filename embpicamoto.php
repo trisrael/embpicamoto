@@ -318,15 +318,15 @@ if(!empty($options['embpicamoto_options_login']) && !empty($options['embpicamoto
 					</label>
 				</p>
 				<p>
-					<label title="Choose how many images should show per page">
+					<label title="Images to Show per Album Page">
 						Per page:
 						<select id="<?php echo(EmbpicamotoDlgIds::perPage())?>">
 							<?php echo $pp_opts_html;?>
 						</select>
 					</label>
-					<label title="Enter a custom value for how many images should be shown per page">
-						Custom Per Page:	
-						<input type='text' id="<?php echo EmbpicamotoDlgIds::customPerPage() ?>"/>
+					<label title="Custom Image to Show per Album Page Value">
+						Custom:	
+						<input style='width='2.5em' type='text' id="<?php echo EmbpicamotoDlgIds::customPerPage() ?>"/>
 					</label>
 				</p>
 			<?php else:?>
