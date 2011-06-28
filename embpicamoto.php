@@ -208,8 +208,8 @@ function embpicamoto_embed_js() {
 
 	function embpicamoto_dlg_insert() {
 		var album_id = jQuery("#<?php echo(EmbpicamotoDlgIds::contentAlbum())?>").val();
-		var s_pp_val = jQuery("#embpicamoto_dlg_album_per_page").val();
-		var c_pp_val = jQuery("#embpicamoto_dlg_album_custom_per_page").val();
+		var s_pp_val = jQuery("#<?php echo(EmbpicamotoDlgIds::perPage())?>").val();
+		var c_pp_val = jQuery("#<?php echo(EmbpicamotoDlgIds::perPage())?>").val();
 		var pp_val = -1; //Default to infinity (Show all images on one page)
 
 		if ( !isNaN( Number(c_pp_val) ) ){
@@ -314,13 +314,13 @@ if(!empty($options['embpicamoto_options_login']) && !empty($options['embpicamoto
 				<p>
 					<label>
 						Select album:
-						<select id="embpicamoto_dlg_content_album" style="width:98%"><?php echo $opts;?></select>
+						<select id="<?php echo(EmbpicamotoDlgIds::contentAlbum())?>" style="width:98%"><?php echo $opts;?></select>
 					</label>
 				</p>
 				<p>
 					<label title="Choose how many images should show per page">
 						Per page:
-						<select id="embpicamoto_dlg_album_per_page">
+						<select id="<?php echo(EmbpicamotoDlgIds::perPage())?>">
 							<?php echo $pp_opts_html;?>
 						</select>
 					</label>
