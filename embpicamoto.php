@@ -324,9 +324,7 @@ if(!empty($options['embpicamoto_options_login']) && !empty($options['embpicamoto
 							<?php echo $pp_opts_html;?>
 						</select>
 					</label>
-					<label title="Custom Image to Show per Album Page Value">
-						Custom:	
-						<input style='width='2.5em' type='text' id="<?php echo EmbpicamotoDlgIds::customPerPage() ?>"/>
+					<label title="Custom Image to Show per Album Page Value">Custom:<input style="width: 2.5em" type='text' id="<?php echo EmbpicamotoDlgIds::customPerPage() ?>"/>
 					</label>
 				</p>
 			<?php else:?>
