@@ -294,10 +294,11 @@ if(!empty($options['embpicamoto_options_login']) && !empty($options['embpicamoto
 			$opts = $opts . '<option value="' . $album['id'] . '">' . $album['name'] . '</option>';
 		}
 
-		$pp_opts = array(3, 4, 5, 6, 8, 9, 10, 12, 14);
+		$pp_opts = array("None", 3, 4, 5, 6, 8, 9, 10, 12, 14);
 		$pp_opts_html = '';
-		foreach($pp_opts as $pp_opt){									
-       		$pp_opts_html = $pp_opts_html . '<option value="' . $pp_opt . '">' . $pp_opt . '</option>';							
+		foreach($pp_opts as $ind => $pp_opt){					
+			$pp_opt_title = ($ind == 1) ? "All Images on Single Page'" : '';
+       		$pp_opts_html = $pp_opts_html . '<option ' . $pp_opt_title . ' value="' . $pp_opt . '">' . $pp_opt . '</option>';							
 		}
 		
 	} catch(Exception $ex) {
