@@ -209,7 +209,7 @@ function embpicamoto_embed_js() {
 	function embpicamoto_dlg_insert() {
 		var album_id = jQuery("#<?php echo(EmbpicamotoDlgIds::contentAlbum())?>").val();
 		var s_pp_val = jQuery("#<?php echo(EmbpicamotoDlgIds::perPage())?>").val();
-		var c_pp_val = jQuery("#<?php echo(EmbpicamotoDlgIds::perPage())?>").val();
+		var c_pp_val = jQuery("#<?php echo(EmbpicamotoDlgIds::customPerPage())?>").val();
 		var pp_val = -1; //Default to infinity (Show all images on one page)
 
 		if ( !isNaN( Number(c_pp_val) ) ){
