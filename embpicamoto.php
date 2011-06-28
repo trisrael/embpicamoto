@@ -195,8 +195,19 @@ function embpicamoto_embed_js() {
 
 	function embpicamoto_dlg_insert() {
 		var album_id = jQuery("#embpicamoto_dlg_content_album").val();
+		var s_pp_val = jQuery("#embpicamoto_dlg_album_per_page").val();
+		var c_pp_val = jQuery("#embpicamoto_dlg_album_custom_per_page").val();
+		var pp_val = -1; //Default to infinity (Show all images on one page)
+
+		if ( !isNaN( Number(c_pp_val) ) ){
+			pp_val = c_pp_val;
+		}
+		else if( !isNaN( Number(s_pp_val) ) )
+		{
+			pp_val = s_pp_val;
+		}
 		
-		var shortcode = '[embpicamoto id="'+album_id+'"]';	
+		var shortcode = '[embpicamoto id="'+album_id+'" per_page="'+pp_val+'"]';	
 
 		if ( typeof tinyMCE != 'undefined' && ( ed = tinyMCE.activeEditor ) && !ed.isHidden() ) {
 			ed.focus();
@@ -268,6 +279,12 @@ if(!empty($options['embpicamoto_options_login']) && !empty($options['embpicamoto
 		foreach($albums as $album) {
 			$opts = $opts . '<option value="' . $album['id'] . '">' . $album['name'] . '</option>';
 		}
+
+		$pp_opts = array(3, 4, 5, 6, 8, 9, 10, 12, 14);
+		$pp_opts_html = '';
+		foreach($pp_opts as $pp_opt){									
+       		$pp_opts_html = $opts . '<option value="' . $pp_opt . '">' . $pp_opt . '</option>';							
+		}
 		
 	} catch(Exception $ex) {
 		$success = false;
@@ -284,6 +301,18 @@ if(!empty($options['embpicamoto_options_login']) && !empty($options['embpicamoto
 					<label>
 						Select album:
 						<select id="embpicamoto_dlg_content_album" style="width:98%"><?php echo $opts;?></select>
+					</label>
+				</p>
+				<p>
+					<label title='Choose how many images should show per page'>
+						Per page:
+						<select id="embpicamoto_dlg_album_per_page">
+							<?php echo $pp_opts_html;?>
+						</select>
+					</label>
+					<label title='Enter a custom value for how many images should be shown per page'>
+						Custom Per Page:	
+						<input type='text' id="embpicamoto_dlg_album_custom_per_page'/>
 					</label>
 				</p>
 			<?php else:?>
