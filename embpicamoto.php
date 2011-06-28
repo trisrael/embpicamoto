@@ -279,6 +279,12 @@ if(!empty($options['embpicamoto_options_login']) && !empty($options['embpicamoto
 		foreach($albums as $album) {
 			$opts = $opts . '<option value="' . $album['id'] . '">' . $album['name'] . '</option>';
 		}
+
+		$pp_opts = array(3, 4, 5, 6, 8, 9, 10, 12, 14);
+		$pp_opts_html = '';
+		foreach($pp_opts as $pp_opt){									
+       		$pp_opts_html = $opts . '<option value="' . $pp_opt . '">' . $pp_opt . '</option>';							
+		}
 		
 	} catch(Exception $ex) {
 		$success = false;
@@ -301,14 +307,7 @@ if(!empty($options['embpicamoto_options_login']) && !empty($options['embpicamoto
 					<label title='Choose how many images should show per page'>
 						Per page:
 						<select id="embpicamoto_dlg_album_per_page">
-							<?php 
-								$pp_opts = array(3, 4, 5, 6, 8, 9, 10, 12, 14);
-								$pp_opts_html = '';
-								foreach($pp_opts as $pp_opt){									
-				                  $pp_opts_html = $opts . '<option value="' . $pp_opt . '">' . $pp_opt . '</option>';							
-								}
-								echo $pp_opts_html;								
-							?>
+							<?php echo $pp_opts_html;?>
 						</select>
 					</label>
 					<label title='Enter a custom value for how many images should be shown per page'>
