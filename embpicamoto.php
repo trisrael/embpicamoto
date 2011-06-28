@@ -319,7 +319,7 @@ if(!empty($options['embpicamoto_options_login']) && !empty($options['embpicamoto
 					</label>
 				</p>
 				<p>
-					<label title="Images to Show per Album Page">
+					<label title="Images to Show per Album Page (default: All Images on Single Page)">
 						Per page:
 						<select id="<?php echo(EmbpicamotoDlgIds::perPage())?>">
 							<?php echo $pp_opts_html;?>
