@@ -162,13 +162,13 @@ add_shortcode('embpicamoto', 'add_embpicamoto_shortcode');
 class EmbpicamotoDlgIds{
 	private static $prefix = "embpicamoto_dlg_";
 		
-	public function customPerPage(){ return self::pre("custom_per_page");}	
-	public function perPage(){ return self::pre("per_page");}	
-	public function contentAlbum(){ return self::pre("album_id");}	
+	public function customPerPage(){ return self::pre("custom_per_page");}
+	public function perPage(){ return self::pre("per_page");}
+	public function contentAlbum(){ return self::pre("album_id");}
 
 	private static function pre($to_app){
 		return self::$prefix . $to_app;
-	}	
+	}
 }
 
 // add jquery ui styles
@@ -268,7 +268,7 @@ if(!empty($options['embpicamoto_options_login']) && !empty($options['embpicamoto
 		Zend_Loader::loadClass('Zend_Gdata_Photos_PhotoQuery');
 
 		$client = Zend_Gdata_ClientLogin::getHttpClient($options['embpicamoto_options_login'], $options['embpicamoto_options_password'], Zend_Gdata_Photos::AUTH_SERVICE_NAME);
-		$service = new Zend_Gdata_Photos($client); 
+		$service = new Zend_Gdata_Photos($client);
 		
 		$albums = array();
 	
