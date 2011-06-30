@@ -2,10 +2,10 @@
 //namespace embpicamotoOAuth;
 	
 	//add oauth options page
-	add_action( 'admin_menu', admin_menu );
+	add_action( 'admin_menu', admin_menu);
 	
 	function admin_menu(){
-		add_options_page('OAuth Settings', 'OAuth', 'manage_options', __FILE__, 'oauth_settings_page');	
+		add_options_page('OAuth Settings', 'OAuth', 'manage_options', __FILE__, settings_page);	
 	}
 	
 	
