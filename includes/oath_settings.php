@@ -17,18 +17,20 @@ namespace embpicamotoOAuth {
 	function settings_page()
 	{
 		?>
-		<div class=”wrap”>
+		
+		<div class="wrap">
 		<div class="icon32" id="icon-options-general"><br></div>
 		<h2>Oauth Settings</h2>
 		Enter authentication information to connect to the applications below.
-		<form action=”options.php” method=”post”>
-		<?php	
-			settings_fields( __FILE__ );
-			do_settings_sections( __FILE__ );
-		?>
-		<input name=”Submit” class="button-primary" type=”submit” value=”Save Changes” />
-		</form></div>
-		
+		<form action="options.php" method="post">
+		<?php settings_fields(OAuth::SettingsId); ?>
+		<?php do_settings_sections(__FILE__); ?>
+		<p class="submit">
+			<input name="Submit" type="submit" class="button-primary" value="<?php esc_attr_e('Save Changes'); ?>" />
+		</p>
+		</form>
+		</div>
+				
 		<?php
 	}
 	
