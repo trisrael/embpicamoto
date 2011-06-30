@@ -87,7 +87,7 @@ class Helper{
 		
 	public static function add_field($param_name, $desc, $section_id)
 	{	
-		add_settings_field(self::pre($param_name), $desc, ns($param_name) . self::renderFieldPostfix) , __FILE__, $section_id );
+		add_settings_field(self::pre($param_name), $desc, ns($param_name . self::renderFieldPostfix) , __FILE__, $section_id );
 	}
 	
 	//	Private	
