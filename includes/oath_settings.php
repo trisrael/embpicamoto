@@ -38,7 +38,7 @@ namespace embpicamotoOAuth {
 	add_action( 'admin_init', ns( "admin_init" ) );
 	
 	function admin_init(){
-		register_setting( OAuth::SettingsId, ucfirst(OAuth::SettingsId), OAuth::SettingsId . "_validate");
+		register_setting( OAuth::SettingsId, ucfirst(OAuth::SettingsId), ns("validate"));
 		
 		//Google Oauth settings fields  
 		add_settings_section(OAuth::GSectionId, OAuth::GSectionName, ns(OAuth::GSectionId), __FILE__);
@@ -70,7 +70,7 @@ namespace embpicamotoOAuth {
 	
 	//Validations
 	
-	function settings_validate(){	
+	function validate(){	
 	}
 
 	
