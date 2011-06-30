@@ -11,7 +11,9 @@ Author URI: http://github.com/trisrael
 
 //This plugin is a direct derivative 
 
-require_once('includes/settings.php'); #Load wordpress settings
+#Load wordpress plugin settings
+require_once('includes/settings.php'); 
+require_once('includes/oath_settings.php'); 
 
 /////////////////////////////////////////////////////////////////////
 // add the shortcode handler for picasa galleries
