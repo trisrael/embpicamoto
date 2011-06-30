@@ -7,7 +7,7 @@ function ns($loc_name)
 }
 
 //add plugin options page
-add_action( 'admin_menu', 'embpicamoto_admin_menu' );
+add_action( 'admin_menu', ns('admin_menu') );
 
 class ImageSizes {
 
