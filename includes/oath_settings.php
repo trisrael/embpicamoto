@@ -58,12 +58,12 @@ namespace embpicamotoOAuth {
 	function consumer_field_renderer($name)
 	{
 		$options = get_option(OAuth::SettingsId);
-		$input_id = OAuth::consumerName($name);
+		$input_id = OAuth::consumerId($name);
 		echo "<input id='" . $input_id . "' name='" . OAuth::SettingsId . "[" . $input_id . "]' size='40' type='text' value='" . $options[$input_id ] . "}' />";		
 	}
 	
 	function google_oauth_section() {
-		echo '<p>Your Oauth information for Google Data Services(HMAC-SHA1)</p>';
+		echo '<p>Your Oauth information for Google Data Services</p>';
 	}
 	
 	//Validations
@@ -91,6 +91,18 @@ namespace embpicamotoOAuth {
 		
 	}
 	
+	//Setting defaults
+	register_activation_hook(__FILE__, ns('add_defaults') );
+	
+	function add_defaults() {
+	    update_option(OAuth::SettingsId, array(
+			OAuth::consumerKeyId()   => '',
+			OAuth::consumerSecretId() => ''
+		));
+	}
+	
+	
+	
 	//Register OAuth Settings
 	class OAuth {
 		//Re-used strings
@@ -103,8 +115,17 @@ namespace embpicamotoOAuth {
 		const GConsumerPre = "embpicamoto_oauth_google_consumer_";
 		
 	
-		public static function consumerName($str){
+		public static function consumerId($str){
 			return self::GConsumerPre . $str;
+		}
+		const key = 'key';
+		public static function consumerKeyId(){
+			self::consumerId(key);
+		}
+
+		const secret = 'secret';
+		public static function consumerSecretId(){
+			self::consumerId(secret);
 		}
 		
 	};
