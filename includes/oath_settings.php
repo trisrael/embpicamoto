@@ -1,5 +1,5 @@
 <?php
-namespace embpicamoto_oauth {	
+namespace embpicamotoOAuth	
 	//add oauth options page
 	add_action( 'admin_menu', admin_menu );
 	
@@ -99,5 +99,5 @@ namespace embpicamoto_oauth {
 		}
 		
 	};
-}
+
 ?>
