@@ -125,6 +125,7 @@ namespace embpicamotoOAuth {
 		}
 		
 		const key = 'key';
+		
 		public static function consumerKeyId(){
 			self::consumerId(key);
 		}

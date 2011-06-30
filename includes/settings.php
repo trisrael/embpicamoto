@@ -1,4 +1,5 @@
 <?php namespace embpicamotoSettings;
+
 require_once 'namespace_util.php';
 const nsStr = "embpicamotoSettings"; 
 function ns($loc_name)
@@ -57,6 +58,7 @@ function page() {
 add_action('admin_init', ns('admin_init') );
 
 class Helper{
+	
 	const renderFieldPostfix = '_field_renderer';
 	
 	const SettingsId = "empicamoto_options";
@@ -75,40 +77,41 @@ class Helper{
 	public static function CropId(){ return pre(self::Crop);}
 	public static function AuthSectionDesc(){return self::post_desc(self::AuthSectionId);}
 	public static function ImageSectionDesc(){return self::post_desc(self::ImageSectionId);}
-	//Helper Functions
-	
+	//Helper Functions	
 	
 	//For html elements that are to be placed into wordpress settings in this context, add string wrapping to the parameter name given
 	public static function html_name($param_name){
 		return "{self::SettingsId}[$param_name]";
 	}
+			
+		
+	public static function add_field($param_name, $desc, $section_id)
+	{	
+		add_settings_field(self::pre($param_name), $desc, ns(Helper::pre($param_name) . self::renderFieldPostfix) , __FILE__, $section_id );
+	}
+	
+	//	Private	
+	private static function pre($str){return self::SettingsId . $str;}
 	
 	//Given a name, append 'desc' to it then namespace it as it should be a local const/var
-	private static function post_desc($loc_name){return ns($loc_name . "_desc");}
-		
-	//Private	
-	private static function pre($str){	return self::SettingsId . $str;}
+	private static function post_desc($loc_name){return ns($loc_name . "_desc");}	
 	
 }
 
-function add_field($param_name, $desc, $section_id)
-{
-	add_settings_field(pre($param_name), $desc, ns(pre($param_name) . self::renderFieldPostfix) , __FILE__, $section_id );
-}
+
 	
 
 function admin_init(){
-	register_setting(Helper::SettingsId, Helper::SettingsId, ns('validate') ); // group, name in db, validation func
+	register_setting(Helper::SettingsId, Helper::SettingsId, ns('validate') ); // group, name in db, validation func	
 	
-	add_settings_section(Helper::AuthSectionId, 'Authentication Settings', Helper::AuthSectionDesc(), __FILE__);
-	
-	add_field(Helper::Login, Helper::Password, Helper::AuthSectionId);
-	add_field(Helper::Password, Helper::Password,Helper::AuthSectionId);	
-	
+	add_settings_section(Helper::AuthSectionId, 'Authentication Settings', Helper::AuthSectionDesc(), __FILE__);	
+	Helper::add_field(Helper::Login, Helper::Password, Helper::AuthSectionId);
+	Helper::add_field(Helper::Password, Helper::Password, Helper::AuthSectionId);
+		
 	add_settings_section(Helper::ImageSectionId, 'Image Settings', Helper::ImageSectionDesc(), __FILE__);	
-	add_field(Helper::Thumb, 'Thumbnail size', Helper::ImageSectionId);
-	add_field(Helper::Full, 'Full image size', Helper::ImageSectionId);
-	add_field(Helper::Crop, 'Crop images', Helper::ImageSectionId);		
+	Helper::add_field(Helper::Thumb, 'Thumbnail size', Helper::ImageSectionId);
+	Helper::add_field(Helper::Full, 'Full image size', Helper::ImageSectionId);
+	Helper::add_field(Helper::Crop, 'Crop images', Helper::ImageSectionId);		
 }
 
 //Section descriptions
