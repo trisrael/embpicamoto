@@ -72,7 +72,8 @@ namespace embpicamotoOAuth {
 	//Validations
 	
 	function validate($input){
-		// how are we going to know if its correct
+		$input[OAuth::consumerKeyId()] =  wp_filter_nohtml_kses($input[OAuth::consumerKeyId()]);
+		$input[OAuth::consumerSecretId()]  =  wp_filter_nohtml_kses($input[OAuth::consumerSecretId()]);		
 		return $input;
 	}
 
