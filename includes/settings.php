@@ -70,11 +70,11 @@ class Helper{
 	const Full = "full_size";
 	const Crop = "crop";
 	 
-	public static function LoginId(){	return pre(self::Login);}	
-	public static function PasswordId(){	return pre(self::Password);}
-	public static function ThumbId(){ return pre(self::Thumb);}
-	public static function FullId(){ return pre(self::Full);}
-	public static function CropId(){ return pre(self::Crop);}
+	public static function LoginId(){	return self::pre(self::Login);}	
+	public static function PasswordId(){	return self::pre(self::Password);}
+	public static function ThumbId(){ return self::pre(self::Thumb);}
+	public static function FullId(){ return self::pre(self::Full);}
+	public static function CropId(){ return self::pre(self::Crop);}
 	public static function AuthSectionDesc(){return self::post_desc(self::AuthSectionId);}
 	public static function ImageSectionDesc(){return self::post_desc(self::ImageSectionId);}
 	//Helper Functions	
