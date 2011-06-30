@@ -42,7 +42,7 @@ function page() {
 		<h2>Picasa settings</h2>
 		Enter authentication parameters and select preferred image dimensions
 		<form action="options.php" method="post">
-		<?php settings_fields(Picasa::SettingsId); ?>
+		<?php settings_fields(Helper::SettingsId); ?>
 		<?php do_settings_sections(__FILE__); ?>
 		<p class="submit">
 			<input name="Submit" type="submit" class="button-primary" value="<?php esc_attr_e('Save Changes'); ?>" />
@@ -56,7 +56,7 @@ function page() {
 //register plugin options
 add_action('admin_init', ns('admin_init') );
 
-class Picasa{
+class Helper{
 	const renderFieldPostfix = '_field_renderer';
 	
 	const SettingsId = "empicamoto_options";
@@ -97,16 +97,17 @@ class Picasa{
 }
 
 function admin_init(){
-	register_setting(Picasa::SettingsId, Picasa::SettingsId, ns('validate') ); // group, name in db, validation func
+	register_setting(Helper::SettingsId, Helper::SettingsId, ns('validate') ); // group, name in db, validation func
 	
-	add_settings_section(Picasa::AuthSectionId, 'Authentication Settings', Picasa::AuthSectionDesc(), __FILE__);
-	Picasa.add_field(Picasa::Login, Picasa::Password, Picasa::AuthSectionId);
-	Picasa.add_field(Picasa::Password, Picasa::Password,Picasa::AuthSectionId);	
+	add_settings_section(Helper::AuthSectionId, 'Authentication Settings', Helper::AuthSectionDesc(), __FILE__);
 	
-	add_settings_section(Picasa::ImageSectionId, 'Image Settings', Picasa::ImageSectionDesc(), __FILE__);	
-	Picasa.add_field(Picasa::Thumb, 'Thumbnail size', Picasa::ImageSectionId);
-	Picasa.add_field(Picasa::Full, 'Full image size', Picasa::ImageSectionId);
-	Picasa.add_field(Picasa::Crop, 'Crop images', Picasa::ImageSectionId);		
+	Picasa.add_field(Helper::Login, Helper::Password, Helper::AuthSectionId);
+	Picasa.add_field(Helper::Password, Helper::Password,Helper::AuthSectionId);	
+	
+	add_settings_section(Helper::ImageSectionId, 'Image Settings', Helper::ImageSectionDesc(), __FILE__);	
+	Picasa.add_field(Helper::Thumb, 'Thumbnail size', Helper::ImageSectionId);
+	Picasa.add_field(Helper::Full, 'Full image size', Helper::ImageSectionId);
+	Picasa.add_field(Helper::Crop, 'Crop images', Helper::ImageSectionId);		
 }
 
 //Section descriptions
@@ -124,22 +125,22 @@ function img_section_desc() {
 //simple wrapper for html inputs for the next two render methods
 function html_input($id, $type_val)
 {
-	$options = get_option(Picasa::SettingsId);
+	$options = get_option(Helper::SettingsId);
 	echo "<input id=$id name='{Picasa.html_name($id)}' size='40' type='$type_val' value='{$options[$id]}' />";
 }
 
 function login_field_renderer() {	
-	html_input( Picasa::LoginId(), "text");
+	html_input( Helper::LoginId(), "text");
 }
 
 function password_field_renderer() {	
-	html_input(Picasa::PasswordId(), "password");
+	html_input(Helper::PasswordId(), "password");
 }
 
 //simple wrapper for html select, selecting the option wish is currently selected
 function html_select($id, $items)
 {
-	$options = get_option(Picasa::SettingsId);	
+	$options = get_option(Helper::SettingsId);	
 	echo "<select id='{$id}' name='{Picasa.name_wrap($id})]'>";
 	foreach($items as $item) {
 		$selected = ($options[$id]==$item) ? 'selected="selected"' : '';
@@ -149,15 +150,15 @@ function html_select($id, $items)
 }
 
 function thumb_size_field_renderer() {
-	html_select(Picasa::ThumbId(), ImageSizes::thumbs());
+	html_select(Helper::ThumbId(), ImageSizes::thumbs());
 }
 
 function full_size_field_renderer() {	
-	html_select(Picasa::FullId(), ImageSizes::fulls());	
+	html_select(Helper::FullId(), ImageSizes::fulls());	
 }
 
 function crop_field_renderer() {	
-	html_select(Picasa::CropId(), array('no', 'yes'));	
+	html_select(Helper::CropId(), array('no', 'yes'));	
 }
 
 function validate($input) {
@@ -165,21 +166,21 @@ function validate($input) {
 	
 	$filterInput = function ($param_name){ $input[$param_name]  =  wp_filter_nohtml_kses($input[$param_name]);};
 	
-	$filterInput( Picasa::LoginId() );
-	$filterInput( Picasa::PasswordId() );
-	$filterInput( Picasa::ThumbId() );
-	$filterInput( Picasa::FullId() );
+	$filterInput( Helper::LoginId() );
+	$filterInput( Helper::PasswordId() );
+	$filterInput( Helper::ThumbId() );
+	$filterInput( Helper::FullId() );
 	
 	// check image dimensions, defaulting to some size when not in valid options
 	
 	$items = ImageSizes::thumbs();
-	if(!in_array($input[Picasa::ThumbId()], $items)) { 
-		$input[Picasa::ThumbId()] = ImageSizes::defaultThumb();
+	if(!in_array($input[Helper::ThumbId()], $items)) { 
+		$input[Helper::ThumbId()] = ImageSizes::defaultThumb();
 	}
 	
 	$items = ImageSizes::fulls();
-	if(!in_array($input[Picasa::FullId()], $items)) {
-		$input[Picasa::FullId()] = ImageSizes::defaultFull();
+	if(!in_array($input[Helper::FullId()], $items)) {
+		$input[Helper::FullId()] = ImageSizes::defaultFull();
 	}
 	
 	return $input;
@@ -189,12 +190,12 @@ function validate($input) {
 register_activation_hook(__FILE__, ns('add_defaults'));
 
 function add_defaults() {
-    update_option(Picasa::SettingsId, array(
-		Picasa::LoginId() 	   => 'LOGIN@gmail.com',
-		Picasa::PasswordId()   => 'your password',
-		Picasa::ThumbId() => ImageSizes::defaultThumb(),
-		Picasa::FullId()  => ImageSizes::defaultFull(),
-		Picasa::CropId()  => 'no'
+    update_option(Helper::SettingsId, array(
+		Helper::LoginId() 	   => 'LOGIN@gmail.com',
+		Helper::PasswordId()   => 'your password',
+		Helper::ThumbId() => ImageSizes::defaultThumb(),
+		Helper::FullId()  => ImageSizes::defaultFull(),
+		Helper::CropId()  => 'no'
 	));
 }
 
