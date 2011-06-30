@@ -70,7 +70,9 @@ namespace embpicamotoOAuth {
 	
 	//Validations
 	
-	function validate(){	
+	function validate($input){
+		// how are we going to know if its correct
+		return $input;
 	}
 
 	
