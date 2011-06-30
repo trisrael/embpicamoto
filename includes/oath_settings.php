@@ -38,7 +38,7 @@ namespace embpicamotoOAuth {
 	add_action( 'admin_init', ns( "admin_init" ) );
 	
 	function admin_init(){
-		register_setting( OAuth::SettingsId, ucfirst(OAuth::SettingsId), ns("validate"));
+		register_setting( OAuth::SettingsId, OAuth::SettingsId, ns("validate"));
 		
 		//Google Oauth settings fields  
 		add_settings_section(OAuth::GSectionId, OAuth::GSectionName, ns(OAuth::GSectionId), __FILE__);
@@ -60,6 +60,7 @@ namespace embpicamotoOAuth {
 	function consumer_field_renderer($name)
 	{
 		$options = get_option(OAuth::SettingsId);
+		echo $options;
 		$input_id = OAuth::consumerId($name);
 		echo "<input id='" . $input_id . "' name='" . OAuth::SettingsId . "[" . $input_id . "]' size='40' type='text' value='" . $options[$input_id ] . "}' />";		
 	}
