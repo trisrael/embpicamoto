@@ -24,8 +24,8 @@ namespace embpicamotoOAuth {
 		Enter authentication information to connect to the applications below.
 		<form action=”options.php” method=”post”>
 		<?php	
-			settings_fields( OAuth::SettingsId );
-			do_settings_sections( OAuth::GSectionId );
+			settings_fields( __FILE__ );
+			do_settings_sections( __FILE__ );
 		?>
 		<input name=”Submit” class="button-primary" type=”submit” value=”Save Changes” />
 		</form></div>
