@@ -101,13 +101,13 @@ function admin_init(){
 	
 	add_settings_section(Helper::AuthSectionId, 'Authentication Settings', Helper::AuthSectionDesc(), __FILE__);
 	
-	Picasa.add_field(Helper::Login, Helper::Password, Helper::AuthSectionId);
-	Picasa.add_field(Helper::Password, Helper::Password,Helper::AuthSectionId);	
+	Helper.add_field(Helper::Login, Helper::Password, Helper::AuthSectionId);
+	Helper.add_field(Helper::Password, Helper::Password,Helper::AuthSectionId);	
 	
 	add_settings_section(Helper::ImageSectionId, 'Image Settings', Helper::ImageSectionDesc(), __FILE__);	
-	Picasa.add_field(Helper::Thumb, 'Thumbnail size', Helper::ImageSectionId);
-	Picasa.add_field(Helper::Full, 'Full image size', Helper::ImageSectionId);
-	Picasa.add_field(Helper::Crop, 'Crop images', Helper::ImageSectionId);		
+	Helper.add_field(Helper::Thumb, 'Thumbnail size', Helper::ImageSectionId);
+	Helper.add_field(Helper::Full, 'Full image size', Helper::ImageSectionId);
+	Helper.add_field(Helper::Crop, 'Crop images', Helper::ImageSectionId);		
 }
 
 //Section descriptions
@@ -126,7 +126,7 @@ function img_section_desc() {
 function html_input($id, $type_val)
 {
 	$options = get_option(Helper::SettingsId);
-	echo "<input id=$id name='{Picasa.html_name($id)}' size='40' type='$type_val' value='{$options[$id]}' />";
+	echo "<input id=$id name='{Helper.html_name($id)}' size='40' type='$type_val' value='{$options[$id]}' />";
 }
 
 function login_field_renderer() {	
@@ -141,7 +141,7 @@ function password_field_renderer() {
 function html_select($id, $items)
 {
 	$options = get_option(Helper::SettingsId);	
-	echo "<select id='{$id}' name='{Picasa.name_wrap($id})]'>";
+	echo "<select id='{$id}' name='{Helper.name_wrap($id})]'>";
 	foreach($items as $item) {
 		$selected = ($options[$id]==$item) ? 'selected="selected"' : '';
 		echo "<option value='$item' $selected>$item</option>";
