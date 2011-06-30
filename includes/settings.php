@@ -1,4 +1,6 @@
-<?php namespace embpicamoto;
+<?php use embpicamoto\embpicamoto_admin_init;
+use embpicamoto\OAuth;
+namespace embpicamoto;
 
 //add plugin options page
 add_action( 'admin_menu', 'embpicamoto_admin_menu' );
@@ -81,6 +83,7 @@ class OAuth {
 	const GSectionId = 'google_oauth_section';		
 	const GSectionName = self::google;
 	const GConsumerPre = "embpicamoto_oauth_google_consumer_";
+	
 
 	public static function consumerName($str){
 		return self::GConsumerPre . $str;
@@ -101,7 +104,7 @@ function embpicamoto_admin_init(){
 	add_settings_field('embpicamoto_options_crop', 'Crop images', 'embpicamoto_options_crop_field_renderer', __FILE__, 'img_section');
 	
 				
-	register_setting( OAuth::SettingsId, OAuth::SettingsId, 'embpicamoto_oauth_settings_validate');
+	register_setting( OAuth::SettingsId, OAuth::SettingsId, OAuth::SettingsId . "_validate");
 	
 	//Google Oauth settings fields  
 	add_settings_section(OAuth::GSectionId, OAuth::GSectionName, OAuth::GSectionId);
@@ -157,7 +160,7 @@ function embpicamoto_options_full_size_field_renderer() {
 
 function embpicamoto_options_crop_field_renderer() {
 	$options = get_option('embpicamoto_options');
-	$items = array('no', 'yes');
+	$items = array('no', 'yes');	
 	echo "<select id='embpicamoto_options_crop' name='embpicamoto_options[embpicamoto_options_crop]'>";
 	foreach($items as $item) {
 		$selected = ($options['embpicamoto_options_crop']==$item) ? 'selected="selected"' : '';
@@ -195,6 +198,10 @@ function embpicamoto_oauth_google_consumer_key_field_renderer(){
 }
 
 function embpicamoto_oauth_google_consumer_secret_field_renderer(){
+	
+}
+
+function embpicamoto_oauth_settings_validate(){
 	
 }
 
