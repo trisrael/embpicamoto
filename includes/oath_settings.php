@@ -1,5 +1,5 @@
 <?php
-//namespace embpicamotoOAuth;
+namespace embpicamotoOAuth {
 	
 	//add oauth options page
 	add_action( 'admin_menu', admin_menu);
@@ -17,8 +17,7 @@
 		<h2>Oauth Settings</h2>
 		Enter authentication information to connect to the applications below.
 		<form action=”options.php” method=”post”>
-		<?php
-			echo phpinfo();
+		<?php	
 			settings_fields( OAuth::SettingsId );
 			do_settings_sections( OAuth::GSectionId );
 		?>
@@ -101,5 +100,5 @@
 		}
 		
 	};
-
+}
 ?>
