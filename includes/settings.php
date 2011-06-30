@@ -1,6 +1,6 @@
 <?php namespace embpicamotoSettings;
 require_once 'namespace_util.php';
-const nsStr = "embpicamotoOAuth"; 
+const nsStr = "embpicamotoSettings"; 
 function ns($loc_name)
 {		
 	return wrap_namespace(nsStr, $loc_name);
