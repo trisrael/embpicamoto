@@ -59,10 +59,9 @@ namespace embpicamotoOAuth {
 	
 	function consumer_field_renderer($name)
 	{
-		$options = get_option(OAuth::SettingsId);
-		echo $options;
+		$options = get_option(OAuth::SettingsId);		
 		$input_id = OAuth::consumerId($name);
-		echo "<input id='" . $input_id . "' name='" . OAuth::SettingsId . "[" . $input_id . "]' size='40' type='text' value='" . $options[$input_id ] . "}' />";		
+		echo "<input id='" . $input_id . "' name='" . OAuth::SettingsId . "[" . $input_id . "]' size='40' type='text' value='" . $options[$input_id ] . "' />";		
 	}
 	
 	function google_oauth_section() {
