@@ -22,18 +22,16 @@ class ImageSizes {
 	public function thumbs() { return self::$thumbnails; }	
 
 	#Returns the default size thumbnailed images images should use	
-	public function defaultThumb() { return self::$defThumb; }
+	public static function defaultThumb() { return self::$defThumb; }
 
-	public function fulls() { return self::$fulls; }	
+	public static function fulls() { return self::$fulls; }	
 
 	#Returns the default size fullsized images should use
-	public function defaultFull() { return self::$defFull; }
+	public static function defaultFull() { return self::$defFull; }
 }
 
-$embpica_img_sizes = new ImageSizes(); #Simple object containing size of pictures arrays 'namespacing' variables to avoid conflicts
-
 function admin_menu() {
-	add_options_page('Picasa settings', 'Picasa', 'manage_options', __FILE__, 'embpicamoto_settings_page');	
+	add_options_page('Picasa settings', 'Picasa', 'manage_options', __FILE__, ns('page'));	
 }
 
 function page() {
@@ -44,7 +42,7 @@ function page() {
 		<h2>Picasa settings</h2>
 		Enter authentication parameters and select preferred image dimensions
 		<form action="options.php" method="post">
-		<?php settings_fields('embpicamoto_options'); ?>
+		<?php settings_fields(Picasa::SettingsId); ?>
 		<?php do_settings_sections(__FILE__); ?>
 		<p class="submit">
 			<input name="Submit" type="submit" class="button-primary" value="<?php esc_attr_e('Save Changes'); ?>" />
@@ -56,107 +54,147 @@ function page() {
 
 /////////////////////////////////////////////////////////////////////
 //register plugin options
-add_action('admin_init', ns('embpicamoto_admin_init') );
+add_action('admin_init', ns('admin_init') );
 
-function embpicamoto_admin_init(){
-	register_setting('embpicamoto_options', 'embpicamoto_options', 'embpicamoto_options_validate' ); // group, name in db, validation func
+class Picasa{
+	const renderFieldPostfix = '_field_renderer';
 	
-	add_settings_section('auth_section', 'Authentication Settings', 'embpicamoto_options_section_auth', __FILE__);
-	add_settings_field('embpicamoto_options_login', 'Login', 'embpicamoto_options_login_field_renderer', __FILE__, 'auth_section');
-	add_settings_field('embpicamoto_options_password', 'Password', 'embpicamoto_options_password_field_renderer', __FILE__, 'auth_section');	
+	const SettingsId = "empicamoto_options";
+	const AuthSectionId = "auth_section";
+	const ImageSectionId = "img_section";
+	const Login = "login";
+	const Password = "password";
+	const Thumb = "thumb_size";
+	const Full = "full_size";
+	const Crop = "crop";
+	 
+	public static function LoginId(){	return pre(self::Login);}	
+	public static function PasswordId(){	return pre(self::Password);}
+	public static function ThumbId(){ return pre(self::Thumb);}
+	public static function FullId(){ return pre(self::Full);}
+	public static function CropId(){ return pre(self::Crop);}
+	public static function AuthSectionDesc(){return self::post_desc(self::AuthSectionId);}
+	public static function ImageSectionDesc(){return self::post_desc(self::ImageSectionId);}
+	//Helper Functions
 	
-	add_settings_section('img_section', 'Image Settings', 'embpicamoto_options_section_img', __FILE__);
-	add_settings_field('embpicamoto_options_thumb_size', 'Thumbnail size', 'embpicamoto_options_thumb_size_field_renderer', __FILE__, 'img_section');
-	add_settings_field('embpicamoto_options_full_size', 'Full image size', 'embpicamoto_options_full_size_field_renderer', __FILE__, 'img_section');
-	add_settings_field('embpicamoto_options_crop', 'Crop images', 'embpicamoto_options_crop_field_renderer', __FILE__, 'img_section');		
+	public static function add_field($param_name, $desc, $section_id)
+	{
+		add_settings_field(pre($param_name), $desc, ns(pre($param_name) . self::renderFieldPostfix) , __FILE__, $section_id );
+	}
+	
+	//For html elements that are to be placed into wordpress settings in this context, add string wrapping to the parameter name given
+	public static function html_name($param_name){
+		return "{self::SettingsId}[$param_name]";
+	}
+
+	
+	//Given a name, append 'desc' to it then namespace it as it should be a local const/var
+	private static function post_desc($loc_name){return ns($loc_name . "_desc");}
+		
+	//Private	
+	private static function pre($str){	return self::SettingsId . $str;}
+	
 }
 
-//Empicamoto Options functions
+function admin_init(){
+	register_setting(Picasa::SettingsId, Picasa::SettingsId, ns('validate') ); // group, name in db, validation func
+	
+	add_settings_section(Picasa::AuthSectionId, 'Authentication Settings', Picasa::AuthSectionDesc(), __FILE__);
+	Picasa.add_field(Picasa::Login, Picasa::Password, Picasa::AuthSectionId);
+	Picasa.add_field(Picasa::Password, Picasa::Password,Picasa::AuthSectionId);	
+	
+	add_settings_section(Picasa::ImageSectionId, 'Image Settings', Picasa::ImageSectionDesc(), __FILE__);	
+	Picasa.add_field(Picasa::Thumb, 'Thumbnail size', Picasa::ImageSectionId);
+	Picasa.add_field(Picasa::Full, 'Full image size', Picasa::ImageSectionId);
+	Picasa.add_field(Picasa::Crop, 'Crop images', Picasa::ImageSectionId);		
+}
 
-function embpicamoto_options_section_auth() {
+//Section descriptions
+
+function auth_section_desc() {
 	echo '<p>Your login and password in picasa</p>';
 }
 
-function embpicamoto_options_section_img() {
+function img_section_desc() {
 	echo '<p>Preferred image dimensions</p>';
 }
 
-function embpicamoto_options_login_field_renderer() {
-	$options = get_option('embpicamoto_options');
-	echo "<input id='embpicamoto_options_login' name='embpicamoto_options[embpicamoto_options_login]' size='40' type='text' value='{$options['embpicamoto_options_login']}' />";
+//Renderers
+
+//simple wrapper for html inputs for the next two render methods
+function html_input($id, $type_val)
+{
+	$options = get_option(Picasa::SettingsId);
+	echo "<input id=$id name='{Picasa.html_name($id)}' size='40' type='$type_val' value='{$options[$id]}' />";
 }
 
-function embpicamoto_options_password_field_renderer() {
-	$options = get_option('embpicamoto_options');
-	echo "<input id='embpicamoto_options_password' name='embpicamoto_options[embpicamoto_options_password]' size='40' type='password' value='{$options['embpicamoto_options_password']}' />";
+function login_field_renderer() {	
+	html_input( Picasa::LoginId(), "text");
 }
 
-function embpicamoto_options_thumb_size_field_renderer() {
-	$options = get_option('embpicamoto_options');
-	$items = $GLOBALS[embpica_img_sizes]->thumbs();
-	echo "<select id='embpicamoto_options_thumb_size' name='embpicamoto_options[embpicamoto_options_thumb_size]'>";
+function password_field_renderer() {	
+	html_input(Picasa::PasswordId(), "password");
+}
+
+//simple wrapper for html select, selecting the option wish is currently selected
+function html_select($id, $items)
+{
+	$options = get_option(Picasa::SettingsId);	
+	echo "<select id='{$id}' name='{Picasa.name_wrap($id})]'>";
 	foreach($items as $item) {
-		$selected = ($options['embpicamoto_options_thumb_size']==$item) ? 'selected="selected"' : '';
+		$selected = ($options[$id]==$item) ? 'selected="selected"' : '';
 		echo "<option value='$item' $selected>$item</option>";
 	}
 	echo "</select>";
 }
 
-function embpicamoto_options_full_size_field_renderer() {
-	$options = get_option('embpicamoto_options');
-	$items = $GLOBALS[embpica_img_sizes]->fulls();
-	echo "<select id='embpicamoto_options_full_size' name='embpicamoto_options[embpicamoto_options_full_size]'>";
-	foreach($items as $item) {
-		$selected = ($options['embpicamoto_options_full_size']==$item) ? 'selected="selected"' : '';
-		echo "<option value='$item' $selected>$item</option>";
-	}
-	echo "</select>";
+function thumb_size_field_renderer() {
+	html_select(Picasa::ThumbId(), ImageSizes::thumbs());
 }
 
-function embpicamoto_options_crop_field_renderer() {
-	$options = get_option('embpicamoto_options');
-	$items = array('no', 'yes');	
-	echo "<select id='embpicamoto_options_crop' name='embpicamoto_options[embpicamoto_options_crop]'>";
-	foreach($items as $item) {
-		$selected = ($options['embpicamoto_options_crop']==$item) ? 'selected="selected"' : '';
-		echo "<option value='$item' $selected>$item</option>";
-	}
-	echo "</select>";
+function full_size_field_renderer() {	
+	html_select(Picasa::FullId(), ImageSizes::fulls());	
 }
 
-function embpicamoto_options_validate($input) {
-	global $embpica_img_sizes;
+function crop_field_renderer() {	
+	html_select(Picasa::CropId(), array('no', 'yes'));	
+}
+
+function validate($input) {
 	// strip all fields
-	$input['embpicamoto_options_login'] 	 =  wp_filter_nohtml_kses($input['embpicamoto_options_login']);
-	$input['embpicamoto_options_password']   =  wp_filter_nohtml_kses($input['embpicamoto_options_password']);
-	$input['embpicamoto_options_thumb_size'] =  wp_filter_nohtml_kses($input['embpicamoto_options_thumb_size']);
-	$input['embpicamoto_options_full_size']  =  wp_filter_nohtml_kses($input['embpicamoto_options_full_size']);
+	
+	$filterInput = function ($param_name){ $input[$param_name]  =  wp_filter_nohtml_kses($input[$param_name]);};
+	
+	$filterInput( Picasa::LoginId() );
+	$filterInput( Picasa::PasswordId() );
+	$filterInput( Picasa::ThumbId() );
+	$filterInput( Picasa::FullId() );
 	
 	// check image dimensions, defaulting to some size when not in valid options
-	$items = $embpica_img_sizes->thumbs();
-	if(!in_array($input['embpicamoto_options_thumb_size'], $items)) { 
-		$input['embpicamoto_options_thumb_size'] = $embpica_img_sizes->defaultThumb();
+	
+	$items = ImageSizes::thumbs();
+	if(!in_array($input[Picasa::ThumbId()], $items)) { 
+		$input[Picasa::ThumbId()] = ImageSizes::defaultThumb();
 	}
 	
-	$items = $embpica_img_sizes->fulls();
-	if(!in_array($input['embpicamoto_options_full_size'], $items)) {
-		$input['embpicamoto_options_full_size'] = $embpica_img_sizes->defaultFull();
+	$items = ImageSizes::fulls();
+	if(!in_array($input[Picasa::FullId()], $items)) {
+		$input[Picasa::FullId()] = ImageSizes::defaultFull();
 	}
 	
 	return $input;
 }
 
-
 // Define default option settings
-register_activation_hook(__FILE__, 'embpicamoto_options_add_defaults');
+register_activation_hook(__FILE__, ns('add_defaults'));
 
-function embpicamoto_options_add_defaults() {
-    update_option('embpicamoto_options', array(
-		'embpicamoto_options_login' 	   => 'LOGIN@gmail.com',
-		'embpicamoto_options_password'   => 'your password',
-		'embpicamoto_options_thumb_size' => $embpica_img_sizes->defaultThumb(),
-		'embpicamoto_options_full_size'  => $embpica_img_sizes->defaultFull(),
-		'embpicamoto_options_crop'       => 'no'
+function add_defaults() {
+    update_option(Picasa::SettingsId, array(
+		Picasa::LoginId() 	   => 'LOGIN@gmail.com',
+		Picasa::PasswordId()   => 'your password',
+		Picasa::ThumbId() => ImageSizes::defaultThumb(),
+		Picasa::FullId()  => ImageSizes::defaultFull(),
+		Picasa::CropId()  => 'no'
 	));
 }
 
