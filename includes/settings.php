@@ -105,7 +105,7 @@ function embpicamoto_admin_init(){
 	register_setting( OAuth::SettingsId, OAuth::SettingsId, OAuth::SettingsId . "_validate");
 	
 	//Google Oauth settings fields  
-	add_settings_section(OAuth::GSectionId, OAuth::GSectionName, OAuth::GSectionId);
+	add_settings_section(OAuth::GSectionId, OAuth::GSectionName, OAuth::GSectionId, OAuth::SettingsId);
 	
 	$key_id = OAuth::consumerName('key');
 	add_settings_field( $key_id , 'Consumer Key', SettingsHelper::renderFuncName($key_id), OAuth::SettingsId, OAuth::GSectionId );
