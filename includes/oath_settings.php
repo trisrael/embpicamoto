@@ -1,8 +1,14 @@
 <?php
 namespace embpicamotoOAuth {
+	const nsStr = "embpicamotoOAuth"; 
+	//Add namespace to 
+	function ns($loc_name)
+	{		
+		return "\{nsStr}\$loc_name"; 
+	}
 	
 	//add oauth options page
-	add_action( 'admin_menu', admin_menu);
+	add_action( 'admin_menu', ns("admin_menu") );
 	
 	function admin_menu(){
 		add_options_page('OAuth Settings', 'OAuth', 'manage_options', __FILE__, settings_page);	
