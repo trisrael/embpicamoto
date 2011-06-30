@@ -11,7 +11,7 @@ namespace embpicamotoOAuth {
 	add_action( 'admin_menu', ns("admin_menu") );
 	
 	function admin_menu(){
-		add_options_page('OAuth Settings', 'OAuth', 'manage_options', __FILE__, settings_page);	
+		add_options_page('OAuth Settings', 'OAuth', 'manage_options', __FILE__, ns("settings_page") ) ;	
 	}
 	
 	
@@ -34,7 +34,7 @@ namespace embpicamotoOAuth {
 	}
 	
 	//Register Oauth settings with wordpress
-	add_action('admin_init', admin_init);
+	add_action('admin_init', ns("admin_init") );
 	
 	function admin_init(){
 		register_setting( OAuth::SettingsId, OAuth::SettingsId, OAuth::SettingsId . "_validate");
@@ -80,7 +80,7 @@ namespace embpicamotoOAuth {
 		 * Given a str, attach the render field to it
 		 */ 
 		private static function gconsumer_field_renderer_func_name($fieldName){
-			return OAuth::google . "_consumer_" . $fieldName . "_field_renderer";
+			return ns( OAuth::google . "_consumer_" . $fieldName . "_field_renderer" );
 		}	
 		
 		//Given a Oauth consumer parameter name register a settings field
