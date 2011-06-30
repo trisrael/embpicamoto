@@ -1,6 +1,4 @@
-<?php use embpicamoto\embpicamoto_admin_init;
-use embpicamoto\OAuth;
-namespace embpicamoto;
+<?php
 
 //add plugin options page
 add_action( 'admin_menu', 'embpicamoto_admin_menu' );
