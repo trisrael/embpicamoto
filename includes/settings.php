@@ -70,8 +70,8 @@ class Helper{
 	const Full = "full_size";
 	const Crop = "crop";
 	 
-	public static function LoginId(){	return self::pre(self::Login);}	
-	public static function PasswordId(){	return self::pre(self::Password);}
+	public static function LoginId(){  return self::pre(self::Login);}	
+	public static function PasswordId(){  return self::pre(self::Password);}
 	public static function ThumbId(){ return self::pre(self::Thumb);}
 	public static function FullId(){ return self::pre(self::Full);}
 	public static function CropId(){ return self::pre(self::Crop);}
@@ -96,17 +96,14 @@ class Helper{
 	//Given a name, append 'desc' to it then namespace it as it should be a local const/var
 	private static function post_desc($loc_name){return ns($loc_name . "_desc");}	
 	
-}
-
-
-	
+}	
 
 function admin_init(){
 	register_setting(Helper::SettingsId, Helper::SettingsId, ns('validate') ); // group, name in db, validation func	
 	
 	add_settings_section(Helper::AuthSectionId, 'Authentication Settings', Helper::AuthSectionDesc(), __FILE__);	
-	Helper::add_field(Helper::Login, Helper::Password, Helper::AuthSectionId);
-	Helper::add_field(Helper::Password, Helper::Password, Helper::AuthSectionId);
+	Helper::add_field(Helper::Login, ucfirst(Helper::Login), Helper::AuthSectionId);
+	Helper::add_field(Helper::Password, ucfirst(Helper::Password), Helper::AuthSectionId);
 		
 	add_settings_section(Helper::ImageSectionId, 'Image Settings', Helper::ImageSectionDesc(), __FILE__);	
 	Helper::add_field(Helper::Thumb, 'Thumbnail size', Helper::ImageSectionId);
