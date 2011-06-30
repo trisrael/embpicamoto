@@ -12,8 +12,7 @@ namespace embpicamotoOAuth {
 	
 	function admin_menu(){
 		add_options_page('OAuth Settings', 'OAuth', 'manage_options', __FILE__, ns("settings_page") ) ;	
-	}
-	
+	}	
 	
 	function settings_page()
 	{
@@ -34,19 +33,19 @@ namespace embpicamotoOAuth {
 	}
 	
 	//Register Oauth settings with wordpress
-	add_action('admin_init', ns("admin_init") );
+	add_action( 'admin_init', ns( "admin_init" ) );
 	
 	function admin_init(){
 		register_setting( OAuth::SettingsId, ucfirst(OAuth::SettingsId), OAuth::SettingsId . "_validate");
 		
 		//Google Oauth settings fields  
-		add_settings_section(OAuth::GSectionId, OAuth::GSectionName, OAuth::GSectionId, __FILE__);
+		add_settings_section(OAuth::GSectionId, OAuth::GSectionName, ns(OAuth::GSectionId), __FILE__);
 		
 		SettingsHelper::add_gconsumer_settings_field('key');
 		SettingsHelper::add_gconsumer_settings_field('secret');	
 	}
 	
-	//Field Renderers
+	//Render functions
 	
 	function google_consumer_key_field_renderer(){
 		return consumer_field_renderer('key');
@@ -63,12 +62,14 @@ namespace embpicamotoOAuth {
 		echo "<input id='" . $input_id . "' name='" . OAuth::SettingsId . "[" . $input_id . "]' size='40' type='text' value='" . $options[$input_id ] . "}' />";		
 	}
 	
-	//Validations
-	
-	function settings_validate(){
-		
+	function google_oauth_section() {
+		echo '<p>Your Oauth information for Google Data Services(HMAC-SHA1)</p>';
 	}
 	
+	//Validations
+	
+	function settings_validate(){	
+	}	
 	
 	//Helper Classes
 	

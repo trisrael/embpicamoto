@@ -45,7 +45,6 @@ function embpicamoto_settings_page() {
 		</p>
 		</form>
 	</div>
-
 <?php
 }
 
