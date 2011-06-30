@@ -1,6 +1,8 @@
 <?php namespace embpicamotoSettings;
 
 require_once 'namespace_util.php';
+require_once 'library/Zend/Oauth/Consumer.php';
+
 const nsStr = "embpicamotoSettings"; 
 function ns($loc_name)
 {		
@@ -40,15 +42,35 @@ function page() {
 ?>
 	<div class="wrap">
 		<div class="icon32" id="icon-options-general"><br></div>
-		<h2>Picasa settings</h2>
-		Enter authentication parameters and select preferred image dimensions
-		<form action="options.php" method="post">
-		<?php settings_fields(Helper::SettingsId); ?>
-		<?php do_settings_sections(__FILE__); ?>
-		<p class="submit">
-			<input name="Submit" type="submit" class="button-primary" value="<?php esc_attr_e('Save Changes'); ?>" />
-		</p>
-		</form>
+		<div id='tabs'>
+			<ul>
+				<li><a href="#tabs-1">Image Settings</a>	
+				<li><a href="#tabs-2">Authentication</a>	
+			</ul>
+			
+			<div id='tabs-1'>
+				<h2>Picasa Image Settings</h2>
+				Select preferred image dimensions
+				<form action="options.php" method="post">
+				<?php settings_fields(Helper::SettingsId); ?>
+				<?php do_settings_sections(__FILE__); ?>
+				<p class="submit">
+					<input name="Submit" type="submit" class="button-primary" value="<?php esc_attr_e('Save Changes'); ?>" />
+				</p>
+				</form>
+			</div>
+			
+			<div id='tabs-2'>
+				<h2>Picasa Authentication</h2>
+				<!-- do crazy things here -->
+			</div>
+		
+		</div>
+		<script>
+			$(function() {
+				$( "#tabs" ).tabs();
+			});
+		</script>		
 	</div>
 <?php
 }
@@ -64,6 +86,8 @@ class Helper{
 	const SettingsId = "empicamoto_options";
 	const AuthSectionId = "auth_section";
 	const ImageSectionId = "img_section";
+	const OAuthSectionId = "oauth_section";
+	
 	const Login = "login";
 	const Password = "password";
 	const Thumb = "thumb_size";
@@ -77,13 +101,13 @@ class Helper{
 	public static function CropId(){ return self::pre(self::Crop);}
 	public static function AuthSectionDesc(){return self::post_desc(self::AuthSectionId);}
 	public static function ImageSectionDesc(){return self::post_desc(self::ImageSectionId);}
+	public static function AuthSectionDesc(){return self::post_desc(self::AuthSectionId);}
 	//Helper Functions	
 	
 	//For html elements that are to be placed into wordpress settings in this context, add string wrapping to the parameter name given
 	public static function html_name($param_name){
 		return "{self::SettingsId}[$param_name]";
-	}
-			
+	}			
 		
 	public static function add_field($param_name, $desc, $section_id)
 	{	
@@ -99,11 +123,17 @@ class Helper{
 }	
 
 function admin_init(){
+	wp_enqueue_script('jquery-ui-core');
+	
+	
 	register_setting(Helper::SettingsId, Helper::SettingsId, ns('validate') ); // group, name in db, validation func	
 	
 	add_settings_section(Helper::AuthSectionId, 'Authentication Settings', Helper::AuthSectionDesc(), __FILE__);	
 	Helper::add_field(Helper::Login, ucfirst(Helper::Login), Helper::AuthSectionId);
 	Helper::add_field(Helper::Password, ucfirst(Helper::Password), Helper::AuthSectionId);
+	
+	add_settings_section(Helper::OauthSectionId, 'OAuth Authentication', Helper::OAuthSectionDesc(), __FILE__);
+	Helper::add_field(Helper::GoogleOAuthId, "Google OAuth", Helper::OAuthSectionId);
 		
 	add_settings_section(Helper::ImageSectionId, 'Image Settings', Helper::ImageSectionDesc(), __FILE__);	
 	Helper::add_field(Helper::Thumb, 'Thumbnail size', Helper::ImageSectionId);
@@ -119,6 +149,10 @@ function auth_section_desc() {
 
 function img_section_desc() {
 	echo '<p>Preferred image dimensions</p>';
+}
+
+function oauth_section_desc(){
+	echo '<p>Allow access to your Picasa account via Oauth</p>';
 }
 
 //Renderers
