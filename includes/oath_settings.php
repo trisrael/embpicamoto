@@ -60,7 +60,7 @@ namespace embpicamotoOAuth {
 	{
 		$options = get_option(OAuth::SettingsId);
 		$input_id = OAuth::consumerName($name);
-		echo "<input id='{$input_id}' name='{OAuth::SettingsId}[{$input_ud}]' size='40' type='text' value='{$options[$input_id]}' />";
+		echo "<input id='" . $input_id . "' name='" . OAuth::SettingsId . "[" . $input_id . "]' size='40' type='text' value='" . $options[$input_id ] . "}' />";		
 	}
 	
 	//Validations
@@ -87,6 +87,7 @@ namespace embpicamotoOAuth {
 		public static function add_gconsumer_settings_field($param_name){
 			add_settings_field( OAuth::consumerName($param_name), "Consumer {ucfirst($param_name)}", self::gconsumer_field_renderer_func_name($param_name), OAuth::SettingsId , OAuth::GSectionId);
 		}
+		
 	}
 	
 	//Register OAuth Settings
