@@ -1,10 +1,11 @@
 <?php
-namespace embpicamotoOAuth {
-	const nsStr = "embpicamotoOAuth"; 
-	//Add namespace to 
+namespace embpicamotoOAuth {	
+	require_once 'namespace_util.php';
+	
+	const nsStr = "embpicamotoOAuth";
 	function ns($loc_name)
 	{		
-		return "\\" . nsStr . "\\$loc_name";		
+		return wrap_namespace(nsStr, $loc_name);		
 	}
 	
 	//add oauth options page
@@ -16,8 +17,7 @@ namespace embpicamotoOAuth {
 	
 	function settings_page()
 	{
-		?>
-		
+		?>		
 		<div class="wrap">
 		<div class="icon32" id="icon-options-general"><br></div>
 		<h2>Oauth Settings</h2>
@@ -41,7 +41,7 @@ namespace embpicamotoOAuth {
 		register_setting( OAuth::SettingsId, OAuth::SettingsId, ns("validate"));
 		
 		//Google Oauth settings fields  
-		add_settings_section(OAuth::GSectionId, OAuth::GSectionName, ns(OAuth::GSectionId), __FILE__);
+		add_settings_section(OAuth::GSectionId, ucfirst(OAuth::GSectionName), ns(OAuth::GSectionId), __FILE__);
 		
 		SettingsHelper::add_gconsumer_settings_field('key');
 		SettingsHelper::add_gconsumer_settings_field('secret');	

@@ -1,4 +1,10 @@
-<?php
+<?php namespace embpicamotoSettings;
+require_once 'namespace_util.php';
+const nsStr = "embpicamotoOAuth"; 
+function ns($loc_name)
+{		
+	return wrap_namespace(nsStr, $loc_name);
+}
 
 //add plugin options page
 add_action( 'admin_menu', 'embpicamoto_admin_menu' );
@@ -26,11 +32,11 @@ class ImageSizes {
 
 $embpica_img_sizes = new ImageSizes(); #Simple object containing size of pictures arrays 'namespacing' variables to avoid conflicts
 
-function embpicamoto_admin_menu() {
+function admin_menu() {
 	add_options_page('Picasa settings', 'Picasa', 'manage_options', __FILE__, 'embpicamoto_settings_page');	
 }
 
-function embpicamoto_settings_page() {
+function page() {
 
 ?>
 	<div class="wrap">
@@ -50,7 +56,7 @@ function embpicamoto_settings_page() {
 
 /////////////////////////////////////////////////////////////////////
 //register plugin options
-add_action('admin_init', 'embpicamoto_admin_init' );
+add_action('admin_init', ns('embpicamoto_admin_init') );
 
 function embpicamoto_admin_init(){
 	register_setting('embpicamoto_options', 'embpicamoto_options', 'embpicamoto_options_validate' ); // group, name in db, validation func
@@ -62,8 +68,7 @@ function embpicamoto_admin_init(){
 	add_settings_section('img_section', 'Image Settings', 'embpicamoto_options_section_img', __FILE__);
 	add_settings_field('embpicamoto_options_thumb_size', 'Thumbnail size', 'embpicamoto_options_thumb_size_field_renderer', __FILE__, 'img_section');
 	add_settings_field('embpicamoto_options_full_size', 'Full image size', 'embpicamoto_options_full_size_field_renderer', __FILE__, 'img_section');
-	add_settings_field('embpicamoto_options_crop', 'Crop images', 'embpicamoto_options_crop_field_renderer', __FILE__, 'img_section');			
-		
+	add_settings_field('embpicamoto_options_crop', 'Crop images', 'embpicamoto_options_crop_field_renderer', __FILE__, 'img_section');		
 }
 
 //Empicamoto Options functions
