@@ -87,11 +87,11 @@ class Helper{
 		
 	public static function add_field($param_name, $desc, $section_id)
 	{	
-		add_settings_field(self::pre($param_name), $desc, ns(Helper::pre($param_name). "_" . self::renderFieldPostfix) , __FILE__, $section_id );
+		add_settings_field(self::pre($param_name), $desc, ns(Helper::pre($param_name) . self::renderFieldPostfix) , __FILE__, $section_id );
 	}
 	
 	//	Private	
-	private static function pre($str){return self::SettingsId . $str;}
+	private static function pre($str){return self::SettingsId . "_" . $str;}
 	
 	//Given a name, append 'desc' to it then namespace it as it should be a local const/var
 	private static function post_desc($loc_name){return ns($loc_name . "_desc");}	
