@@ -1,4 +1,5 @@
-<?php namespace embpicamoto_oauth;
+<?php 
+namespace embpicamoto_oauth;
 
 
 //add oauth options page
@@ -18,8 +19,8 @@ function settings_page()
 	Enter authentication information to connect to the applications below.
 	<form action=”options.php” method=”post”>
 	<?php
-	settings_fields(OAuth::SettingsId);
-	do_settings_sections(OAuth::GSectionId);
+		settings_fields( OAuth::SettingsId );
+		do_settings_sections( OAuth::GSectionId );
 	?>
 	<input name=”Submit” class="button-primary" type=”submit” value=”Save Changes” />
 	</form></div>
