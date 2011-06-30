@@ -27,26 +27,7 @@ class ImageSizes {
 $embpica_img_sizes = new ImageSizes(); #Simple object containing size of pictures arrays 'namespacing' variables to avoid conflicts
 
 function embpicamoto_admin_menu() {
-	add_options_page('Picasa settings', 'Picasa', 'manage_options', __FILE__, 'embpicamoto_settings_page');
-	add_options_page('OAuth Settings', 'OAuth', 'manage_options', __FILE__, 'oauth_settings_page');
-}
-
-function oauth_settings_page()
-{
-?>
-<div class=”wrap”>
-<?php screen_icon(); ?>
-<h2>Oauth Settings</h2>
-<form action=”options.php” method=”post”>
-<?php
-settings_fields(OAuth::SettingsId);
-do_settings_sections(OAuth::GSectionId);
-?>
-<input name=”Submit” type=”submit” value=”Save Changes” />
-</form></div>
-<?php
-	
-	
+	add_options_page('Picasa settings', 'Picasa', 'manage_options', __FILE__, 'embpicamoto_settings_page');	
 }
 
 function embpicamoto_settings_page() {
@@ -72,36 +53,6 @@ function embpicamoto_settings_page() {
 //register plugin options
 add_action('admin_init', 'embpicamoto_admin_init' );
 
-class SettingsHelper {
-	
-	const renderFieldPostfix = '_field_renderer';
-	
-	/**
-	 * Given a str, attach the render field to it
-	 */ 
-	public static function renderFuncName($str){
-		return $str . self::renderFieldPostfix;
-	}	
-}
-
-//Register OAuth Settings
-class OAuth {
-	//Re-used strings
-	const google = 'google';
-
-	//Wordpress ids/variable names
-	const SettingsId = 'embpicamoto_oauth_settings';
-	const GSectionId = 'google_oauth_section';		
-	const GSectionName = self::google;
-	const GConsumerPre = "embpicamoto_oauth_google_consumer_";
-	
-
-	public static function consumerName($str){
-		return self::GConsumerPre . $str;
-	}
-	
-};
-
 function embpicamoto_admin_init(){
 	register_setting('embpicamoto_options', 'embpicamoto_options', 'embpicamoto_options_validate' ); // group, name in db, validation func
 	
@@ -112,18 +63,8 @@ function embpicamoto_admin_init(){
 	add_settings_section('img_section', 'Image Settings', 'embpicamoto_options_section_img', __FILE__);
 	add_settings_field('embpicamoto_options_thumb_size', 'Thumbnail size', 'embpicamoto_options_thumb_size_field_renderer', __FILE__, 'img_section');
 	add_settings_field('embpicamoto_options_full_size', 'Full image size', 'embpicamoto_options_full_size_field_renderer', __FILE__, 'img_section');
-	add_settings_field('embpicamoto_options_crop', 'Crop images', 'embpicamoto_options_crop_field_renderer', __FILE__, 'img_section');
-				
-	register_setting( OAuth::SettingsId, OAuth::SettingsId, OAuth::SettingsId . "_validate");
-	
-	//Google Oauth settings fields  
-	add_settings_section(OAuth::GSectionId, OAuth::GSectionName, OAuth::GSectionId, OAuth::SettingsId);
-	
-	$key_id = OAuth::consumerName('key');
-	add_settings_field( $key_id , 'Consumer Key', SettingsHelper::renderFuncName($key_id), OAuth::SettingsId, OAuth::GSectionId );
-	
-	$secret_id = OAuth::consumerName('secret');
-	add_settings_field( $secret_id, 'Consumer Secret', SettingsHelper::renderFuncName($secret_id), OAuth::SettingsId , OAuth::GSectionId);	
+	add_settings_field('embpicamoto_options_crop', 'Crop images', 'embpicamoto_options_crop_field_renderer', __FILE__, 'img_section');			
+		
 }
 
 //Empicamoto Options functions
@@ -201,26 +142,6 @@ function embpicamoto_options_validate($input) {
 	return $input;
 }
 
-//Oauth Settings functions
-
-function embpicamoto_oauth_google_consumer_key_field_renderer(){
-	return consumer_field_renderer('key');
-}
-
-function embpicamoto_oauth_google_consumer_secret_field_renderer(){
-	return consumer_field_renderer('secret');
-}
-
-function consumer_field_renderer($name)
-{
-	$options = get_option(OAuth::SettingsId);
-	$input_id = OAuth::consumerName($name);
-	echo "<input id='{$input_id}' name='{OAuth::SettingsId}[{$input_ud}]' size='40' type='text' value='{$options[$input_id]}' />";
-}
-
-function embpicamoto_oauth_settings_validate(){
-	
-}
 
 // Define default option settings
 register_activation_hook(__FILE__, 'embpicamoto_options_add_defaults');
