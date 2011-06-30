@@ -100,7 +100,6 @@ function embpicamoto_admin_init(){
 	add_settings_field('embpicamoto_options_thumb_size', 'Thumbnail size', 'embpicamoto_options_thumb_size_field_renderer', __FILE__, 'img_section');
 	add_settings_field('embpicamoto_options_full_size', 'Full image size', 'embpicamoto_options_full_size_field_renderer', __FILE__, 'img_section');
 	add_settings_field('embpicamoto_options_crop', 'Crop images', 'embpicamoto_options_crop_field_renderer', __FILE__, 'img_section');
-	
 				
 	register_setting( OAuth::SettingsId, OAuth::SettingsId, OAuth::SettingsId . "_validate");
 	
