@@ -33,6 +33,19 @@ function embpicamoto_admin_menu() {
 
 function oauth_settings_page()
 {
+?>
+<div class=”wrap”>
+<?php screen_icon(); ?>
+<h2>Oauth Settings</h2>
+<form action=”options.php” method=”post”>
+<?php
+settings_fields(OAuth::SettingsId);
+do_settings_sections(OAuth::GSectionId);
+?>
+<input name=”Submit” type=”submit” value=”Save Changes” />
+</form></div>
+<?php
+	
 	
 }
 
@@ -191,17 +204,23 @@ function embpicamoto_options_validate($input) {
 //Oauth Settings functions
 
 function embpicamoto_oauth_google_consumer_key_field_renderer(){
-	
+	return consumer_field_renderer('key');
 }
 
 function embpicamoto_oauth_google_consumer_secret_field_renderer(){
-	
+	return consumer_field_renderer('secret');
+}
+
+function consumer_field_renderer($name)
+{
+	$options = get_option(OAuth::SettingsId);
+	$input_id = OAuth::consumerName($name);
+	echo "<input id='{$input_id}' name='{OAuth::SettingsId}[{$input_ud}]' size='40' type='text' value='{$options[$input_id]}' />";
 }
 
 function embpicamoto_oauth_settings_validate(){
 	
 }
-
 
 // Define default option settings
 register_activation_hook(__FILE__, 'embpicamoto_options_add_defaults');
