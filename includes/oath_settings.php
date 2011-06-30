@@ -37,7 +37,7 @@ namespace embpicamotoOAuth {
 	add_action('admin_init', ns("admin_init") );
 	
 	function admin_init(){
-		register_setting( OAuth::SettingsId, OAuth::SettingsId, OAuth::SettingsId . "_validate");
+		register_setting( OAuth::SettingsId, ucfirst(OAuth::SettingsId), OAuth::SettingsId . "_validate");
 		
 		//Google Oauth settings fields  
 		add_settings_section(OAuth::GSectionId, OAuth::GSectionName, OAuth::GSectionId, __FILE__);
@@ -85,7 +85,7 @@ namespace embpicamotoOAuth {
 		
 		//Given a Oauth consumer parameter name register a settings field
 		public static function add_gconsumer_settings_field($param_name){
-			add_settings_field( OAuth::consumerName($param_name), "Consumer {ucfirst($param_name)}", self::gconsumer_field_renderer_func_name($param_name), __FILE__, OAuth::GSectionId);
+			add_settings_field( OAuth::consumerName($param_name), "Consumer " . ucfirst($param_name), self::gconsumer_field_renderer_func_name($param_name), __FILE__, OAuth::GSectionId);
 		}
 		
 	}
