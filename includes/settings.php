@@ -85,8 +85,7 @@ class Helper{
 	
 	const SettingsId = "empicamoto_options";
 	const AuthSectionId = "auth_section";
-	const ImageSectionId = "img_section";
-	const OAuthSectionId = "oauth_section";
+	const ImageSectionId = "img_section";	
 	
 	const Login = "login";
 	const Password = "password";
@@ -100,8 +99,7 @@ class Helper{
 	public static function FullId(){ return self::pre(self::Full);}
 	public static function CropId(){ return self::pre(self::Crop);}
 	public static function AuthSectionDesc(){return self::post_desc(self::AuthSectionId);}
-	public static function ImageSectionDesc(){return self::post_desc(self::ImageSectionId);}
-	public static function AuthSectionDesc(){return self::post_desc(self::AuthSectionId);}
+	public static function ImageSectionDesc(){return self::post_desc(self::ImageSectionId);}	
 	//Helper Functions	
 	
 	//For html elements that are to be placed into wordpress settings in this context, add string wrapping to the parameter name given
@@ -130,10 +128,7 @@ function admin_init(){
 	
 	add_settings_section(Helper::AuthSectionId, 'Authentication Settings', Helper::AuthSectionDesc(), __FILE__);	
 	Helper::add_field(Helper::Login, ucfirst(Helper::Login), Helper::AuthSectionId);
-	Helper::add_field(Helper::Password, ucfirst(Helper::Password), Helper::AuthSectionId);
-	
-	add_settings_section(Helper::OauthSectionId, 'OAuth Authentication', Helper::OAuthSectionDesc(), __FILE__);
-	Helper::add_field(Helper::GoogleOAuthId, "Google OAuth", Helper::OAuthSectionId);
+	Helper::add_field(Helper::Password, ucfirst(Helper::Password), Helper::AuthSectionId);	
 		
 	add_settings_section(Helper::ImageSectionId, 'Image Settings', Helper::ImageSectionDesc(), __FILE__);	
 	Helper::add_field(Helper::Thumb, 'Thumbnail size', Helper::ImageSectionId);
