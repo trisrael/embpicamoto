@@ -4,7 +4,7 @@ namespace embpicamotoOAuth {
 	//Add namespace to 
 	function ns($loc_name)
 	{		
-		return "\\{nsStr}\\$loc_name";		
+		return "\\" . nsStr . "\\$loc_name";		
 	}
 	
 	//add oauth options page
