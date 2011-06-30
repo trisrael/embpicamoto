@@ -69,7 +69,18 @@ namespace embpicamotoOAuth {
 	//Validations
 	
 	function settings_validate(){	
-	}	
+	}
+
+	
+	//Setting defaults
+	register_activation_hook(__FILE__, ns('add_defaults') );
+	
+	function add_defaults() {
+	    update_option(OAuth::SettingsId, array(
+			OAuth::consumerKeyId()   => '',
+			OAuth::consumerSecretId() => ''
+		));
+	}
 	
 	//Helper Classes
 	
@@ -86,21 +97,11 @@ namespace embpicamotoOAuth {
 		
 		//Given a Oauth consumer parameter name register a settings field
 		public static function add_gconsumer_settings_field($param_name){
-			add_settings_field( OAuth::consumerName($param_name), "Consumer " . ucfirst($param_name), self::gconsumer_field_renderer_func_name($param_name), __FILE__, OAuth::GSectionId);
+			add_settings_field( OAuth::consumerId($param_name), "Consumer " . ucfirst($param_name), self::gconsumer_field_renderer_func_name($param_name), __FILE__, OAuth::GSectionId);
 		}
 		
 	}
-	
-	//Setting defaults
-	register_activation_hook(__FILE__, ns('add_defaults') );
-	
-	function add_defaults() {
-	    update_option(OAuth::SettingsId, array(
-			OAuth::consumerKeyId()   => '',
-			OAuth::consumerSecretId() => ''
-		));
-	}
-	
+
 	
 	
 	//Register OAuth Settings
@@ -130,4 +131,5 @@ namespace embpicamotoOAuth {
 		
 	};
 }
+
 ?>
