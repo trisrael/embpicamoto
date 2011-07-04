@@ -1,0 +1,3 @@
+check whether oauth settings have been set and print error msg with redirect
+error form
+redirect from oauth settings
