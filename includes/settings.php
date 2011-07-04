@@ -62,6 +62,7 @@ function page() {
 			
 			<div id='tabs-2'>
 				<h2>Picasa Authentication</h2>
+				<?php  ?>
 				<!-- do crazy things here -->
 			</div>
 		

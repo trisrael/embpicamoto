@@ -19,8 +19,7 @@ require_once('includes/oath_settings.php');
 // add the shortcode handler for picasa galleries
 // http://brettterpstra.com/adding-a-tinymce-button/
 function add_embpicamoto_shortcode($atts, $content = null) {
-        extract(shortcode_atts(array( "id" => '', "per_page" => '', "per_line" => '' ), $atts));
-        
+        extract(shortcode_atts(array( "id" => '', "per_page" => '', "per_line" => '' ), $atts));        
 		if(empty($id)) return ''; #Without an id for an albumid can't do anything
 		
 		$options = get_option('embpicamoto_options');
