@@ -1,12 +1,6 @@
 <?php namespace embpicamotoSettings;
 
 require_once 'namespace_util.php';
-set_include_path(implode(PATH_SEPARATOR, array(
-					realpath(dirname(__FILE__) . '../library'),
-					get_include_path(),
-)));
-				
-require_once 'Zend/Oauth/Consumer.php';
 
 const nsStr = "embpicamotoSettings"; 
 function ns($loc_name)
