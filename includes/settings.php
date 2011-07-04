@@ -229,4 +229,15 @@ function add_defaults() {
 	));
 }
 
+
+#Include jQuery and jQuery UI tabs with no conflict mode to HEAD (ensuring they are added first to avoid overwriting library code in Prototype, and other libraries)
+#TODO: Find a better way of including this so it doesn't need to be added in all the time 
+function js_includes(){
+	wp_enqueue_script('jquery');
+	wp_enqueue_script('jquery-ui-tabs');	
+	wp_enqueue_script('jquery-no-conflict', plugins_url('noconflict.js', __FILE__));
+}
+
+add_action('wp_head', js_includes, 1);
+
 ?>
