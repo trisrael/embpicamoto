@@ -107,7 +107,7 @@ function advanced_options(){
   
   if( $gauth->is_using_defaults() )
   {
-  	echo "<p class='update-nag'>No Google Oauth credentials supplied yet, unable to authorize. Supply credentials at the <a href='?page='empicamoto/includes/oauth_settings.php'>OAuth Settings page</a></p>";  	  	
+  	echo "<p class='update-nag'>No Google Oauth credentials supplied yet, unable to authorize. Supply credentials at the <a href='?page=empicamoto/includes/oauth_settings.php'>OAuth Settings page</a></p>";  	  	
   }
   else if( $gauth->has_valid_accreditation( )){
   	
