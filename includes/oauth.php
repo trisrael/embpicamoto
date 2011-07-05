@@ -32,12 +32,12 @@ namespace embpicamoto {
 		
 		// The singleton method
 		public static function singleton() {
-			if (! isset ( parent::$instance )) {
+			if (! isset ( self::$instance )) {
 				$c = __CLASS__;
-				parent::$instance = new $c ();
+				self::$instance = new $c ();
 			}
 			
-			return parent::$instance;
+			return self::$instance;
 		}
 		
 		//Function testing whether user has changed their oauth consumer/secret from defaults
