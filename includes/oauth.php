@@ -55,7 +55,7 @@ namespace empicamoto\google {
 	/** Zend_Oauth_Consumer*/
 	use embpicamoto\AbstractOAuth as Abs;	
 	
-	require_once 'library/Zend/Oauth/Consumer.php';
+	require_once plugin_dir_path(__FILE__) . '../library/Zend/Oauth/Consumer.php';
 	use embpicamotoOAuth\get_consumer_secret;
 	use embpicamotoOAuth\get_consumer_key;
 	use embpicamotoOAuth\Defaults as Defaults;
