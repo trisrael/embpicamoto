@@ -1,5 +1,5 @@
 <?php
-namespace embpicamoto\oauth {	
+namespace embpicamoto\oauth\settings {	
 	require_once 'namespace_util.php';
 	require_once 'oauth_util.php';
 	use embpicamoto\oauth\util\Constants;
@@ -14,10 +14,10 @@ namespace embpicamoto\oauth {
 	add_action( 'admin_menu', ns("admin_menu") );
 	
 	function admin_menu(){
-		add_options_page('OAuth Settings', 'OAuth', 'manage_options', __FILE__, ns("settings_page") ) ;	
+		add_options_page('OAuth Settings', 'OAuth', 'manage_options', __FILE__, ns("page") ) ;	
 	}	
 	
-	function settings_page()
+	function page()
 	{
 		?>		
 		<div class="wrap">

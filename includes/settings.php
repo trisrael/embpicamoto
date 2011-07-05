@@ -1,6 +1,4 @@
-<?php namespace embpicamotoSettings;
-
-use google\OAuth;
+<?php namespace embpicamoto\settings;
 
 require_once 'namespace_util.php';
 
@@ -98,7 +96,7 @@ function general_options(){
 	</form></div>
 	<?php 
 }
-use empicamoto\google\OAuth as GAuth;
+use empicamoto\oauth\google\OAuth as GAuth;
 function advanced_options(){	
  ?>
 	<div id='auth-settings'>
