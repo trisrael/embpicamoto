@@ -2,7 +2,7 @@
 
 require_once 'namespace_util.php';
 
-const nsStr = "embpicamotoSettings"; 
+const nsStr = "embpicamoto\\settings"; 
 function ns($loc_name)
 {		
 	return wrap_namespace(nsStr, $loc_name);
