@@ -98,14 +98,14 @@ function general_options(){
 	</form></div>
 	<?php 
 }
-use embpicamoto\google;
+use empicamoto\google\OAuth as GAuth;
 function advanced_options(){	
  ?>
 	<div id='auth-settings'>
 	<h2>Picasa Authentication</h2>
 <?php
   require_once plugin_dir_path(__FILE__) .  "oauth.php";  
-  $gauth = OAuth::singleton(); //google oauth manager
+  $gauth = GAuth::singleton(); //google oauth manager
   
   if( $gauth->is_using_defaults() )
   {
