@@ -84,7 +84,7 @@ function page() {
 function general_options(){
 ?>	
 	<h2>General Settings</h2>
-		Enter a login and password for Picasa if not using <a href='<?php echo ('?page=' . Helper::settingsPageRelUrl . '&tab=') . Helper::advancedTabId?>'>Oauth<a/> and edit image options if needed.
+		Enter a login and password for Picasa if not using <a href='<?php echo ('?page=' . Helper::settingsPageRelUrl . '&tab=') . Helper::advancedTabId?>'>Oauth</a> and edit image options if needed.
 	<form action=”options.php” method=”post”>
 	<?php
 		settings_fields(Helper::SettingsId);
