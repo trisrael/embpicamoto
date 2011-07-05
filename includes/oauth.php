@@ -2,12 +2,11 @@
 namespace embpicamoto {
 	
 	/** Zend_Oauth_Consumer*/
-	use embpicamoto\AbstractOAuth as Abs;	
+	use embpicamoto\AbstractOAuth as Abs;
 	
-	set_include_path( realpath(dirname(__FILE__) . '/../library/') . PATH_SEPARATOR . get_include_path());
-	require_once 'Zend/Loader.php';		
-	Zend_Loader::loadClass('Zend_OAuth_Consumer');
-	
+	set_include_path ( implode ( PATH_SEPARATOR, array (realpath ( dirname ( __FILE__ ) . '/../library' ), get_include_path () ) ) );
+	require_once 'Zend/Loader.php';
+	Zend_Loader::loadClass ( 'Zend_OAuth_Consumer' );
 	
 	use embpicamotoOAuth\Defaults;
 	
@@ -60,7 +59,7 @@ namespace embpicamoto {
 	}
 }
 //Google Oauth
-namespace empicamoto\google {	
+namespace empicamoto\google {
 	
 	use embpicamotoOAuth\get_consumer_secret;
 	use embpicamotoOAuth\get_consumer_key;
@@ -69,9 +68,9 @@ namespace empicamoto\google {
 	class OAuth extends Abs {
 		static $requestUrl = 'https://www.google.com/accounts/OAuthGetRequestToken';
 		
-		function get_request_token_url() {			
+		function get_request_token_url() {
 			return self::$requestUrl;
-		}		
+		}
 		
 		function get_request_callback_url() {
 			return plugins_dir ( "request_callback.php", __FILE__ );
