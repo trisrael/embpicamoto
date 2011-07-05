@@ -258,6 +258,7 @@ if(!empty($options['embpicamoto_options_login']) && !empty($options['embpicamoto
 			get_include_path(),
 		)));
 
+		require_once 'Zend/exception.php';
 		require_once 'Zend/Loader.php';
 
 		Zend_Loader::loadClass('Zend_Gdata');
