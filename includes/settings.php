@@ -43,7 +43,7 @@ function tabs( $current = 'image-settings' ) {
     
     $links = array();
     $opts_url = Helper::settingsPageRelUrl;
-    foreach( Helper::settingsTabs as $tab => $name ) :
+    foreach( Helper::settingsTabs() as $tab => $name ) :
         if ( $tab == $current ) :
             $links[] = "<a class='nav-tab nav-tab-active' href='?page=$opts_url&tab=$tab'>$name</a>";
         else :
