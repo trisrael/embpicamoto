@@ -31,11 +31,11 @@ class Constants {
 
 class Settings {
 	static function get_consumer_key() {
-		get_option ( Constants::consumerKeyId () );
+		return get_option ( Constants::consumerKeyId () );
 	}
 	
 	static function get_consumer_secret() {
-		get_option ( Constants::consumerSecretId () );
+		return get_option ( Constants::consumerSecretId () );
 	}
 }
 

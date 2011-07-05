@@ -17,9 +17,7 @@ namespace empicamoto\oauth\google {
 	interface AuthenticationUrls {
 		public function get_request_token_url();
 		public function get_request_callback_url();		
-	}
-
-	
+	}	
 	
 	class OAuth implements AuthenticationUrls{
 		private static $instance;
