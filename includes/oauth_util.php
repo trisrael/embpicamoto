@@ -2,7 +2,7 @@
 namespace embpicamoto\oauth\util;
 
 //Register OAuth Settings
-class Consts {
+class Constants {
 	//Re-used strings
 	const google = 'google';
 	
@@ -31,11 +31,11 @@ class Consts {
 
 class Settings {
 	static function get_consumer_key() {
-		get_option ( Consts::consumerKeyId () );
+		get_option ( Constants::consumerKeyId () );
 	}
 	
 	static function get_consumer_secret() {
-		get_option ( Consts::consumerSecretId () );
+		get_option ( Constants::consumerSecretId () );
 	}
 }
 
