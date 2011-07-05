@@ -4,9 +4,8 @@ namespace embpicamoto {
 	/** Zend_Oauth_Consumer*/
 	use embpicamoto\AbstractOAuth as Abs;	
 	
-	set_include_path( realpath(dirname(__FILE__) . '../library/') . PATH_SEPARATOR . get_include_path());
-	require_once dirname(__FILE__) . '../library/';
-	require_once 'Zend/Loader.php';
+	#set_include_path( realpath(dirname(__FILE__) . '/../library') . PATH_SEPARATOR . get_include_path());
+	require_once realpath(dirname(__FILE__) . '/../library/Zend/Loader.php');	
 	Zend_Loader::loadClass('Zend_OAuth_Consumer');
 	
 	
