@@ -98,48 +98,40 @@ function page() {
 }
 
 function general_options() {
-	?>
-<h2>General Settings</h2>
-Enter a login and password for Picasa (if not using
-<a
-	href='<?php
-	echo ('?page=' . Helper::settingsPageRelUrl . '&tab=') . Helper::advancedTabId?>'>Oauth</a>
-) and edit image options if needed.
-<form action=”options.php” method=”post”>
-	<?php
-	settings_fields ( Helper::SettingsId );
-	do_settings_sections ( __FILE__ );
-	?>
-	<p class="submit"><input name="Submit" type="submit"
-	class="button-primary"
-	value="<?php
-	esc_attr_e ( 'Save Changes' );
-	?>" /></p>
-</form>
-</div>
+?>
+	<h2>General Settings</h2>
+	Enter a login and password for Picasa (if not using
+	<a href='<?php	echo ('?page=' . Helper::settingsPageRelUrl . '&tab=') . Helper::advancedTabId?>'>Oauth</a>
+	) and edit image options if needed.
+	<form action=”options.php” method=”post”>
+		<?php
+			settings_fields ( Helper::SettingsId );
+			do_settings_sections ( __FILE__ );
+		?>
+		<p class="submit"><input name="Submit" type="submit" class="button-primary"	value="<?php esc_attr_e ( 'Save Changes' );?>" /></p>
+	</form>
+	</div>
 <?php
 }
 use empicamoto\oauth\google\OAuth as GAuth;
 function advanced_options() {
-	?>
-<div id='auth-settings'>
-<h2>Picasa Authentication</h2>
-<?php
-	require_once plugin_dir_path ( __FILE__ ) . "oauth.php";
-	$gauth = GAuth::singleton (); //google oauth manager
+?>
+	<div id='auth-settings'>
+	<h2>Picasa Authentication</h2>
+	<?php
+		require_once plugin_dir_path ( __FILE__ ) . "oauth.php";
+		$gauth = GAuth::singleton (); //google oauth manager		
 	
-
-	if ($gauth->is_using_defaults ()) {
-		$sty = "-moz-border-radius: 6px 6px 6px 6px;";
-		$sty = $sty . "-webkit-border-radius: 6px 6px 6px 6px;";
-		$sty = $sty . "border-top-width: 1px; border-top-style: solid;";
-		$sty = $sty . "-khtml-border-radius: 6px 6px 6px 6px;";
-		$sty = $sty . "top-right-radius: 6px;";
-		echo "<p style='$sty' class='update-nag'>No Google Oauth credentials supplied yet, unable to authorize. Supply credentials at the <a href='?page=embpicamoto/includes/oath_settings.php'>OAuth Settings page</a></p>";
-	} else if ($gauth->has_valid_accreditation ()) {
-	
-	}
-	
+		if ($gauth->is_using_defaults ()) {
+			$sty = "-moz-border-radius: 6px 6px 6px 6px;";
+			$sty = $sty . "-webkit-border-radius: 6px 6px 6px 6px;";
+			$sty = $sty . "border-top-width: 1px; border-top-style: solid;";
+			$sty = $sty . "-khtml-border-radius: 6px 6px 6px 6px;";
+			$sty = $sty . "top-right-radius: 6px;";
+			echo "<p style='$sty' class='update-nag'>No Google Oauth credentials supplied yet, unable to authorize. Supply credentials at the <a href='?page=embpicamoto/includes/oath_settings.php'>OAuth Settings page</a></p>";
+		} else if ($gauth->has_valid_accreditation ()) {
+		
+		}		
 	?>				
 	</div>
 <?php
