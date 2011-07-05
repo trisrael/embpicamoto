@@ -1,5 +1,14 @@
 <?php
 namespace embpicamoto {
+	
+	/** Zend_Oauth_Consumer*/
+	use embpicamoto\AbstractOAuth as Abs;
+	
+	set_include_path( realpath(dirname(__FILE__) . '../library/') . PATH_SEPARATOR . get_include_path());
+	require_once 'Zend/Loader.php';
+	Zend_Loader::loadClass('Zend_OAuth_Consumer');
+	
+	
 	use embpicamotoOAuth\Defaults;
 	
 	require_once 'namespace_util.php';
@@ -51,13 +60,7 @@ namespace embpicamoto {
 	}
 }
 //Google Oauth
-namespace empicamoto\google {
-	/** Zend_Oauth_Consumer*/
-	use embpicamoto\AbstractOAuth as Abs;
-
-	set_include_path( realpath(dirname(__FILE__) . '../library/') . PATH_SEPARATOR . get_include_path());
-	
-	require_once 'Zend/Oauth/Consumer.php';
+namespace empicamoto\google {	
 	
 	use embpicamotoOAuth\get_consumer_secret;
 	use embpicamotoOAuth\get_consumer_key;
