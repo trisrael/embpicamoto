@@ -1,8 +1,11 @@
 <?php
 namespace embpicamoto\oauth\settings {	
+	use embpicamoto\oauth\util\Defaults;
+	use embpicamoto\oauth\util\Constants;
+
 	require_once 'namespace_util.php';
 	require_once 'oauth_util.php';
-	use embpicamoto\oauth\util\Constants;
+
 	
 	const nsStr = "embpicamoto\\oauth\\settings";
 	function ns($loc_name)
