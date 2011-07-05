@@ -6,14 +6,11 @@ namespace empicamoto\google {
 	set_include_path ( implode ( PATH_SEPARATOR, array (realpath ( dirname ( __FILE__ ) . '/../library' ), get_include_path () ) ) );
 	require_once 'Zend/Loader.php';
 	require_once 'Zend/Oauth/Consumer.php';
-	//Zend_Loader::loadClass ( 'Zend_OAuth_Consumer' );	
-
-	use embpicamotoOAuth\Defaults;		
-	use embpicamotoOAuth\get_consumer_secret;
-	use embpicamotoOAuth\get_consumer_key;
-	
 	require_once 'namespace_util.php';
 	require_once 'oauth_util.php';
+	//Zend_Loader::loadClass ( 'Zend_OAuth_Consumer' );
+	
+	use embpicamotoOAuth;
 	
 	interface AuthenticationUrls {
 		public function get_request_token_url();
