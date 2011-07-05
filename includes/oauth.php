@@ -56,9 +56,9 @@ namespace empicamoto\google {
 	use embpicamoto\AbstractOAuth as Abs;
 
 	set_include_path(implode(PATH_SEPARATOR, array(
-		realpath(dirname(__FILE__), '../library/')),
+		realpath(dirname(__FILE__)), '../library/')),
 		get_include_path()
-	));
+	);
 	
 	require_once 'Zend/Oauth/Consumer.php';
 	
