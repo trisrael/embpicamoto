@@ -133,7 +133,7 @@ function advanced_options() {
 		$sty = $sty . "border-top-width: 1px; border-top-style: solid;";
 		$sty = $sty . "-khtml-border-radius: 6px 6px 6px 6px;";
 		$sty = $sty . "top-right-radius: 6px;";				
-		echo "<p style='$sty' class='update-nag'>No Google Oauth credentials supplied yet, unable to authorize. Supply credentials at the <a href='?page=empicamoto/includes/oauth_settings.php'>OAuth Settings page</a></p>";
+		echo "<p style='$sty' class='update-nag'>No Google Oauth credentials supplied yet, unable to authorize. Supply credentials at the <a href='?page=embpicamoto/includes/oath_settings.php'>OAuth Settings page</a></p>";
 	} else if ($gauth->has_valid_accreditation ()) {
 	
 	}
