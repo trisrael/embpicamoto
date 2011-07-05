@@ -48,7 +48,7 @@ function admin_menu() {
 	add_options_page ( 'Picasa settings', 'Picasa', 'manage_options', __FILE__, ns ( 'page' ) );
 }
 
-function tabs($current = 'image-settings') {
+function tabs($current = Helper::generalTabId) {
 	
 	$links = array ();
 	$opts_url = Helper::settingsPageRelUrl;
@@ -73,11 +73,13 @@ function page() {
 </div>
 <div id='tabs'>
 			<?php
-	tabs ()?>
+	isset ( $_GET ['tab'] ) ? $currTab = $_GET ['tab'] : $currTab = Helper::defaultTabId;
+	tabs ( $currTab );
+	?>
 			<?php
 	if ($_GET ['page'] == Helper::settingsPageRelUrl) {
-		isset ( $_GET ['tab'] ) ? $tab = $_GET ['tab'] : $tab = Helper::defaultTabId;
-		switch ($tab) :
+		
+		switch ($currTab) :
 			case Helper::generalTabId :
 				general_options ();
 				break;
@@ -109,10 +111,10 @@ Enter a login and password for Picasa (if not using
 	do_settings_sections ( __FILE__ );
 	?>
 	<p class="submit"><input name="Submit" type="submit"
-	class="button-primary" value="<?php
+	class="button-primary"
+	value="<?php
 	esc_attr_e ( 'Save Changes' );
-	?>" />
-</p>
+	?>" /></p>
 </form>
 </div>
 <?php
@@ -132,7 +134,7 @@ function advanced_options() {
 		$sty = $sty . "-webkit-border-radius: 6px 6px 6px 6px;";
 		$sty = $sty . "border-top-width: 1px; border-top-style: solid;";
 		$sty = $sty . "-khtml-border-radius: 6px 6px 6px 6px;";
-		$sty = $sty . "top-right-radius: 6px;";				
+		$sty = $sty . "top-right-radius: 6px;";
 		echo "<p style='$sty' class='update-nag'>No Google Oauth credentials supplied yet, unable to authorize. Supply credentials at the <a href='?page=embpicamoto/includes/oath_settings.php'>OAuth Settings page</a></p>";
 	} else if ($gauth->has_valid_accreditation ()) {
 	
