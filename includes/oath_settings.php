@@ -4,7 +4,7 @@ namespace embpicamoto\oauth\settings {
 	require_once 'oauth_util.php';
 	use embpicamoto\oauth\util\Constants;
 	
-	const nsStr = "embpicamoto\\oauth";
+	const nsStr = "embpicamoto\\oauth\\settings";
 	function ns($loc_name)
 	{		
 		return wrap_namespace(nsStr, $loc_name);		
