@@ -27,11 +27,11 @@ namespace embpicamoto {
 		private $reqToken;
 		
 		//A private constructor; prevents direct creation of object
-		private function __construct() {
+		private abstract function __construct() {
 		}
 		
 		// The singleton method
-		public static function singleton() {
+		public abstract static function singleton() {
 			if (! isset ( self::$instance )) {
 				$c = __CLASS__;
 				self::$instance = new $c ();
@@ -41,12 +41,12 @@ namespace embpicamoto {
 		}
 		
 		//Function testing whether user has changed their oauth consumer/secret from defaults
-		public function is_using_defaults() {
+		public abstract function is_using_defaults() {
 			return get_consumer_key () == Defaults::consumerKey && get_consumer_secret () == Defaults::consumerSecret;
 		}
 		
 		//Test whether site has been authenticated correctly with Google services
-		public function has_valid_accreditation() {
+		public abstract function has_valid_accreditation() {
 			if (! isset ( $cons )) {
 				$config = array ('callbackUrl' => get_request_callback_url (), 'siteUrl' => get_request_token_url (), 'consumerKey' => get_consumer_key (), 'consumerSecret' => get_consumer_secret () );
 				$cons = new Zend_Oauth_Consumer ( $config );
