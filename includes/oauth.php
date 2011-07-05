@@ -1,8 +1,7 @@
 <?php
 namespace embpicamoto {
 	
-	/** Zend_Oauth_Consumer*/
-	use embpicamoto\AbstractOAuth as Abs;
+	
 	
 	set_include_path ( implode ( PATH_SEPARATOR, array (realpath ( dirname ( __FILE__ ) . '/../library' ), get_include_path () ) ) );
 	require_once 'Zend/Loader.php';
@@ -65,8 +64,10 @@ namespace empicamoto\google {
 	use embpicamotoOAuth\get_consumer_secret;
 	use embpicamotoOAuth\get_consumer_key;
 	use embpicamotoOAuth\Defaults as Defaults;
+	/** Zend_Oauth_Consumer*/
+	use embpicamoto\AbstractOAuth as Abstr;
 	
-	class OAuth extends Abs {
+	class OAuth extends Abstr {
 		static $requestUrl = 'https://www.google.com/accounts/OAuthGetRequestToken';
 		
 		function get_request_token_url() {
