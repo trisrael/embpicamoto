@@ -21,7 +21,7 @@ namespace empicamoto\google {
 	
 	use embpicamotoOAuth\get_consumer_secret;
 	use embpicamotoOAuth\get_consumer_key;
-	use embpicamotoOAuth\Defaults as Defaults;
+	use embpicamotoOAuth\Defaults;
 	
 	class OAuth implements AuthenticationUrls{
 		private static $instance;
