@@ -6,8 +6,8 @@ namespace embpicamoto {
 	require_once 'oauth_util.php';	
 
 	interface OauthUrls{
-		abstract function get_request_token_url();		
-		abstract function get_request_callback_url();
+		public function get_request_token_url();		
+		public function get_request_callback_url();
 	}
 	
 	class AbstractOAuth implements OauthUrls {		
