@@ -27,7 +27,7 @@ namespace embpicamoto {
 		private $reqToken;
 		
 		//A private constructor; prevents direct creation of object
-		private abstract function __construct() {
+		private function __construct() {
 		}
 		
 		// The singleton method
