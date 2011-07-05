@@ -1,14 +1,16 @@
 <?php
 namespace embpicamoto {
+	use embpicamotoOAuth\Defaults;
+
 	require_once 'namespace_util.php';
-	require_once 'oauth_util.php';
+	require_once 'oauth_util.php';	
 
 	interface OauthUrls{
 		abstract function get_request_token_url();		
 		abstract function get_request_callback_url();
 	}
 	
-	abstract class AbstractOAuth implements OauthUrls {		
+	class AbstractOAuth implements OauthUrls {		
 		
 		private static $instance;
 		//Zend consumer object
@@ -48,16 +50,16 @@ namespace embpicamoto {
 				$cons = new Zend_Oauth_Consumer ( $config );
 				// fetch a request token
 				$reqToken = $cons->getRequestToken();
+				
+				$reqToken->isValid();
 			}
-		}
-	
+		}	
 	}
 	
 	//Google Oauth
 	namespace google {
 		/** Zend_Oauth_Consumer*/
-		use embpicamoto\AbstractOAuth;
-
+		use embpicamoto\AbstractOAuth as Abs;
 		use embpicamoto\get_callback_url;
 		
 		require_once 'library/Zend/Oauth/Consumer.php';
@@ -65,7 +67,7 @@ namespace embpicamoto {
 		use embpicamotoOAuth\get_consumer_key;
 		use embpicamotoOAuth\Defaults as Defaults;
 		
-		class OAuth extends AbstractOAuth{
+		class OAuth extends Abs{
 			static $requestUrl = 'https://www.google.com/accounts/OAuthGetRequestToken';		
 			
 			function get_request_token_url(){
@@ -77,7 +79,8 @@ namespace embpicamoto {
 				return plugins_dir("request_callback.php", __FILE__);
 			}			
 			
-		}
+		}	
+		
 	
 	}
 

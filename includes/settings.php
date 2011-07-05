@@ -1,5 +1,7 @@
 <?php namespace embpicamotoSettings;
 
+use google\OAuth;
+
 require_once 'namespace_util.php';
 
 const nsStr = "embpicamotoSettings"; 
@@ -96,14 +98,26 @@ function general_options(){
 	</form></div>
 	<?php 
 }
-
+use embpicamoto\google;
 function advanced_options(){	
  ?>
 	<div id='auth-settings'>
-				<h2>Picasa Authentication</h2>
-				<?php  ?>
-				<!-- do crazy things here -->
-			</div>
+	<h2>Picasa Authentication</h2>
+<?php				
+  require_once 'includes/oauth.php';
+  
+  $gauth = OAuth::singleton(); //google oauth manager
+  
+  if( $gauth->is_using_defaults() )
+  {
+  	echo "<p class='update-nag'>No Google Oauth credentials supplied yet, unable to authorize. Supply credentials at the <a href='?page='empicamoto/includes/oauth_settings.php'>OAuth Settings page</a></p>";  	  	
+  }
+  else if( $gauth->has_valid_accreditation( )){
+  	
+  }		
+  		
+?>				
+	</div>
 <?php 
 }
 
