@@ -46,7 +46,7 @@ namespace embpicamoto {
 		}
 		
 		//Test whether site has been authenticated correctly with Google services
-		public abstract function has_valid_accreditation() {
+		public function has_valid_accreditation() {
 			if (! isset ( $cons )) {
 				$config = array ('callbackUrl' => get_request_callback_url (), 'siteUrl' => get_request_token_url (), 'consumerKey' => get_consumer_key (), 'consumerSecret' => get_consumer_secret () );
 				$cons = new Zend_Oauth_Consumer ( $config );
