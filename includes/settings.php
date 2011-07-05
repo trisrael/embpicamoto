@@ -13,13 +13,6 @@ add_action( 'admin_menu', ns('admin_menu') );
 
 #Include jQuery and jQuery UI tabs with no conflict mode to HEAD (ensuring they are added first to avoid overwriting library code in Prototype, and other libraries)
 #TODO: Find a better way of including this so it doesn't need to be added in all the time 
-function js_includes(){
-	wp_enqueue_script('jquery');
-	wp_enqueue_script('jquery-ui-tabs');	
-	wp_enqueue_script('jquery-no-conflict', plugins_url('noconflict.js', __FILE__));
-}
-
-add_action('wp_head', js_includes, 1);
 
 class ImageSizes {
 
@@ -46,43 +39,70 @@ function admin_menu() {
 	add_options_page('Picasa settings', 'Picasa', 'manage_options', __FILE__, ns('page'));	
 }
 
-function page() {
+function tabs( $current = 'image-settings' ) {	
+    
+    $links = array();
+    $opts_url = Helper::settingsPageRelUrl;
+    foreach( Helper::settingsTabs as $tab => $name ) :
+        if ( $tab == $current ) :
+            $links[] = "<a class='nav-tab nav-tab-active' href='?page=$opts_url&tab=$tab'>$name</a>";
+        else :
+            $links[] = "<a class='nav-tab' href='?page=$opts_url&tab=$tab'>$name</a>";
+        endif;
+    endforeach;
+    echo '<h2>';
+    foreach ( $links as $link )
+        echo $link;
+    echo '</h2>';
+}
 
+function page() {	
 ?>
 	<div class="wrap">
 		<div class="icon32" id="icon-options-general"><br></div>
 		<div id='tabs'>
-			<ul>
-				<li><a href="#tabs-1">Image Settings</a>	
-				<li><a href="#tabs-2">Authentication</a>	
-			</ul>
+			<?php tabs() ?>
+			<?php if ( $_GET['page'] == Helper::settingsPageRelUrl ) {
+				isset($_GET['tab'])	? $tab = $_GET['tab'] : $tab = Helper::defaultTabId;				
+				switch ( $tab ) :
+	        		case Helper::generalTabId:
+	            		general_options();
+	            	break;        	
+	        		case Helper::advancedTabId:
+	            		advanced_options();
+	            	break;
+    			endswitch;
+			}
+			?>					
 			
-			<div id='tabs-1'>
-				<h2>Picasa Image Settings</h2>
-				Select preferred image dimensions
-				<form action="options.php" method="post">
-				<?php settings_fields(Helper::SettingsId); ?>
-				<?php do_settings_sections(__FILE__); ?>
-				<p class="submit">
-					<input name="Submit" type="submit" class="button-primary" value="<?php esc_attr_e('Save Changes'); ?>" />
-				</p>
-				</form>
-			</div>
-			
-			<div id='tabs-2'>
+		
+		</div>				
+	</div>
+<?php
+}
+
+function general_options(){
+?>	
+	<h2>General Settings</h2>
+		Enter a login and password for Picasa if not using Oauth and edit image options if needed.
+	<form action=”options.php” method=”post”>
+	<?php
+		settings_fields(Helper::SettingsId);
+		do_settings_sections(__FILE__);
+	?>
+	<input name=”Submit” type=”submit” value=”Save Changes” />
+	</form></div>
+	<?php 
+}
+
+function advanced_options(){	
+ ?>
+	<div id='auth-settings'>
 				<h2>Picasa Authentication</h2>
 				<?php  ?>
 				<!-- do crazy things here -->
 			</div>
-		
-		</div>
-		<script>
-			$(function() {
-				$( "#tabs" ).tabs();
-			});
-		</script>		
-	</div>
-<?php
+<?php 
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -90,19 +110,26 @@ function page() {
 add_action('admin_init', ns('admin_init') );
 
 class Helper{
-	
+	/** relative url to this php file **/
+	const settingsPageRelUrl = 'includes/settings.php';
 	const renderFieldPostfix = '_field_renderer';
 	
 	const SettingsId = "empicamoto_options";
 	const AuthSectionId = "auth_section";
 	const ImageSectionId = "img_section";	
 	
+	const generalTabId = 'general-options';
+	const defaultTabId = self::generalTabId;
+	const advancedTabId = 'advanced-options';
+	
 	const Login = "login";
 	const Password = "password";
 	const Thumb = "thumb_size";
 	const Full = "full_size";
 	const Crop = "crop";
-	 
+	public static function settingsTabs() {return array( self::defaultTabId => 'General', self::advancedTabId => 'Advanced' );}
+	public static function firstTab(){$arr = self::settingsTabs(); return $arr[0];}	
+	
 	public static function LoginId(){  return self::pre(self::Login);}	
 	public static function PasswordId(){  return self::pre(self::Password);}
 	public static function ThumbId(){ return self::pre(self::Thumb);}
