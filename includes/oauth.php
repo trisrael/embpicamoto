@@ -10,7 +10,7 @@ namespace embpicamoto {
 		public function get_request_callback_url();
 	}
 	
-	class AbstractOAuth implements OauthUrls {
+	abstract class AbstractOAuth implements OauthUrls {
 		
 		private static $instance;
 		//Zend consumer object
