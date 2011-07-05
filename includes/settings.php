@@ -90,7 +90,9 @@ function general_options(){
 		settings_fields(Helper::SettingsId);
 		do_settings_sections(__FILE__);
 	?>
-	<input name=”Submit” type=”submit” value=”Save Changes” />
+	<p class="submit">
+		<input name="Submit" type="submit" class="button-primary" value="<?php esc_attr_e('Save Changes'); ?>" />
+	</p>
 	</form></div>
 	<?php 
 }
