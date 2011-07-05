@@ -6,7 +6,7 @@ namespace embpicamoto {
 	
 	set_include_path ( implode ( PATH_SEPARATOR, array (realpath ( dirname ( __FILE__ ) . '/../library' ), get_include_path () ) ) );
 	require_once 'Zend/Loader.php';
-	require_once 'library/Zend/Oauth/Consumer.php';
+	require_once 'Zend/Oauth/Consumer.php';
 	//Zend_Loader::loadClass ( 'Zend_OAuth_Consumer' );
 	
 	use embpicamotoOAuth\Defaults;
