@@ -111,7 +111,7 @@ add_action('admin_init', ns('admin_init') );
 
 class Helper{
 	/** relative url to this php file **/
-	const settingsPageRelUrl = 'includes/settings.php';
+	const settingsPageRelUrl = 'embpicamoto/includes/settings.php';
 	const renderFieldPostfix = '_field_renderer';
 	
 	const SettingsId = "empicamoto_options";
