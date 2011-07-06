@@ -1,7 +1,5 @@
 <?php
-namespace embpicamoto\oauth\settings {	
-	use embpicamoto\oauth\util\Defaults;
-	use embpicamoto\oauth\util\Constants;
+namespace embpicamoto\oauth\settings {
 
 	require_once 'namespace_util.php';
 	require_once 'oauth_util.php';
@@ -48,8 +46,8 @@ namespace embpicamoto\oauth\settings {
 		//Google Oauth settings fields  
 		add_settings_section(Embpicamoto_Oauth_Util_Constants::GSectionId, ucfirst(Embpicamoto_Oauth_Util_Constants::GSectionName), ns(Embpicamoto_Oauth_Util_Constants::GSectionId), __FILE__);
 		
-		SettingsHelper::add_gconsumer_settings_field(Constants::key);
-		SettingsHelper::add_gconsumer_settings_field(Constants::secret);	
+		SettingsHelper::add_gconsumer_settings_field(Embpicamoto_Oauth_Util_Constants::key);
+		SettingsHelper::add_gconsumer_settings_field(Embpicamoto_Oauth_Util_Constants::secret);	
 	}
 	
 	//Render functions
