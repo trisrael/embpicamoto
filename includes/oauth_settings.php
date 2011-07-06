@@ -81,8 +81,8 @@
 	
 	function Empicamoto_Oauth_Settings_add_defaults() {
 	    update_option(Embpicamoto_Oauth_Util_Constants::SettingsId, array(
-			Embpicamoto_Oauth_Util_Constants::consumerKeyId()   => Defaults::consumerKey,
-			Embpicamoto_Oauth_Util_Constants::consumerSecretId() => Defaults::consumerSecret
+			Embpicamoto_Oauth_Util_Constants::consumerKeyId()   => Embpicamoto_Oauth_Util_Defaults::consumerKey,
+			Embpicamoto_Oauth_Util_Constants::consumerSecretId() => Embpicamoto_Oauth_Util_Defaults::consumerSecret
 			));
 	}
 	
