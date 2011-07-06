@@ -286,7 +286,7 @@ function Embpicamoto_Settings_crop_field_renderer() {
 	Embpicamoto_Settings_html_select ( Embpicamoto_Settings_Helper::CropId (), array ('no', 'yes' ) );
 }
 
-function Empicamoto_Oauth_Settings_validate($input) {
+function Empicamoto_Settings_validate($input) {
 	// strip all fields
 	
 
