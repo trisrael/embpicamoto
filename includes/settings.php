@@ -215,7 +215,7 @@ class Embpicamoto_Settings_Helper {
 
 }
 
-function Empicamoto_Oauth_Settings_admin_init() {
+function Empicamoto_Settings_admin_init() {
 	wp_enqueue_script ( 'jquery-ui-core' );
 	
 	register_setting ( Embpicamoto_Settings_Helper::SettingsId, Embpicamoto_Settings_Helper::SettingsId, Embpicamoto_Settings_ns ( 'validate' ) ); // group, name in db, validation func	
