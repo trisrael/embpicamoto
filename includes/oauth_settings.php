@@ -12,6 +12,7 @@
 	add_action( 'admin_menu', Embpicamoto_Oauth_Settings_ns("admin_menu") );
 	
 	function Embpicamoto_Oauth_Settings_admin_menu(){
+		throw new Exception("blah");
 		add_options_page('OAuth Settings', 'OAuth', 'manage_options', __FILE__, Embpicamoto_Oauth_Settings_ns("page") ) ;	
 	}
 	
