@@ -12,7 +12,7 @@
 	add_action( 'admin_menu', "Embpicamoto_Oauth_Settings_admin_menu");
 	
 	function Embpicamoto_Oauth_Settings_admin_menu(){			
-		add_options_page('OAuth Settings', 'OAuth', 'manage_options', __FILE__, Embpicamoto_Oauth_Settings_ns("page") ) ;	
+		add_options_page('OAuth Settings', 'OAuth', 'manage_options', __FILE__, "Embpicamoto_Oauth_Settings_page" ) ;	
 	}
 	
 	function Embpicamoto_Oauth_Settings_page()
