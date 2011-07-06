@@ -119,7 +119,7 @@ function Empicamoto_Settings_correct_oauth_creds_html($msg){
 			$sty = $sty . "border-top-width: 1px; border-top-style: solid;";
 			$sty = $sty . "-khtml-border-radius: 6px 6px 6px 6px;";
 			$sty = $sty . "top-right-radius: 6px;";
-			echo "<p style='$sty' class='update-nag'>$msg. Supply credentials at the <a href='?page=embpicamoto/includes/oath_settings.php'>OAuth Settings page</a></p>";
+			echo "<p style='$sty' class='update-nag'>$msg. Supply credentials at the <a href='?page=embpicamoto/includes/oauth_settings.php'>OAuth Settings page</a></p>";
 }
 
 function Embpicamoto_Settings_advanced_options() {
