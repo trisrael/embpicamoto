@@ -1,18 +1,18 @@
 <?php	
 	require_once 'namespace_util.php';
-	require_once 'oauth_util.php';
+	require_once 'oauth_util.php';	
 	
-	const nsStr = "Embpicamoto_Oauth_Settings";
 	function Embpicamoto_Oauth_Settings_ns($loc_name)
 	{		
-		return wrap_constant_name(nsStr, $loc_name);		
+		return wrap_constant_name("Embpicamoto_Oauth_Settings", $loc_name);		
 	}
 	
 	//add oauth options page
-	add_action( 'admin_menu', "Embpicamoto_Oauth_Settings_admin_menu");
+	add_action( 'admin_menu', Embpicamoto_Oauth_Settings_ns("admin_menu"));
 	
-	function Embpicamoto_Oauth_Settings_admin_menu(){			
-		add_options_page('OAuth Settings', 'OAuth', 'manage_options', __FILE__, "Embpicamoto_Oauth_Settings_page" ) ;	
+	function Embpicamoto_Oauth_Settings_admin_menu(){
+		
+		add_options_page('OAuth Settings', 'OAuth', 'manage_options', __FILE__, Embpicamoto_Oauth_Settings_ns("page") ) ;	
 	}
 	
 	function Embpicamoto_Oauth_Settings_page()
@@ -103,7 +103,8 @@
 		//Given a Oauth consumer parameter name register a settings field
 		public static function add_gconsumer_settings_field($param_name){
 			add_settings_field( Embpicamoto_Oauth_Util_Constants::consumerId($param_name), "Consumer " . ucfirst($param_name), self::gconsumer_field_renderer_func_name($param_name), __FILE__, Embpicamoto_Oauth_Util_Constants::GSectionId);
-		}		
+		}
+		
 	}
 
 ?>

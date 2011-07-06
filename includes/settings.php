@@ -2,9 +2,9 @@
 
 require_once 'namespace_util.php';
 
-const nsStr = "Embpicamoto_Settings";
+
 function Embpicamoto_Settings_ns($loc_name) {
-	return wrap_constant_name ( nsStr, $loc_name );
+	return wrap_constant_name ( "Embpicamoto_Settings", $loc_name );
 }
 
 //add plugin options page
