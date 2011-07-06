@@ -18,12 +18,12 @@ class Embpicamoto_Oauth_Util_Constants {
 	const key = 'key';
 	
 	public static function consumerKeyId() {
-		self::consumerId ( key );
+		return self::consumerId ( key );
 	}
 	
 	const secret = 'secret';
 	public static function consumerSecretId() {
-		self::consumerId ( secret );
+		return self::consumerId ( secret );
 	}
 }
 
