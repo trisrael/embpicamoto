@@ -120,7 +120,7 @@ function Embpicamoto_Settings_advanced_options() {
 	
 	<?php
 		require_once plugin_dir_path ( __FILE__ ) . "oauth.php";
-		$gauth = GAuth::singleton (); //google oauth manager		
+		$gauth = Empicamoto_OAuth_Google_Manager::singleton (); //google oauth manager		
 	?>
 		<span>Key<?php $gauth->get_consumer_key() ?></span>
 		<span>Sec<?php $gauth->get_consumer_secret() ?></span>
@@ -162,9 +162,11 @@ class Embpicamoto_Settings_Helper {
 	const Thumb = "thumb_size";
 	const Full = "full_size";
 	const Crop = "crop";
+	
 	public static function settingsTabs() {
 		return array (self::defaultTabId => 'General', self::advancedTabId => 'Advanced' );
 	}
+	
 	public static function firstTab() {
 		$arr = self::settingsTabs ();
 		return $arr [0];
