@@ -11,24 +11,25 @@
 	//add oauth options page
 	add_action( 'admin_menu', "Embpicamoto_Oauth_Settings_admin_menu");
 	
-	function Embpicamoto_Oauth_Settings_admin_menu(){	
+	function Embpicamoto_Oauth_Settings_admin_menu(){			
 		add_options_page('OAuth Settings', 'OAuth', 'manage_options', __FILE__, Embpicamoto_Oauth_Settings_ns("page") ) ;	
 	}
 	
 	function Embpicamoto_Oauth_Settings_page()
 	{
-		?>		
+		?>
+				
 		<div class="wrap">
-		<div class="icon32" id="icon-options-general"><br></div>
-		<h2>Oauth Settings</h2>
-		Enter authentication information to connect to the applications below.
-		<form action="options.php" method="post">
-		<?php settings_fields(Embpicamoto_Oauth_Util_Constants::SettingsId); ?>
-		<?php do_settings_sections(__FILE__); ?>
-		<p class="submit">
-			<input name="Submit" type="submit" class="button-primary" value="<?php esc_attr_e('Save Changes'); ?>" />
-		</p>
-		</form>
+			<div class="icon32" id="icon-options-general"><br></div>
+			<h2>Oauth Settings</h2>
+			Enter authentication information to connect to the applications below.
+			<form action="options.php" method="post">
+				<?php settings_fields(Embpicamoto_Oauth_Util_Constants::SettingsId); ?>
+				<?php do_settings_sections(__FILE__); ?>
+				<p class="submit">
+					<input name="Submit" type="submit" class="button-primary" value="<?php esc_attr_e('Save Changes'); ?>" />
+				</p>
+			</form>
 		</div>
 				
 		<?php
@@ -77,12 +78,12 @@
 	}
 	
 	//Setting defaults
-	register_activation_hook(__FILE__, Embpicamoto_Oauth_Settings_ns('add_defaults') );
+	register_activation_hook(__FILE__, Embpicamoto_Oauth_Settings_ns('add_defaults'));
 	
 	function Embpicamoto_Oauth_Settings_add_defaults() {
 	    update_option(Embpicamoto_Oauth_Util_Constants::SettingsId, array(
-			Embpicamoto_Oauth_Util_Constants::consumerKeyId()   => Embpicamoto_Oauth_Util_Defaults::consumerKey,
-			Embpicamoto_Oauth_Util_Constants::consumerSecretId() => Embpicamoto_Oauth_Util_Defaults::consumerSecret
+				Embpicamoto_Oauth_Util_Constants::consumerKeyId()   => Embpicamoto_Oauth_Util_Defaults::consumerKey,
+				Embpicamoto_Oauth_Util_Constants::consumerSecretId() => Embpicamoto_Oauth_Util_Defaults::consumerSecret
 			));
 	}
 	
@@ -97,13 +98,12 @@
 		 */ 
 		private static function gconsumer_field_renderer_func_name($fieldName){
 			return Embpicamoto_Oauth_Settings_ns( Embpicamoto_Oauth_Util_Constants::google . "_consumer_" . $fieldName . "_field_renderer" );
-		}	
+		}
 		
 		//Given a Oauth consumer parameter name register a settings field
 		public static function add_gconsumer_settings_field($param_name){
 			add_settings_field( Embpicamoto_Oauth_Util_Constants::consumerId($param_name), "Consumer " . ucfirst($param_name), self::gconsumer_field_renderer_func_name($param_name), __FILE__, Embpicamoto_Oauth_Util_Constants::GSectionId);
-		}
-		
+		}		
 	}
 
 ?>
