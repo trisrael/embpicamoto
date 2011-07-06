@@ -134,7 +134,7 @@ function Embpicamoto_Settings_advanced_options() {
 		if ($gauth->is_using_defaults ()) {
 			Empicamoto_Settings_correct_oauth_creds_html("No Google Oauth credentials supplied yet, unable to authorize");		
 		} else if ($gauth->has_valid_accreditation ()) {
-			<p>Valid picasa credits supplied</p>
+			echo "<p>Valid picasa credits supplied</p>";
 		}		
 		else
 		{
