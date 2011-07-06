@@ -51,7 +51,7 @@
 				// fetch a request token
 				$reqToken = $cons->getRequestToken ();
 				
-				$reqToken->isValid ();
+				return $reqToken->isValid ();
 			}
 		}
 		

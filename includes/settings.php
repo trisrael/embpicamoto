@@ -113,6 +113,15 @@ function Embpicamoto_Settings_general_options() {
 <?php
 }
 
+function Empicamoto_Settings_correct_oauth_creds_html($msg){
+	$sty = "-moz-border-radius: 6px 6px 6px 6px;";
+			$sty = $sty . "-webkit-border-radius: 6px 6px 6px 6px;";
+			$sty = $sty . "border-top-width: 1px; border-top-style: solid;";
+			$sty = $sty . "-khtml-border-radius: 6px 6px 6px 6px;";
+			$sty = $sty . "top-right-radius: 6px;";
+			echo "<p style='$sty' class='update-nag'>$msg. Supply credentials at the <a href='?page=embpicamoto/includes/oath_settings.php'>OAuth Settings page</a></p>";
+}
+
 function Embpicamoto_Settings_advanced_options() {
 ?>
 	<div id='auth-settings'>
@@ -123,15 +132,14 @@ function Embpicamoto_Settings_advanced_options() {
 		$gauth = Empicamoto_OAuth_Google_Manager::singleton (); //google oauth manager		
 	 
 		if ($gauth->is_using_defaults ()) {
-			$sty = "-moz-border-radius: 6px 6px 6px 6px;";
-			$sty = $sty . "-webkit-border-radius: 6px 6px 6px 6px;";
-			$sty = $sty . "border-top-width: 1px; border-top-style: solid;";
-			$sty = $sty . "-khtml-border-radius: 6px 6px 6px 6px;";
-			$sty = $sty . "top-right-radius: 6px;";
-			echo "<p style='$sty' class='update-nag'>No Google Oauth credentials supplied yet, unable to authorize. Supply credentials at the <a href='?page=embpicamoto/includes/oath_settings.php'>OAuth Settings page</a></p>";
+			Empicamoto_Settings_correct_oauth_creds_html("No Google Oauth credentials supplied yet, unable to authorize");		
 		} else if ($gauth->has_valid_accreditation ()) {
-		
+			<p>Valid picasa credits supplied</p>
 		}		
+		else
+		{
+			Empicamoto_Settings_correct_oauth_creds_html("Invalid Google Oauth credentials supplied, unable to authorize");
+		}	
 	?>				
 	</div>
 <?php
