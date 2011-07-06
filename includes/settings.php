@@ -65,7 +65,7 @@ function tabs($current = Embpicamoto_Settings_Helper::generalTabId) {
 	echo '</h2>';
 }
 
-function Empicamoto_Oauth_Settings_page() {
+function Empicamoto_Settings_page() {
 	?>
 <div class="wrap">
 <div class="icon32" id="icon-options-general"><br>
