@@ -121,12 +121,7 @@ function Embpicamoto_Settings_advanced_options() {
 	<?php
 		require_once plugin_dir_path ( __FILE__ ) . "oauth.php";
 		$gauth = Empicamoto_OAuth_Google_Manager::singleton (); //google oauth manager		
-	?>
-		<span>Key<?php echo Embpicamoto_Oauth_Util_Constants::consumerSecretId() ?></span>
-		<span>Key<?php echo Embpicamoto_Oauth_Util_Constants::consumerKeyId() ?></span>
-		<span>Key<?php echo $gauth->get_consumer_key() ?></span>
-		<span>Sec<?php echo $gauth->get_consumer_secret() ?></span>
-	<?php 
+	 
 		if ($gauth->is_using_defaults ()) {
 			$sty = "-moz-border-radius: 6px 6px 6px 6px;";
 			$sty = $sty . "-webkit-border-radius: 6px 6px 6px 6px;";

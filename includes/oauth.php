@@ -46,7 +46,7 @@
 		//Test whether site has been authenticated correctly with Google services
 		public function has_valid_accreditation() {
 			if (! isset ( $cons )) {
-				$config = array ('callbackUrl' => Embpicamoto_Oauth_Util_Settings::get_request_callback_url (), 'siteUrl' => Embpicamoto_Oauth_Util_Settings::get_consumer_key (), 'consumerKey' => get_consumer_key (), 'consumerSecret' => get_consumer_secret () );
+				$config = array ('callbackUrl' => $this->get_request_callback_url (), 'siteUrl' => $this->get_request_token_url(), 'consumerKey' => $this->get_consumer_key (), 'consumerSecret' => $this->get_consumer_secret () );
 				$cons = new Zend_Oauth_Consumer ( $config );
 				// fetch a request token
 				$reqToken = $cons->getRequestToken ();
