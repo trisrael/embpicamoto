@@ -11,11 +11,11 @@
 	//add oauth options page
 	add_action( 'admin_menu', Embpicamoto_Oauth_Settings_ns("admin_menu") );
 	
-	function Empicamoto_Oauth_Settings_admin_menu(){
+	function Embpicamoto_Oauth_Settings_admin_menu(){
 		add_options_page('OAuth Settings', 'OAuth', 'manage_options', __FILE__, Embpicamoto_Oauth_Settings_ns("page") ) ;	
-	}	
+	}
 	
-	function Empicamoto_Oauth_Settings_page()
+	function Embpicamoto_Oauth_Settings_page()
 	{
 		?>		
 		<div class="wrap">
@@ -37,40 +37,40 @@
 	//Register Oauth settings with wordpress
 	add_action( 'admin_init', Embpicamoto_Oauth_Settings_ns( "admin_init" ) );
 	
-	function Empicamoto_Oauth_Settings_admin_init(){
+	function Embpicamoto_Oauth_Settings_admin_init(){
 		register_setting( Embpicamoto_Oauth_Util_Constants::SettingsId, Embpicamoto_Oauth_Util_Constants::SettingsId, Embpicamoto_Oauth_Settings_ns("validate"));
 		
 		//Google Oauth settings fields  
 		add_settings_section(Embpicamoto_Oauth_Util_Constants::GSectionId, ucfirst(Embpicamoto_Oauth_Util_Constants::GSectionName), Embpicamoto_Oauth_Settings_ns(Embpicamoto_Oauth_Util_Constants::GSectionId), __FILE__);
 		
-		Empicamoto_Oauth_Settings_Helper::add_gconsumer_settings_field(Embpicamoto_Oauth_Util_Constants::key);
-		Empicamoto_Oauth_Settings_Helper::add_gconsumer_settings_field(Embpicamoto_Oauth_Util_Constants::secret);	
+		Embpicamoto_Oauth_Settings_Helper::add_gconsumer_settings_field(Embpicamoto_Oauth_Util_Constants::key);
+		Embpicamoto_Oauth_Settings_Helper::add_gconsumer_settings_field(Embpicamoto_Oauth_Util_Constants::secret);	
 	}
 	
 	//Render functions
 	
-	function Empicamoto_Oauth_Settings_google_consumer_key_field_renderer(){
-		return Empicamoto_Oauth_Settings_consumer_field_renderer(Embpicamoto_Oauth_Util_Constants::key);
+	function Embpicamoto_Oauth_Settings_google_consumer_key_field_renderer(){
+		return Embpicamoto_Oauth_Settings_consumer_field_renderer(Embpicamoto_Oauth_Util_Constants::key);
 	}
 	
-	function Empicamoto_Oauth_Settings_google_consumer_secret_field_renderer(){
-		return Empicamoto_Oauth_Settings_consumer_field_renderer(Embpicamoto_Oauth_Util_Constants::secret);
+	function Embpicamoto_Oauth_Settings_google_consumer_secret_field_renderer(){
+		return Embpicamoto_Oauth_Settings_consumer_field_renderer(Embpicamoto_Oauth_Util_Constants::secret);
 	}
 	
-	function Empicamoto_Oauth_Settings_consumer_field_renderer($name)
+	function Embpicamoto_Oauth_Settings_consumer_field_renderer($name)
 	{
 		$options = get_option(Embpicamoto_Oauth_Util_Constants::SettingsId);		
 		$input_id = Embpicamoto_Oauth_Util_Constants::consumerId($name);
 		echo "<input id='" . $input_id . "' name='" . Embpicamoto_Oauth_Util_Constants::SettingsId . "[" . $input_id . "]' size='40' type='text' value='" . $options[$input_id ] . "' />";		
 	}
 	
-	function Empicamoto_Oauth_Settings_google_oauth_section() {
+	function Embpicamoto_Oauth_Settings_google_oauth_section() {
 		echo '<p>Your Oauth information for Google Data Services</p>';
 	}
 	
 	//Validations
 	
-	function Empicamoto_Oauth_Settings_validate($input){
+	function Embpicamoto_Oauth_Settings_validate($input){
 		$input[Embpicamoto_Oauth_Util_Constants::consumerKeyId()] =  wp_filter_nohtml_kses($input[Embpicamoto_Oauth_Util_Constants::consumerKeyId()]);
 		$input[Embpicamoto_Oauth_Util_Constants::consumerSecretId()]  =  wp_filter_nohtml_kses($input[Embpicamoto_Oauth_Util_Constants::consumerSecretId()]);		
 		return $input;
@@ -79,7 +79,7 @@
 	//Setting defaults
 	register_activation_hook(__FILE__, Embpicamoto_Oauth_Settings_ns('add_defaults') );
 	
-	function Empicamoto_Oauth_Settings_add_defaults() {
+	function Embpicamoto_Oauth_Settings_add_defaults() {
 	    update_option(Embpicamoto_Oauth_Util_Constants::SettingsId, array(
 			Embpicamoto_Oauth_Util_Constants::consumerKeyId()   => Embpicamoto_Oauth_Util_Defaults::consumerKey,
 			Embpicamoto_Oauth_Util_Constants::consumerSecretId() => Embpicamoto_Oauth_Util_Defaults::consumerSecret
@@ -88,7 +88,7 @@
 	
 	//Helper Classes
 	
-	class Empicamoto_Oauth_Settings_Helper {
+	class Embpicamoto_Oauth_Settings_Helper {
 		
 		const renderFieldPostfix = '_field_renderer';
 		
