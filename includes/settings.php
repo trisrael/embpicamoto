@@ -43,7 +43,7 @@ class Embpicamoto_Settings_ImageSizes {
 	}
 }
 
-function admin_menu() {
+function Embpicamoto_Settings_admin_menu() {
 	add_options_page ( 'Picasa settings', 'Picasa', 'manage_options', __FILE__, Embpicamoto_Settings_ns ( 'page' ) );
 }
 
