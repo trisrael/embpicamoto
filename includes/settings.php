@@ -65,7 +65,7 @@ function tabs($current = Embpicamoto_Settings_Helper::generalTabId) {
 	echo '</h2>';
 }
 
-function Empicamoto_Settings_page() {
+function Embpicamoto_Settings_page() {
 	?>
 <div class="wrap">
 <div class="icon32" id="icon-options-general"><br>
@@ -215,7 +215,7 @@ class Embpicamoto_Settings_Helper {
 
 }
 
-function Empicamoto_Settings_admin_init() {
+function Embpicamoto_Settings_admin_init() {
 	wp_enqueue_script ( 'jquery-ui-core' );
 	
 	register_setting ( Embpicamoto_Settings_Helper::SettingsId, Embpicamoto_Settings_Helper::SettingsId, Embpicamoto_Settings_ns ( 'validate' ) ); // group, name in db, validation func	
@@ -286,7 +286,7 @@ function Embpicamoto_Settings_crop_field_renderer() {
 	Embpicamoto_Settings_html_select ( Embpicamoto_Settings_Helper::CropId (), array ('no', 'yes' ) );
 }
 
-function Empicamoto_Settings_validate($input) {
+function Embpicamoto_Settings_validate($input) {
 	// strip all fields
 	
 
