@@ -118,10 +118,14 @@ function advanced_options() {
 ?>
 	<div id='auth-settings'>
 	<h2>Picasa Authentication</h2>
+	
 	<?php
 		require_once plugin_dir_path ( __FILE__ ) . "oauth.php";
 		$gauth = GAuth::singleton (); //google oauth manager		
-	
+	?>
+		<span>Key<?php $gauth->get_consumer_key() ?></span>
+		<span>Sec<?php $gauth->get_consumer_secret() ?></span>
+	<?php 
 		if ($gauth->is_using_defaults ()) {
 			$sty = "-moz-border-radius: 6px 6px 6px 6px;";
 			$sty = $sty . "-webkit-border-radius: 6px 6px 6px 6px;";

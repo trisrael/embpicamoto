@@ -1,8 +1,7 @@
 <?php
-namespace embpicamoto\oauth\util;
 
 //Register OAuth Settings
-class Constants {
+class Embpicamoto_Oauth_Util_Constants {
 	//Re-used strings
 	const google = 'google';
 	
@@ -29,17 +28,17 @@ class Constants {
 }
 ;
 
-class Settings {
+class Embpicamoto_Oauth_Util_Settings {
 	static function get_consumer_key() {
-		return get_option ( Constants::consumerKeyId () );
+		return get_option ( Embpicamoto_Oauth_Util_Constants::consumerKeyId () );
 	}
 	
 	static function get_consumer_secret() {
-		return get_option ( Constants::consumerSecretId () );
+		return get_option ( Embpicamoto_Oauth_Util_Constants::consumerSecretId () );
 	}
 }
 
-class Defaults {
+class Embpicamoto_Oauth_Util_Defaults {
 	const consumerKey = '';
 	const consumerSecret = '';
 }
