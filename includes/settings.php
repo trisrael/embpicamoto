@@ -318,7 +318,7 @@ function Empicamoto_Settings_validate($input) {
 // Define default option settings
 register_activation_hook ( __FILE__, Embpicamoto_Settings_ns ( 'add_defaults' ) );
 
-function Empicamoto_Oauth_Settings_add_defaults() {
+function Embpicamoto_Settings_add_defaults() {
 	update_option ( Embpicamoto_Settings_Helper::SettingsId, array (Embpicamoto_Settings_Helper::LoginId () => 'LOGIN@gmail.com', Embpicamoto_Settings_Helper::PasswordId () => 'your password', Embpicamoto_Settings_Helper::ThumbId () => Embpicamoto_Settings_ImageSizes::defaultThumb (), Embpicamoto_Settings_Helper::FullId () => Embpicamoto_Settings_ImageSizes::defaultFull (), Embpicamoto_Settings_Helper::CropId () => 'no' ) );
 }
 ?>
