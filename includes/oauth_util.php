@@ -29,15 +29,15 @@ class Embpicamoto_Oauth_Util_Constants {
 
 class Embpicamoto_Oauth_Util_Settings {
 	static function get_consumer_key() {
-		return get_option ( Embpicamoto_Oauth_Util_Constants::consumerKeyId () );
+		return self::retrieve_option(Embpicamoto_Oauth_Util_Constants::consumerKeyId () );
 	}
 	
 	static function get_consumer_secret() {
-		return get_option ( Embpicamoto_Oauth_Util_Constants::consumerSecretId () );
+		return self::retrieve_option( Embpicamoto_Oauth_Util_Constants::consumerSecretId () );
 	}
 	
 	private static function retrieve_option($option_id){
-		$opts = get_options(Embpicamoto_Oauth_Util_Constants::SettingsId);
+		$opts = get_option(Embpicamoto_Oauth_Util_Constants::SettingsId);
 		return $opts[$option_id];
 	}
 }
