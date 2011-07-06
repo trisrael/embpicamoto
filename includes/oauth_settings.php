@@ -2,10 +2,10 @@
 	require_once 'namespace_util.php';
 	require_once 'oauth_util.php';
 	
-	const nsStr = "Embpicamoto_Oauth_Settings_";
+	const nsStr = "Embpicamoto_Oauth_Settings";
 	function Embpicamoto_Oauth_Settings_ns($loc_name)
 	{		
-		return wrap_namespace(nsStr, $loc_name);		
+		return wrap_constant_name(nsStr, $loc_name);		
 	}
 	
 	//add oauth options page
