@@ -40,7 +40,7 @@
 		
 		//Function testing whether user has changed their oauth consumer/secret from defaults
 		public function is_using_defaults() {
-			return (get_consumer_key() == Embpicamoto_Oauth_Util_Defaults::consumerKey) && (get_consumer_secret () == Embpicamoto_Oauth_Util_Defaults::consumerSecret);
+			return ($this->get_consumer_key() == Embpicamoto_Oauth_Util_Defaults::consumerKey) && ($this->get_consumer_secret () == Embpicamoto_Oauth_Util_Defaults::consumerSecret);
 		}
 		
 		//Test whether site has been authenticated correctly with Google services
