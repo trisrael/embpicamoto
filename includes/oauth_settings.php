@@ -1,5 +1,5 @@
 <?php	
-	require_once 'namespace_util.php';
+	require_once 'util.php';
 	require_once 'oauth_util.php';	
 	
 	function Embpicamoto_Oauth_Settings_ns($loc_name)

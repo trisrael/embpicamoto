@@ -1,6 +1,6 @@
 <?php
 
-require_once 'namespace_util.php';
+require_once 'util.php';
 
 
 function Embpicamoto_Settings_ns($loc_name) {

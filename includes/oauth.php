@@ -5,7 +5,7 @@
 	set_include_path ( implode ( PATH_SEPARATOR, array (realpath ( dirname ( __FILE__ ) . '/../library' ), get_include_path () ) ) );
 	require_once 'Zend/Loader.php';
 	require_once 'Zend/Oauth/Consumer.php';
-	require_once 'namespace_util.php';
+	require_once 'util.php';
 	require_once 'oauth_util.php';
 	//Zend_Loader::loadClass ( 'Zend_OAuth_Consumer' );	
 	
@@ -72,7 +72,7 @@
 		}
 		
 		function get_request_callback_url() {
-			return plugins_dir ( "request_callback.php", __FILE__ );
+			return plugins_url ( append_plugin_name("request_callback.php", "/"), __FILE__ );
 		}
 	
 	}
