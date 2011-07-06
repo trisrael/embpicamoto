@@ -1,7 +1,7 @@
-<?php
+<?php	
 	require_once 'namespace_util.php';
 	require_once 'oauth_util.php';
-	
+	throw new Exception("blag");
 	const nsStr = "Embpicamoto_Oauth_Settings";
 	function Embpicamoto_Oauth_Settings_ns($loc_name)
 	{		
@@ -11,8 +11,7 @@
 	//add oauth options page
 	add_action( 'admin_menu', Embpicamoto_Oauth_Settings_ns("admin_menu") );
 	
-	function Embpicamoto_Oauth_Settings_admin_menu(){
-		throw new Exception("blah");
+	function Embpicamoto_Oauth_Settings_admin_menu(){	
 		add_options_page('OAuth Settings', 'OAuth', 'manage_options', __FILE__, Embpicamoto_Oauth_Settings_ns("page") ) ;	
 	}
 	
