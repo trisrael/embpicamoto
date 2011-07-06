@@ -1,7 +1,7 @@
 <?php	
 	require_once 'namespace_util.php';
 	require_once 'oauth_util.php';
-	throw new Exception("blag");
+	
 	const nsStr = "Embpicamoto_Oauth_Settings";
 	function Embpicamoto_Oauth_Settings_ns($loc_name)
 	{		
