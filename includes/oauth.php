@@ -10,12 +10,12 @@
 	//Zend_Loader::loadClass ( 'Zend_OAuth_Consumer' );	
 	
 
-	interface AuthenticationUrls {
+	interface Empicamoto_Oauth_AuthenticationUrls {
 		public function get_request_token_url();
 		public function get_request_callback_url();
 	}
 	
-	class Empicamoto_OAuth_Google_Manager implements AuthenticationUrls {
+	class Empicamoto_Oauth_Google_Manager implements Empicamoto_Oauth_AuthenticationUrls {
 		private static $instance;
 		//Zend consumer object
 		private $cons;
@@ -43,16 +43,26 @@
 			return ($this->get_consumer_key() == Embpicamoto_Oauth_Util_Defaults::consumerKey) && ($this->get_consumer_secret () == Embpicamoto_Oauth_Util_Defaults::consumerSecret);
 		}
 		
+		//Reset all state to begin oauth authentication process again. (Usually occurs after consumer credentials are changed by admin)
+		public function reset(){
+			$cons = null;
+		}
+		
 		//Test whether site has been authenticated correctly with Google services
 		public function has_valid_accreditation() {
-			if (! isset ( $cons )) {
+			
+			#check whether an attempt was made, and if so if it was a failure -> try again
+			$last_attempt_invalid = function() {return ($cons->getLastRequestToken() && $cons->getLastRequestToken()->isValid());}; 
+			
+			if (! isset ( $cons ) || $last_attempt_invalid() ) {
 				$config = array ('callbackUrl' => $this->get_request_callback_url (), 'siteUrl' => $this->get_request_token_url(), 'consumerKey' => $this->get_consumer_key (), 'consumerSecret' => $this->get_consumer_secret () );
 				$cons = new Zend_Oauth_Consumer ( $config );
-				// fetch a request token
-				$reqToken = $cons->getRequestToken ();
-				
-				return $reqToken->isValid ();
-			}
+			
+			}			
+			// fetch a request token
+			$reqToken = $cons->getRequestToken ();
+			
+			return $reqToken->isValid ();
 		}
 		
 		//View output helper
