@@ -3,12 +3,12 @@
 require_once 'namespace_util.php';
 
 const nsStr = "Embpicamoto_Settings_";
-function ns($loc_name) {
+function Embpicamoto_Settings_ns($loc_name) {
 	return wrap_namespace ( nsStr, $loc_name );
 }
 
 //add plugin options page
-add_action ( 'admin_menu', ns ( 'admin_menu' ) );
+add_action ( 'admin_menu', Embpicamoto_Settings_ns ( 'admin_menu' ) );
 
 #Include jQuery and jQuery UI tabs with no conflict mode to HEAD (ensuring they are added first to avoid overwriting library code in Prototype, and other libraries)
 #TODO: Find a better way of including this so it doesn't need to be added in all the time 
@@ -44,7 +44,7 @@ class Embpicamoto_Settings_ImageSizes {
 }
 
 function admin_menu() {
-	add_options_page ( 'Picasa settings', 'Picasa', 'manage_options', __FILE__, ns ( 'page' ) );
+	add_options_page ( 'Picasa settings', 'Picasa', 'manage_options', __FILE__, Embpicamoto_Settings_ns ( 'page' ) );
 }
 
 function tabs($current = Embpicamoto_Settings_Helper::generalTabId) {
@@ -142,7 +142,7 @@ function Embpicamoto_Settings_advanced_options() {
 
 /////////////////////////////////////////////////////////////////////
 //register plugin options
-add_action ( 'admin_init', ns ( 'admin_init' ) );
+add_action ( 'admin_init', Embpicamoto_Settings_ns ( 'admin_init' ) );
 
 class Embpicamoto_Settings_Helper {
 	/** relative url to this php file **/
@@ -200,7 +200,7 @@ class Embpicamoto_Settings_Helper {
 	}
 	
 	public static function add_field($param_name, $desc, $section_id) {
-		add_settings_field ( self::pre ( $param_name ), $desc, ns ( $param_name . self::renderFieldPostfix ), __FILE__, $section_id );
+		add_settings_field ( self::pre ( $param_name ), $desc, Embpicamoto_Settings_ns ( $param_name . self::renderFieldPostfix ), __FILE__, $section_id );
 	}
 	
 	//	Private	
@@ -210,7 +210,7 @@ class Embpicamoto_Settings_Helper {
 	
 	//Given a name, append 'desc' to it then namespace it as it should be a local const/var
 	private static function post_desc($loc_name) {
-		return ns ( $loc_name . "_desc" );
+		return Embpicamoto_Settings_ns ( $loc_name . "_desc" );
 	}
 
 }
@@ -218,7 +218,7 @@ class Embpicamoto_Settings_Helper {
 function Empicamoto_Oauth_Settings_admin_init() {
 	wp_enqueue_script ( 'jquery-ui-core' );
 	
-	register_setting ( Embpicamoto_Settings_Helper::SettingsId, Embpicamoto_Settings_Helper::SettingsId, ns ( 'validate' ) ); // group, name in db, validation func	
+	register_setting ( Embpicamoto_Settings_Helper::SettingsId, Embpicamoto_Settings_Helper::SettingsId, Embpicamoto_Settings_ns ( 'validate' ) ); // group, name in db, validation func	
 	
 
 	add_settings_section ( Embpicamoto_Settings_Helper::AuthSectionId, 'Authentication Settings', Embpicamoto_Settings_Helper::AuthSectionDesc (), __FILE__ );
@@ -316,7 +316,7 @@ function Empicamoto_Oauth_Settings_validate($input) {
 }
 
 // Define default option settings
-register_activation_hook ( __FILE__, ns ( 'add_defaults' ) );
+register_activation_hook ( __FILE__, Embpicamoto_Settings_ns ( 'add_defaults' ) );
 
 function Empicamoto_Oauth_Settings_add_defaults() {
 	update_option ( Embpicamoto_Settings_Helper::SettingsId, array (Embpicamoto_Settings_Helper::LoginId () => 'LOGIN@gmail.com', Embpicamoto_Settings_Helper::PasswordId () => 'your password', Embpicamoto_Settings_Helper::ThumbId () => Embpicamoto_Settings_ImageSizes::defaultThumb (), Embpicamoto_Settings_Helper::FullId () => Embpicamoto_Settings_ImageSizes::defaultFull (), Embpicamoto_Settings_Helper::CropId () => 'no' ) );

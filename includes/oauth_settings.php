@@ -3,16 +3,16 @@
 	require_once 'oauth_util.php';
 	
 	const nsStr = "Embpicamoto_Oauth_Settings_";
-	function ns($loc_name)
+	function Embpicamoto_Oauth_Settings_ns($loc_name)
 	{		
 		return wrap_namespace(nsStr, $loc_name);		
 	}
 	
 	//add oauth options page
-	add_action( 'admin_menu', ns("admin_menu") );
+	add_action( 'admin_menu', Embpicamoto_Oauth_Settings_ns("admin_menu") );
 	
 	function admin_menu(){
-		add_options_page('OAuth Settings', 'OAuth', 'manage_options', __FILE__, ns("page") ) ;	
+		add_options_page('OAuth Settings', 'OAuth', 'manage_options', __FILE__, Embpicamoto_Oauth_Settings_ns("page") ) ;	
 	}	
 	
 	function Empicamoto_Oauth_Settings_page()
@@ -35,13 +35,13 @@
 	}
 	
 	//Register Oauth settings with wordpress
-	add_action( 'admin_init', ns( "admin_init" ) );
+	add_action( 'admin_init', Embpicamoto_Oauth_Settings_ns( "admin_init" ) );
 	
 	function Empicamoto_Oauth_Settings_admin_init(){
-		register_setting( Embpicamoto_Oauth_Util_Constants::SettingsId, Embpicamoto_Oauth_Util_Constants::SettingsId, ns("validate"));
+		register_setting( Embpicamoto_Oauth_Util_Constants::SettingsId, Embpicamoto_Oauth_Util_Constants::SettingsId, Embpicamoto_Oauth_Settings_ns("validate"));
 		
 		//Google Oauth settings fields  
-		add_settings_section(Embpicamoto_Oauth_Util_Constants::GSectionId, ucfirst(Embpicamoto_Oauth_Util_Constants::GSectionName), ns(Embpicamoto_Oauth_Util_Constants::GSectionId), __FILE__);
+		add_settings_section(Embpicamoto_Oauth_Util_Constants::GSectionId, ucfirst(Embpicamoto_Oauth_Util_Constants::GSectionName), Embpicamoto_Oauth_Settings_ns(Embpicamoto_Oauth_Util_Constants::GSectionId), __FILE__);
 		
 		Empicamoto_Oauth_Settings_Helper::add_gconsumer_settings_field(Embpicamoto_Oauth_Util_Constants::key);
 		Empicamoto_Oauth_Settings_Helper::add_gconsumer_settings_field(Embpicamoto_Oauth_Util_Constants::secret);	
@@ -77,7 +77,7 @@
 	}
 	
 	//Setting defaults
-	register_activation_hook(__FILE__, ns('add_defaults') );
+	register_activation_hook(__FILE__, Embpicamoto_Oauth_Settings_ns('add_defaults') );
 	
 	function Empicamoto_Oauth_Settings_add_defaults() {
 	    update_option(Embpicamoto_Oauth_Util_Constants::SettingsId, array(
@@ -96,7 +96,7 @@
 		 * Given a str, attach the render field to it
 		 */ 
 		private static function gconsumer_field_renderer_func_name($fieldName){
-			return ns( Embpicamoto_Oauth_Util_Constants::google . "_consumer_" . $fieldName . "_field_renderer" );
+			return Embpicamoto_Oauth_Settings_ns( Embpicamoto_Oauth_Util_Constants::google . "_consumer_" . $fieldName . "_field_renderer" );
 		}	
 		
 		//Given a Oauth consumer parameter name register a settings field
