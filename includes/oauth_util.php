@@ -26,7 +26,6 @@ class Embpicamoto_Oauth_Util_Constants {
 		self::consumerId ( secret );
 	}
 }
-;
 
 class Embpicamoto_Oauth_Util_Settings {
 	static function get_consumer_key() {

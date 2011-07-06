@@ -1,9 +1,8 @@
 <?php
-namespace embpicamoto\settings;
 
 require_once 'namespace_util.php';
 
-const nsStr = "embpicamoto\\settings";
+const nsStr = "Embpicamoto_Settings_";
 function ns($loc_name) {
 	return wrap_namespace ( nsStr, $loc_name );
 }
@@ -15,7 +14,7 @@ add_action ( 'admin_menu', ns ( 'admin_menu' ) );
 #TODO: Find a better way of including this so it doesn't need to be added in all the time 
 
 
-class ImageSizes {
+class Embpicamoto_Settings_ImageSizes {
 	
 	public static $thumbnails = array ('32', '48', '64', '72', '104', '144', '150', '160', '180', '200', '240', '280', '320' );
 	
@@ -48,11 +47,11 @@ function admin_menu() {
 	add_options_page ( 'Picasa settings', 'Picasa', 'manage_options', __FILE__, ns ( 'page' ) );
 }
 
-function tabs($current = Helper::generalTabId) {
+function tabs($current = Embpicamoto_Settings_Helper::generalTabId) {
 	
 	$links = array ();
-	$opts_url = Helper::settingsPageRelUrl;
-	foreach ( Helper::settingsTabs () as $tab => $name ) :
+	$opts_url = Embpicamoto_Settings_Helper::settingsPageRelUrl;
+	foreach ( Embpicamoto_Settings_Helper::settingsTabs () as $tab => $name ) :
 		if ($tab == $current) :
 			$links [] = "<a class='nav-tab nav-tab-active' href='?page=$opts_url&tab=$tab'>$name</a>";
 		 else :
@@ -66,25 +65,25 @@ function tabs($current = Helper::generalTabId) {
 	echo '</h2>';
 }
 
-function page() {
+function Empicamoto_Oauth_Settings_page() {
 	?>
 <div class="wrap">
 <div class="icon32" id="icon-options-general"><br>
 </div>
 <div id='tabs'>
 			<?php
-	isset ( $_GET ['tab'] ) ? $currTab = $_GET ['tab'] : $currTab = Helper::defaultTabId;
+	isset ( $_GET ['tab'] ) ? $currTab = $_GET ['tab'] : $currTab = Embpicamoto_Settings_Helper::defaultTabId;
 	tabs ( $currTab );
 	?>
 			<?php
-	if ($_GET ['page'] == Helper::settingsPageRelUrl) {
+	if ($_GET ['page'] == Embpicamoto_Settings_Helper::settingsPageRelUrl) {
 		
 		switch ($currTab) :
-			case Helper::generalTabId :
-				general_options ();
+			case Embpicamoto_Settings_Helper::generalTabId :
+				Embpicamoto_Settings_general_options ();
 				break;
-			case Helper::advancedTabId :
-				advanced_options ();
+			case Embpicamoto_Settings_Helper::advancedTabId :
+				Embpicamoto_Settings_advanced_options ();
 				break;
 		endswitch
 		;
@@ -97,15 +96,15 @@ function page() {
 <?php
 }
 
-function general_options() {
+function Embpicamoto_Settings_general_options() {
 ?>
 	<h2>General Settings</h2>
 	Enter a login and password for Picasa (if not using
-	<a href='<?php	echo ('?page=' . Helper::settingsPageRelUrl . '&tab=') . Helper::advancedTabId?>'>Oauth</a>
+	<a href='<?php	echo ('?page=' . Embpicamoto_Settings_Helper::settingsPageRelUrl . '&tab=') . Embpicamoto_Settings_Helper::advancedTabId?>'>Oauth</a>
 	) and edit image options if needed.
 	<form action=”options.php” method=”post”>
 		<?php
-			settings_fields ( Helper::SettingsId );
+			settings_fields ( Embpicamoto_Settings_Helper::SettingsId );
 			do_settings_sections ( __FILE__ );
 		?>
 		<p class="submit"><input name="Submit" type="submit" class="button-primary"	value="<?php esc_attr_e ( 'Save Changes' );?>" /></p>
@@ -113,8 +112,8 @@ function general_options() {
 	</div>
 <?php
 }
-use empicamoto\oauth\google\OAuth as GAuth;
-function advanced_options() {
+
+function Embpicamoto_Settings_advanced_options() {
 ?>
 	<div id='auth-settings'>
 	<h2>Picasa Authentication</h2>
@@ -145,7 +144,7 @@ function advanced_options() {
 //register plugin options
 add_action ( 'admin_init', ns ( 'admin_init' ) );
 
-class Helper {
+class Embpicamoto_Settings_Helper {
 	/** relative url to this php file **/
 	const settingsPageRelUrl = 'embpicamoto/includes/settings.php';
 	const renderFieldPostfix = '_field_renderer';
@@ -216,34 +215,34 @@ class Helper {
 
 }
 
-function admin_init() {
+function Empicamoto_Oauth_Settings_admin_init() {
 	wp_enqueue_script ( 'jquery-ui-core' );
 	
-	register_setting ( Helper::SettingsId, Helper::SettingsId, ns ( 'validate' ) ); // group, name in db, validation func	
+	register_setting ( Embpicamoto_Settings_Helper::SettingsId, Embpicamoto_Settings_Helper::SettingsId, ns ( 'validate' ) ); // group, name in db, validation func	
 	
 
-	add_settings_section ( Helper::AuthSectionId, 'Authentication Settings', Helper::AuthSectionDesc (), __FILE__ );
-	Helper::add_field ( Helper::Login, ucfirst ( Helper::Login ), Helper::AuthSectionId );
-	Helper::add_field ( Helper::Password, ucfirst ( Helper::Password ), Helper::AuthSectionId );
+	add_settings_section ( Embpicamoto_Settings_Helper::AuthSectionId, 'Authentication Settings', Embpicamoto_Settings_Helper::AuthSectionDesc (), __FILE__ );
+	Embpicamoto_Settings_Helper::add_field ( Embpicamoto_Settings_Helper::Login, ucfirst ( Embpicamoto_Settings_Helper::Login ), Embpicamoto_Settings_Helper::AuthSectionId );
+	Embpicamoto_Settings_Helper::add_field ( Embpicamoto_Settings_Helper::Password, ucfirst ( Embpicamoto_Settings_Helper::Password ), Embpicamoto_Settings_Helper::AuthSectionId );
 	
-	add_settings_section ( Helper::ImageSectionId, 'Image Settings', Helper::ImageSectionDesc (), __FILE__ );
-	Helper::add_field ( Helper::Thumb, 'Thumbnail size', Helper::ImageSectionId );
-	Helper::add_field ( Helper::Full, 'Full image size', Helper::ImageSectionId );
-	Helper::add_field ( Helper::Crop, 'Crop images', Helper::ImageSectionId );
+	add_settings_section ( Embpicamoto_Settings_Helper::ImageSectionId, 'Image Settings', Embpicamoto_Settings_Helper::ImageSectionDesc (), __FILE__ );
+	Embpicamoto_Settings_Helper::add_field ( Embpicamoto_Settings_Helper::Thumb, 'Thumbnail size', Embpicamoto_Settings_Helper::ImageSectionId );
+	Embpicamoto_Settings_Helper::add_field ( Embpicamoto_Settings_Helper::Full, 'Full image size', Embpicamoto_Settings_Helper::ImageSectionId );
+	Embpicamoto_Settings_Helper::add_field ( Embpicamoto_Settings_Helper::Crop, 'Crop images', Embpicamoto_Settings_Helper::ImageSectionId );
 }
 
 //Section descriptions
 
 
-function auth_section_desc() {
+function Embpicamoto_Settings_auth_section_desc() {
 	echo '<p>Your login and password in picasa</p>';
 }
 
-function img_section_desc() {
+function Embpicamoto_Settings_img_section_desc() {
 	echo '<p>Preferred image dimensions</p>';
 }
 
-function oauth_section_desc() {
+function Embpicamoto_Settings_oauth_section_desc() {
 	echo '<p>Allow access to your Picasa account via Oauth</p>';
 }
 
@@ -251,22 +250,22 @@ function oauth_section_desc() {
 
 
 //simple wrapper for html inputs for the next two render methods
-function html_input($id, $type_val) {
-	$options = get_option ( Helper::SettingsId );
+function Embpicamoto_Settings_html_input($id, $type_val) {
+	$options = get_option ( Embpicamoto_Settings_Helper::SettingsId );
 	echo "<input id=$id name='{Helper.html_name($id)}' size='40' type='$type_val' value='{$options[$id]}' />";
 }
 
-function login_field_renderer() {
-	html_input ( Helper::LoginId (), "text" );
+function Embpicamoto_Settings_login_field_renderer() {
+	Embpicamoto_Settings_html_input ( Embpicamoto_Settings_Helper::LoginId (), "text" );
 }
 
-function password_field_renderer() {
-	html_input ( Helper::PasswordId (), "password" );
+function Embpicamoto_Settings_password_field_renderer() {
+	Embpicamoto_Settings_html_input ( Embpicamoto_Settings_Helper::PasswordId (), "password" );
 }
 
 //simple wrapper for html select, selecting the option wish is currently selected
-function html_select($id, $items) {
-	$options = get_option ( Helper::SettingsId );
+function Embpicamoto_Settings_html_select($id, $items) {
+	$options = get_option ( Embpicamoto_Settings_Helper::SettingsId );
 	echo "<select id='{$id}' name='{Helper.name_wrap($id})]'>";
 	foreach ( $items as $item ) {
 		$selected = ($options [$id] == $item) ? 'selected="selected"' : '';
@@ -275,19 +274,19 @@ function html_select($id, $items) {
 	echo "</select>";
 }
 
-function thumb_size_field_renderer() {
-	html_select ( Helper::ThumbId (), ImageSizes::thumbs () );
+function Embpicamoto_Settings_thumb_size_field_renderer() {
+	Embpicamoto_Settings_html_select ( Embpicamoto_Settings_Helper::ThumbId (), Embpicamoto_Settings_ImageSizes::thumbs () );
 }
 
-function full_size_field_renderer() {
-	html_select ( Helper::FullId (), ImageSizes::fulls () );
+function Embpicamoto_Settings_full_size_field_renderer() {
+	Embpicamoto_Settings_html_select ( Embpicamoto_Settings_Helper::FullId (), Embpicamoto_Settings_ImageSizes::fulls () );
 }
 
-function crop_field_renderer() {
-	html_select ( Helper::CropId (), array ('no', 'yes' ) );
+function Embpicamoto_Settings_crop_field_renderer() {
+	Embpicamoto_Settings_html_select ( Embpicamoto_Settings_Helper::CropId (), array ('no', 'yes' ) );
 }
 
-function validate($input) {
+function Empicamoto_Oauth_Settings_validate($input) {
 	// strip all fields
 	
 
@@ -295,22 +294,22 @@ function validate($input) {
 		$input [$param_name] = wp_filter_nohtml_kses ( $input [$param_name] );
 	};
 	
-	$filterInput ( Helper::LoginId () );
-	$filterInput ( Helper::PasswordId () );
-	$filterInput ( Helper::ThumbId () );
-	$filterInput ( Helper::FullId () );
+	$filterInput ( Embpicamoto_Settings_Helper::LoginId () );
+	$filterInput ( Embpicamoto_Settings_Helper::PasswordId () );
+	$filterInput ( Embpicamoto_Settings_Helper::ThumbId () );
+	$filterInput ( Embpicamoto_Settings_Helper::FullId () );
 	
 	// check image dimensions, defaulting to some size when not in valid options
 	
 
-	$items = ImageSizes::thumbs ();
-	if (! in_array ( $input [Helper::ThumbId ()], $items )) {
-		$input [Helper::ThumbId ()] = ImageSizes::defaultThumb ();
+	$items = Embpicamoto_Settings_ImageSizes::thumbs ();
+	if (! in_array ( $input [Embpicamoto_Settings_Helper::ThumbId ()], $items )) {
+		$input [Embpicamoto_Settings_Helper::ThumbId ()] = Embpicamoto_Settings_ImageSizes::defaultThumb ();
 	}
 	
-	$items = ImageSizes::fulls ();
-	if (! in_array ( $input [Helper::FullId ()], $items )) {
-		$input [Helper::FullId ()] = ImageSizes::defaultFull ();
+	$items = Embpicamoto_Settings_ImageSizes::fulls ();
+	if (! in_array ( $input [Embpicamoto_Settings_Helper::FullId ()], $items )) {
+		$input [Embpicamoto_Settings_Helper::FullId ()] = Embpicamoto_Settings_ImageSizes::defaultFull ();
 	}
 	
 	return $input;
@@ -319,7 +318,7 @@ function validate($input) {
 // Define default option settings
 register_activation_hook ( __FILE__, ns ( 'add_defaults' ) );
 
-function add_defaults() {
-	update_option ( Helper::SettingsId, array (Helper::LoginId () => 'LOGIN@gmail.com', Helper::PasswordId () => 'your password', Helper::ThumbId () => ImageSizes::defaultThumb (), Helper::FullId () => ImageSizes::defaultFull (), Helper::CropId () => 'no' ) );
+function Empicamoto_Oauth_Settings_add_defaults() {
+	update_option ( Embpicamoto_Settings_Helper::SettingsId, array (Embpicamoto_Settings_Helper::LoginId () => 'LOGIN@gmail.com', Embpicamoto_Settings_Helper::PasswordId () => 'your password', Embpicamoto_Settings_Helper::ThumbId () => Embpicamoto_Settings_ImageSizes::defaultThumb (), Embpicamoto_Settings_Helper::FullId () => Embpicamoto_Settings_ImageSizes::defaultFull (), Embpicamoto_Settings_Helper::CropId () => 'no' ) );
 }
 ?>
