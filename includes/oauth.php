@@ -193,7 +193,7 @@ class Empicamoto_Oauth_Google_Manager{
     }
     
     function setRequestToken($tok){
-        self::persist_token(self::requestTokenId, tok);
+        self::persist_token(self::requestTokenId, $tok);
     }
     
     function getRequestToken() {
