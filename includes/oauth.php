@@ -54,7 +54,7 @@ class Empicamoto_Oauth_Google_Manager implements Empicamoto_Oauth_Authentication
     public function has_valid_accreditation() {
 
         #check whether an attempt was made, and if so if it was a failure -> try again
-        $last_attempt_invalid = create_function("", "return ($cons->getLastRequestToken() && $cons->getLastRequestToken()->isValid());");
+        $last_attempt_invalid = create_function("", "return ($cons.getLastRequestToken() && $cons.getLastRequestToken()->isValid());");
 
         if (!isset($cons) || $last_attempt_invalid()) {
             $config = array('callbackUrl' => $this->get_request_callback_url(), 'siteUrl' => $this->get_request_token_url(), 'consumerKey' => $this->get_consumer_key(), 'consumerSecret' => $this->get_consumer_secret());
