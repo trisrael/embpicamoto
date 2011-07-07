@@ -57,8 +57,21 @@ class Empicamoto_Oauth_Google_Manager implements Empicamoto_Oauth_Authentication
 
     public function can_authorize($get_params) {
         $cons = $gauth->consumer;
+        
         echo "<p>GET" . implode(" ", $get_params) . "</p>";
-        return !empty($get_params) && !empty($get_params['oauth_verifier']) && isset($cons) && $cons->getLastRequestToken() != null;
+        echo "<p>" . !empty($get_params) . "</p>";
+        echo "<p>" . $this->has_oauth_access_params($get_params) . "</p>";
+        echo "<p>" . isset($cons) && $cons->getLastRequestToken() != null . "</p>";
+        
+        return !empty($get_params) && $this->has_oauth_access_params($get_params) && isset($cons) && $cons->getLastRequestToken() != null;
+    }
+    
+    /**
+     *Check whether get request contains 'oauth_verifier' and 'oauth_token'
+     * @param type $get_params $_GET array of parameters
+     */
+    private function has_oauth_access_params($get){        
+        return isset ($get['oauth_verifier']) && isset($get['oauth_token']);
     }
 
     public function is_still_accessible() {
