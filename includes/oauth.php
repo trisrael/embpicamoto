@@ -20,6 +20,7 @@ interface Empicamoto_Oauth_AuthenticationUrls {
 class Empicamoto_Oauth_Google_Manager implements Empicamoto_Oauth_AuthenticationUrls {
 
     private static $instance;
+    var $consumer;
 
     //Zend consumer object
     //A private constructor; prevents direct creation of object
@@ -52,11 +53,18 @@ class Empicamoto_Oauth_Google_Manager implements Empicamoto_Oauth_Authentication
     const sessionId = "google_oauth_consumer";
 
     public function getConsumer() {
+        #Check within local object first, if not existent get from session
+        if(isset($this->consumer))
+        {
+            return $this->consumer;
+        }
+        
         return unserialize($_SESSION[self::sessionId]);
     }
 
     public function setConsumer($obj) {
-        $_SESSION[self::sessionId] = serialize($obj);
+        $this->consumer = $obj;
+        $_SESSION[self::sessionId] = serialize($this->consumer);
     }
 
     //Simple existence check for _accessToken on singleton (NOTE: serialize and move into db using Settings API)
@@ -112,7 +120,7 @@ class Empicamoto_Oauth_Google_Manager implements Empicamoto_Oauth_Authentication
         }
         // fetch a request token
         $reqToken = $this->getConsumer()->getRequestToken(array('scope' => self::$scope_param));
-
+        
         return $reqToken->isValid();
     }
 
