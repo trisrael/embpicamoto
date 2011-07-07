@@ -10,7 +10,7 @@ require_once 'oauth_util.php';
 
 //Zend_Loader::loadClass ( 'Zend_OAuth_Consumer' );	
 
-
+Empicamoto_Oauth_Google_Manager::singleton()->clearAll();
 class Empicamoto_Oauth_Google_Manager{  
     
     //////////
