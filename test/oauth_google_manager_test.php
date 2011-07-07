@@ -18,7 +18,8 @@
             
         }
         
-        function request_token_set_after_call(){
+        function consumer_set_after_valid_accreditation(){
+            
             $this->$gauth->has_valid_accreditation();
             $this->assertNotNull($gauth->getLastRequestToken());
         }       

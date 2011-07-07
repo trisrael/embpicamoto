@@ -20,13 +20,11 @@ interface Empicamoto_Oauth_AuthenticationUrls {
 class Empicamoto_Oauth_Google_Manager implements Empicamoto_Oauth_AuthenticationUrls {
 
     private static $instance;
-    //Zend consumer object
-    var $consumer;
-    protected $_accessToken = null;
 
+    //Zend consumer object
     //A private constructor; prevents direct creation of object
     private function __construct() {
-        
+        $this->clearAll();
     }
 
     // The singleton method
@@ -46,32 +44,42 @@ class Empicamoto_Oauth_Google_Manager implements Empicamoto_Oauth_Authentication
     }
 
     //Reset all state to begin oauth authentication process again. (Usually occurs after consumer credentials are changed by admin)
-    public function reset() {
-        $this->consumer = null;
+    public function clearAll() {
+        $this->getConsumer(null);
+        $this->setAccessToken(null);
+    }
+
+    const sessionId = "google_oauth_consumer";
+
+    public function getConsumer() {
+        return unserialize($_SESSION[self::sessionId]);
+    }
+
+    public function setConsumer($obj) {
+        $_SESSION[self::sessionId] = serialize($obj);
     }
 
     //Simple existence check for _accessToken on singleton (NOTE: serialize and move into db using Settings API)
     public function has_access() {
-        return!empty($this->_accessToken);
+        return $this->getAccessToken() != null;
     }
 
     public function can_authorize($get_params) {
-              
         echo "<p>GET" . implode(" ", $get_params) . "</p>";
         echo "<p>GET_PARAMS non empty:" . (!empty($get_params) ? "true" : "false") . "</p>";
-        echo "<p>HAS_OAUTH_PARAMS:" . ($this->has_oauth_access_params($get_params) ? "true" : "false") . "</p>";        
-            echo "<p>HAS_CONSUMER:" . (isset($gauth->consumer) ? "true" : "false") . "</p>";        
-        $val = !empty($get_params) && $this->has_oauth_access_params($get_params) && isset($gauth->consumer);
-        echo "<p>CAN_AUTHORIZE:" . ($val ? "true" : "false") .  "</p>";
+        echo "<p>HAS_OAUTH_PARAMS:" . ($this->has_oauth_access_params($get_params) ? "true" : "false") . "</p>";
+        echo "<p>HAS_CONSUMER:" . ($gauth->getConsumer() != null ? "true" : "false") . "</p>";
+        $val = !empty($get_params) && $this->has_oauth_access_params($get_params) && $gauth->getConsumer() != null;
+        echo "<p>CAN_AUTHORIZE:" . ($val ? "true" : "false") . "</p>";
         return $val;
     }
-    
+
     /**
-     *Check whether get request contains 'oauth_verifier' and 'oauth_token'
+     * Check whether get request contains 'oauth_verifier' and 'oauth_token'
      * @param type $get_params $_GET array of parameters
      */
-    private function has_oauth_access_params($get){        
-        return isset ($get['oauth_verifier']) && isset($get['oauth_token']);
+    private function has_oauth_access_params($get) {
+        return isset($get['oauth_verifier']) && isset($get['oauth_token']);
     }
 
     public function is_still_accessible() {
@@ -81,11 +89,11 @@ class Empicamoto_Oauth_Google_Manager implements Empicamoto_Oauth_Authentication
     public function authorize($get) {
         echo "<p>Made ti to authorize</p>";
         try {
-            $this->setAccessToken($consumer->getAccessToken($get, $gauth->consumer->getLastRequestToken()));
-            
-            echo "<p>" . ((array) $this->_accessToken)  ."</p>";
+            $this->setAccessToken($consumer->getAccessToken($get, $gauth->getConsumer()->getLastRequestToken()));
+
+            echo "<p>" . ((array) $this->getAccessToken()) . "</p>";
         } catch (Exception $er) {
-            echo "<p>" . ((array) $er) . "</p>";             
+            echo "<p>" . ((array) $er) . "</p>";
             return false;
         }
         return true;
@@ -98,8 +106,9 @@ class Empicamoto_Oauth_Google_Manager implements Empicamoto_Oauth_Authentication
 
         $last_attempt_invalid = create_function("\$consumer", "return \$consumer->getLastRequestToken() && \$consumer->getLastRequestToken()->isValid();");
 
-        if (!isset($this->consumer) || $last_attempt_invalid($this->consumer)) {
-            $this->consumer = new Zend_Oauth_Consumer($this->getConfig());
+        if ($this - getConsumer() == null || $last_attempt_invalid($this->getConsumer())) {
+            $this->setConsumer(new Zend_Oauth_Consumer($this->getConfig()));
+            echo "<p>settings consumer</p>";
         }
         // fetch a request token
         $reqToken = $this->consumer->getRequestToken(array('scope' => self::$scope_param));
@@ -145,8 +154,14 @@ class Empicamoto_Oauth_Google_Manager implements Empicamoto_Oauth_Authentication
         return admin_url("options-general.php?page=embpicamoto/includes/settings.php&tab=advanced-options");
     }
 
+    const accessId = "google_oauth_access_token";
+
     function setAccessToken($tok) {
-        $this->_accessToken = $tok;
+        $_SESSION[self::accessId] = serialize($tok);
+    }
+
+    function getAccessToken() {
+        return unserialize($_SESSION[self::accessId]);
     }
 
 }
