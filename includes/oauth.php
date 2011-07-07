@@ -23,6 +23,8 @@ class Empicamoto_Oauth_Google_Manager implements Empicamoto_Oauth_Authentication
     //Zend consumer object
     var $consumer;
     
+    protected $_accessToken = null;
+    
 
     //A private constructor; prevents direct creation of object
     private function __construct() {
@@ -48,6 +50,11 @@ class Empicamoto_Oauth_Google_Manager implements Empicamoto_Oauth_Authentication
     //Reset all state to begin oauth authentication process again. (Usually occurs after consumer credentials are changed by admin)
     public function reset() {
         $this->consumer = null;    
+    }
+    
+    //Simple existence check for _accessToken on singleton (NOTE: serialize and move into db using Settings API)
+    public function has_access(){
+       return $this->_accessToken != null;
     }
 
     //Test whether site has been authenticated correctly with Google services
@@ -87,13 +94,7 @@ class Empicamoto_Oauth_Google_Manager implements Empicamoto_Oauth_Authentication
                 'userAuthorizationUrl' => self::$userAuthUrl,
                 'accessTokenUrl' => self::$accessUrl
                     );
-    }
-    
-    #Returns the most recent request token from the consumer object 
-    function getLastRequestToken()
-    {        
-        return isset($this->consumer) ? $this->consumer->getLastRequestToken() : null;
-    }
+    }    
 
     function get_consumer_key() {
         return Embpicamoto_Oauth_Util_Settings::get_consumer_key();
@@ -110,11 +111,11 @@ class Empicamoto_Oauth_Google_Manager implements Empicamoto_Oauth_Authentication
     function get_request_callback_url() {
         return plugins_url("request_callback.php", dirname(__FILE__));
     }
+    
+    function setAccessToken(){
+        
+    }
 
 }
-
-$man = Empicamoto_Oauth_Google_Manager::singleton();
-$man->has_valid_accreditation();
-
 
 ?>
