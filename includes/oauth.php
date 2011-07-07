@@ -91,7 +91,11 @@ class Empicamoto_Oauth_Google_Manager{
     }
     
     public function has_valid_request_token(){
-        return $this->has_request_token() &&  get_class($this->getRequestToken()) == "Zend_Oauth_Http_RequestToken" && $this->getRequestToken()->isValid();
+        if($this->has_request_token()){
+            $tok = $this->getRequestToken();
+            return is_object($tok) && get_class($this->getRequestToken()) == "Zend_Oauth_Http_RequestToken" && $this->getRequestToken()->isValid();
+        }
+        return false;
     }
 
     //Test whether site has been authenticated correctly with Google services
