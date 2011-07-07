@@ -96,23 +96,30 @@ class Empicamoto_Oauth_Google_Manager{
 
     //Test whether site has been authenticated correctly with Google services
     public function has_valid_accreditation() {
+        try{
+            
+    
+            #check whether an attempt was made, and if so if it was a failure -> try again 
+            $reqToken = $this->getRequestToken();
+            if ($reqToken == null) {
+                // fetch a request token
+                $reqToken = $this->getConsumer()->getRequestToken(array('scope' => self::$scope_param));        
+                $this->setRequestToken($reqToken);
+            }       
 
-        #check whether an attempt was made, and if so if it was a failure -> try again 
-        $reqToken = $this->getRequestToken();
-        if ($reqToken == null) {
-            // fetch a request token
-            $reqToken = $this->getConsumer()->getRequestToken(array('scope' => self::$scope_param));        
-            $this->setRequestToken($reqToken);
-        }       
-        
-        return $reqToken->isValid();
+            return $reqToken->isValid();
+        }catch(Exception $er)
+        {
+            $this->clearAll();
+            return false;
+        }   
     }
     
     //////////////
     //Actions   
     
     public function authorize($get) {
-        echo "<p>Made ti to authorize</p>";
+        echo "<p>Made it to authorize</p>";
         try {
             $tok = $this->getRequestToken();
             echo "<p>" . $tok . "</p>";
@@ -120,6 +127,7 @@ class Empicamoto_Oauth_Google_Manager{
             delete_option(self::requestTokenId); #Remove saved request token as is no longer needed
             echo "<p>" . ((array) $this->getAccessToken()) . "</p>";
         } catch (Exception $er) {
+            $this->clearAll();
             echo "<p>" . ((array) $er) . "</p>";
             return false;
         }
@@ -131,8 +139,8 @@ class Empicamoto_Oauth_Google_Manager{
      * Reset Oauth tokens and other member variables in singleton 
      */
     public function clearAll() {
-        $this->setRequestToken(null);
-        $this->setAccessToken(null);
+        delete_option(self::requestTokenId);
+        delete_option(self::accessTokenId);
     }
        
     
@@ -174,7 +182,7 @@ class Empicamoto_Oauth_Google_Manager{
         return admin_url("options-general.php?page=embpicamoto/includes/settings.php&tab=advanced-options");
     }
     
-    ///////
+    /////////
     //Oauth
     
     
