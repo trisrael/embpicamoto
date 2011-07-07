@@ -214,7 +214,7 @@ class Empicamoto_Oauth_Google_Manager{
     
     #For getter functions null is expected to be returned when unset, unserializing a value can result in error so instead return null when this is the case
     protected static function retrieve_token($id){
-        return get_option($id, null);
+        return unserialize(get_option($id, null));
     }
     
     
