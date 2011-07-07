@@ -111,7 +111,7 @@ class Empicamoto_Oauth_Google_Manager implements Empicamoto_Oauth_Authentication
             echo "<p>settings consumer</p>";
         }
         // fetch a request token
-        $reqToken = $this->consumer->getRequestToken(array('scope' => self::$scope_param));
+        $reqToken = $this->getConsumer()->getRequestToken(array('scope' => self::$scope_param));
 
         return $reqToken->isValid();
     }
