@@ -1,4 +1,5 @@
 .settings/*
 .buildpath
 .classpath
+nbproject/*
 .project

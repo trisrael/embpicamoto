@@ -1,6 +1,9 @@
 <?php 
 
-	const plugin_name = "embpicamoto";
+    class Embipicamoto{
+        const plugin_name = "embpicamoto";
+    }
+	
 	
 	//Given a namespace string and a local constant as string, wrap with namespace
 	function wrap_constant_name($ns, $loc_name){
@@ -9,5 +12,5 @@
 	
 	//Append the plugin name to a string given
 	function append_plugin_name($str, $glue = ""){
-		return plugin_name . $glue . $str;
+		return Embipicamoto::plugin_name . $glue . $str;
 	}
