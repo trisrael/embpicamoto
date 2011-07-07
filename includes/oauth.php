@@ -114,7 +114,9 @@ class Empicamoto_Oauth_Google_Manager{
     public function authorize($get) {
         echo "<p>Made ti to authorize</p>";
         try {
-            $this->setAccessToken($this->getConsumer()->getAccessToken($get, $this->getRequestToken()));
+            $tok = $this->getRequestToken();
+            echo "<p>" . $tok . "</p>";
+            $this->setAccessToken($this->getConsumer()->getAccessToken($get, $tok));
             delete_option(self::requestTokenId); #Remove saved request token as is no longer needed
             echo "<p>" . ((array) $this->getAccessToken()) . "</p>";
         } catch (Exception $er) {
