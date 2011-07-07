@@ -131,13 +131,13 @@ function Embpicamoto_Settings_advanced_options() {
     $gauth = Empicamoto_Oauth_Google_Manager::singleton(); //google oauth manager		
     
     
-    if($gauth->has_access() && $gauth->is_still_accessible()) {
+    if($gauth->has_access_token() && $gauth->is_still_accessible()) {
         echo "<p>Authorized with Google.</p>";
     }
     else if ($gauth->can_authorize($_GET) && $gauth->authorize($_GET)) {                 
         echo "<p>Authorization with Google completed successfully.</p>";
     }
-    else if ($gauth->is_using_defaults()) {
+    else if ($gauth->using_defaults()) {
         Empicamoto_Settings_correct_oauth_creds_html("No Google Oauth credentials supplied yet, unable to authorize");
     } else if ($gauth->has_valid_accreditation()) {
         $approvalUrl = $gauth->getConsumer()->getRedirectUrl(array('hd' => 'default'));

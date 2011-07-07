@@ -19,16 +19,27 @@ interface Empicamoto_Oauth_AuthenticationUrls {
 
 class Empicamoto_Oauth_Google_Manager implements Empicamoto_Oauth_AuthenticationUrls {
 
+    /////////
+    //Variables
+    
     private static $instance;
-    var $consumer;
-
+    var $consumer; //Zend consumer, just for local usage (otherwise get's recreated on each new hit)
+    
+    
+    //////////
+    //Singleton 
+   
     //Zend consumer object
     //A private constructor; prevents direct creation of object
     private function __construct() {
-        $this->clearAll();
+        //$this->clearAll();
     }
 
-    // The singleton method
+    /**
+     *Returns the single object for this class.
+     * NOTE: Wordpress seems to recreate this 'singleton' on every request so in reality it's not acting as a singleton at all.
+     * @return type
+     */
     public static function singleton() {
         if (!isset(self::$instance)) {
             $c = __CLASS__;
@@ -37,38 +48,21 @@ class Empicamoto_Oauth_Google_Manager implements Empicamoto_Oauth_Authentication
 
         return self::$instance;
     }
+    
+    
+    
+    ////////
+    // State checkers (for seeing what level of the Oauth 3-step we are in)
 
-    //View logic helpers
+    
     //Function testing whether user has changed their oauth consumer/secret from defaults
-    public function is_using_defaults() {
+    public function using_defaults() {
         return ($this->get_consumer_key() == Embpicamoto_Oauth_Util_Defaults::consumerKey) && ($this->get_consumer_secret() == Embpicamoto_Oauth_Util_Defaults::consumerSecret);
-    }
+    } 
 
-    //Reset all state to begin oauth authentication process again. (Usually occurs after consumer credentials are changed by admin)
-    public function clearAll() {
-        $this->getConsumer(null);
-        $this->setAccessToken(null);
-    }
-
-    const sessionId = "google_oauth_consumer";
-
-    public function getConsumer() {
-        #Check within local object first, if not existent get from session
-        if(isset($this->consumer))
-        {
-            return $this->consumer;
-        }
-        
-        return unserialize($_SESSION[self::sessionId]);
-    }
-
-    public function setConsumer($obj) {
-        $this->consumer = $obj;
-        $_SESSION[self::sessionId] = serialize($this->consumer);
-    }
 
     //Simple existence check for _accessToken on singleton (NOTE: serialize and move into db using Settings API)
-    public function has_access() {
+    public function has_access_token() {
         return $this->getAccessToken() != null;
     }
 
@@ -76,9 +70,9 @@ class Empicamoto_Oauth_Google_Manager implements Empicamoto_Oauth_Authentication
         echo "<p>GET" . implode(" ", $get_params) . "</p>";
         echo "<p>GET_PARAMS non empty:" . (!empty($get_params) ? "true" : "false") . "</p>";
         echo "<p>HAS_OAUTH_PARAMS:" . ($this->has_oauth_access_params($get_params) ? "true" : "false") . "</p>";
-        echo "<p>SESSION_CONSUMER:" . unserialize($_SESSION[self::sessionId]) . "</p>";
+        echo "<p>SESSION_CONSUMER:" . unserialize($_SESSION[self::requestTokenId]) . "</p>";
         echo "<p>HAS_CONSUMER:" . ($this->getConsumer() != null ? "true" : "false") . "</p>";
-        $val = !empty($get_params) && $this->has_oauth_access_params($get_params) && $this->getConsumer() != null;
+        $val = !empty($get_params) && $this->has_oauth_access_params($get_params) && $this->has_request_token();
         echo "<p>CAN_AUTHORIZE:" . ($val ? "true" : "false") . "</p>";
         return $val;
     }
@@ -91,14 +85,44 @@ class Empicamoto_Oauth_Google_Manager implements Empicamoto_Oauth_Authentication
         return isset($get['oauth_verifier']) && isset($get['oauth_token']);
     }
 
+    /**
+     *Checks whether Access token available can still access Google services.
+     * 
+     * TODO: Return something other than just true. 
+     * @return type 
+     */
     public function is_still_accessible() {
         return true;
     }
+    
+    public function has_request_token(){
+        return $this->getRequestToken() != null;
+    }
+    
+    public function has_valid_request_token(){
+        return $this->has_request_token() && $this->getRequestToken()->isValid();
+    }
 
+    //Test whether site has been authenticated correctly with Google services
+    public function has_valid_accreditation() {
+
+        #check whether an attempt was made, and if so if it was a failure -> try again       
+        if (!$this->has_valid_request_token()) {
+            // fetch a request token
+            $reqToken = $this->getConsumer()->getRequestToken(array('scope' => self::$scope_param));        
+            $this->setRequestToken($reqToken);
+        }       
+        
+        return $this->getRequestToken()->isValid();
+    }
+    
+    //////////////
+    //Actions   
+    
     public function authorize($get) {
         echo "<p>Made ti to authorize</p>";
         try {
-            $this->setAccessToken($consumer->getAccessToken($get, $gauth->getConsumer()->getLastRequestToken()));
+            $this->setAccessToken($consumer->getAccessToken($get, $this->getRequestToken()));
 
             echo "<p>" . ((array) $this->getAccessToken()) . "</p>";
         } catch (Exception $er) {
@@ -106,27 +130,20 @@ class Empicamoto_Oauth_Google_Manager implements Empicamoto_Oauth_Authentication
             return false;
         }
         return true;
+    }   
+    
+    
+    /**
+     * Reset Oauth tokens and other member variables in singleton 
+     */
+    public function clearAll() {
+        $this->setRequestToken(null);
+        $this->setAccessToken(null);
     }
-
-    //Test whether site has been authenticated correctly with Google services
-    public function has_valid_accreditation() {
-
-        #check whether an attempt was made, and if so if it was a failure -> try again
-
-        $last_attempt_invalid = create_function("\$consumer", "return \$consumer->getLastRequestToken() && \$consumer->getLastRequestToken()->isValid();");
-
-        if ($this->getConsumer() == null || $last_attempt_invalid($this->getConsumer())) {
-            $this->setConsumer(new Zend_Oauth_Consumer($this->getConfig()));
-            echo "<p>settings consumer</p>";
-        }
-        // fetch a request token
-        $reqToken = $this->getConsumer()->getRequestToken(array('scope' => self::$scope_param));
-        
-        return $reqToken->isValid();
-    }
-
-    //View output helper
-    //Static constants GOOGLE URLS plus scope parameter
+       
+    
+    //////////
+    // URLs and Parameters
     static $requestUrl = 'https://www.google.com/accounts/OAuthGetRequestToken';
     static $userAuthUrl = 'https://www.google.com/accounts/OAuthAuthorizeToken';
     static $accessUrl = 'https://www.google.com/accounts/OAuthGetAccessToken';
@@ -162,16 +179,48 @@ class Empicamoto_Oauth_Google_Manager implements Empicamoto_Oauth_Authentication
     function get_request_callback_url() {
         return admin_url("options-general.php?page=embpicamoto/includes/settings.php&tab=advanced-options");
     }
-
-    const accessId = "google_oauth_access_token";
+    
+    ///////
+    //Oauth
+    
+    
+    var $consumer = null;
+    const requestTokenId = "google_oauth_request_token";
+    const accessTokenId = "google_oauth_access_token";
+    
+    function getConsumer(){        
+        
+        if($this->consumer == null)
+        {
+          $this->consumer = new Zend_Oauth_Consumer($this->getConfig());   
+        }
+        
+        return $this->consumer;
+    }
+    
+    function setRequestToken($tok){
+        $_SESSION[self::requestTokenId] = serialize($tok);
+    }
+    
+    function getRequestToken() {
+        return self::wrap_unserialize($_SESSION[self::accessTokenId]);
+    }
 
     function setAccessToken($tok) {
-        $_SESSION[self::accessId] = serialize($tok);
+        $_SESSION[self::accessTokenId] = serialize($tok);
     }
 
     function getAccessToken() {
-        return unserialize($_SESSION[self::accessId]);
+        return self::wrap_unserialize($_SESSION[self::accessTokenId]);
     }
+    
+    #For getter functions null is expected to be returned when unset, unserializing a value can result in error so instead return null when this is the case
+    protected static function wrap_unserialize($raw_str){
+        $val = unserialize($raw_str);
+        return $val == false ? null : $val;
+    }
+    
+    
 
 }
 
