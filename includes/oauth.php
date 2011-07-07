@@ -61,7 +61,8 @@ class Empicamoto_Oauth_Google_Manager{
         echo "<p>GET_PARAMS non empty:" . (!empty($get_params) ? "true" : "false") . "</p>";
         echo "<p>HAS_OAUTH_PARAMS:" . ($this->has_oauth_access_params($get_params) ? "true" : "false") . "</p>";
         echo "<p>SESSION_CONSUMER:" . unserialize($_SESSION[self::requestTokenId]) . "</p>";
-        echo "<p>HAS_CONSUMER:" . ($this->getConsumer() != null ? "true" : "false") . "</p>";
+        
+        echo "<p>HAS_REQUEST_TOKEN_IN_SESSION" . ($this->has_request_token() != null ? "true" : "false")  . "</p>";
         $val = !empty($get_params) && $this->has_oauth_access_params($get_params) && $this->has_request_token();
         echo "<p>CAN_AUTHORIZE:" . ($val ? "true" : "false") . "</p>";
         return $val;
@@ -198,8 +199,7 @@ class Empicamoto_Oauth_Google_Manager{
     }
 
     function setAccessToken($tok) {
-        self::wrap_serialize(self::accessTokenId, $tok);
-       
+        self::wrap_serialize(self::accessTokenId, $tok);       
     }
 
     function getAccessToken() {
