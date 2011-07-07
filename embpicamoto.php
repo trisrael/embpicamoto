@@ -14,6 +14,7 @@ Author URI: http://github.com/trisrael
 #Load wordpress plugin settings
 require_once('includes/settings.php'); 
 require_once('includes/oauth_settings.php'); 
+require_once('oauth.php');
 
 /////////////////////////////////////////////////////////////////////
 // add the shortcode handler for picasa galleries
@@ -42,7 +43,9 @@ function add_embpicamoto_shortcode($atts, $content = null) {
 				Zend_Loader::loadClass('Zend_Gdata_Photos_AlbumQuery');
 				Zend_Loader::loadClass('Zend_Gdata_Photos_PhotoQuery');
 
-				$client = Zend_Gdata_ClientLogin::getHttpClient($options['embpicamoto_options_login'], $options['embpicamoto_options_password'], Zend_Gdata_Photos::AUTH_SERVICE_NAME);
+//				$client = Zend_Gdata_ClientLogin::getHttpClient($options['embpicamoto_options_login'], $options['embpicamoto_options_password'], Zend_Gdata_Photos::AUTH_SERVICE_NAME);
+                                $gauth = Empicamoto_Oauth_Google_Manager::singleton();
+                                $client = $gauth->getAccessToken()->getHttpClient($gauth->getConfig());
 				$service = new Zend_Gdata_Photos($client); 
 				
 				$photos = array();
