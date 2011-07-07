@@ -76,7 +76,7 @@ class Empicamoto_Oauth_Google_Manager implements Empicamoto_Oauth_Authentication
         echo "<p>GET" . implode(" ", $get_params) . "</p>";
         echo "<p>GET_PARAMS non empty:" . (!empty($get_params) ? "true" : "false") . "</p>";
         echo "<p>HAS_OAUTH_PARAMS:" . ($this->has_oauth_access_params($get_params) ? "true" : "false") . "</p>";
-        echo "<p>SESSION_CONSUMER:" . get_object_vars(unserialize($_SESSION[self::sessionId])) . "</p>";
+        echo "<p>SESSION_CONSUMER:" . unserialize($_SESSION[self::sessionId]) . "</p>";
         echo "<p>HAS_CONSUMER:" . ($this->getConsumer() != null ? "true" : "false") . "</p>";
         $val = !empty($get_params) && $this->has_oauth_access_params($get_params) && $this->getConsumer() != null;
         echo "<p>CAN_AUTHORIZE:" . ($val ? "true" : "false") . "</p>";
