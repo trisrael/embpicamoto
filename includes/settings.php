@@ -297,7 +297,7 @@ function Embpicamoto_Settings_validate($input) {
 	// strip all fields
 	
 
-	$filterInput = function ($param_name) {
+	$filterInput = function($param_name) {
 		$input [$param_name] = wp_filter_nohtml_kses ( $input [$param_name] );
 	};
 	
