@@ -190,25 +190,36 @@ class Empicamoto_Oauth_Google_Manager{
     }
     
     function setRequestToken($tok){
-        $_SESSION[self::requestTokenId] = serialize($tok);
+        self::wrap_serialize(self::requestTokenId,tok);
     }
     
     function getRequestToken() {
-        return self::wrap_unserialize($_SESSION[self::accessTokenId]);
+        return self::wrap_unserialize(self::requestTokenId);
     }
 
     function setAccessToken($tok) {
-        $_SESSION[self::accessTokenId] = serialize($tok);
+        self::wrap_serialize(self::accessTokenId, $tok);
+       
     }
 
     function getAccessToken() {
-        return self::wrap_unserialize($_SESSION[self::accessTokenId]);
+        return self::wrap_unserialize(self::accessTokenId);
+    }
+    
+    #For setter functions, an id is passed for what to set the object to be serialize to
+    protected static function wrap_serialize($id, $tok)
+    {
+        $_SESSION[$id] = serialize($tok);
     }
     
     #For getter functions null is expected to be returned when unset, unserializing a value can result in error so instead return null when this is the case
-    protected static function wrap_unserialize($raw_str){
-        $val = unserialize($raw_str);
-        return $val == false ? null : $val;
+    protected static function wrap_unserialize($id){
+        if(isset($_SESSION[$id]))
+        {
+            return unserialize($_SESSION[$id]);
+        }
+        
+        return null;
     }
     
     
