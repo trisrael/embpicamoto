@@ -134,7 +134,7 @@ function Embpicamoto_Settings_advanced_options() {
     if ($gauth->is_using_defaults()) {
         Empicamoto_Settings_correct_oauth_creds_html("No Google Oauth credentials supplied yet, unable to authorize");
     } else if ($gauth->has_valid_accreditation()) {
-        $approvalUrl = $consumer->getRedirectUrl(array('hd' => 'default'));
+        $approvalUrl = $gauth->$consumer->getRedirectUrl(array('hd' => 'default'));
         $googleThumbUrl = plugins_url(append_plugin_name("google.png", "/"));
         echo "<a href=\"$approvalUrl\" title='Grant access'><img src='$googleThumbUrl'/></a>";      
     } else {

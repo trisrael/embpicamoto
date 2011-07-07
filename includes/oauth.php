@@ -21,7 +21,7 @@ class Empicamoto_Oauth_Google_Manager implements Empicamoto_Oauth_Authentication
 
     private static $instance;
     //Zend consumer object
-    var $cons;
+    var $consumer;
     
 
     //A private constructor; prevents direct creation of object
@@ -47,7 +47,7 @@ class Empicamoto_Oauth_Google_Manager implements Empicamoto_Oauth_Authentication
 
     //Reset all state to begin oauth authentication process again. (Usually occurs after consumer credentials are changed by admin)
     public function reset() {
-        $cons = null;    
+        $consumer = null;    
     }
 
     //Test whether site has been authenticated correctly with Google services
@@ -55,13 +55,13 @@ class Empicamoto_Oauth_Google_Manager implements Empicamoto_Oauth_Authentication
 
         #check whether an attempt was made, and if so if it was a failure -> try again
         
-        $last_attempt_invalid = create_function("", "return \$cons->getLastRequestToken() && \$cons->getLastRequestToken()->isValid();");
+        $last_attempt_invalid = create_function("", "return \$consumer->getLastRequestToken() && \$consumer->getLastRequestToken()->isValid();");
 
-        if (!isset($cons) || $last_attempt_invalid()) {          
-            $cons = new Zend_Oauth_Consumer($this->getConfig());            
+        if (!isset($consumer) || $last_attempt_invalid()) {          
+            $consumer = new Zend_Oauth_Consumer($this->getConfig());            
         }
         // fetch a request token
-        $reqToken = $cons->getRequestToken( array('scope' => self::$scope_param) );
+        $reqToken = $consumer->getRequestToken( array('scope' => self::$scope_param) );
 
         return $reqToken->isValid();
     }
@@ -93,7 +93,7 @@ class Empicamoto_Oauth_Google_Manager implements Empicamoto_Oauth_Authentication
     function getLastRequestToken()
     {
         
-        return isset($cons) ? $cons->getLastRequestToken() : null;
+        return isset($consumer) ? $consumer->getLastRequestToken() : null;
     }
 
     function get_consumer_key() {
