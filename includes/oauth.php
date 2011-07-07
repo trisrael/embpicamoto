@@ -79,11 +79,14 @@ class Empicamoto_Oauth_Google_Manager implements Empicamoto_Oauth_Authentication
     }
 
     public function authorize($get) {
+        echo "<p>Made ti to authorize";
         try {
             $this->setAccessToken($consumer->getAccessToken($get, $gauth->consumer->getLastRequestToken()));
             
             echo "<p>" . ((array) $this->_accessToken)  ."</p>";
         } catch (Exception $er) {
+            echo "<p>" . ((array) $er) . "</p>";
+             
             return false;
         }
         return true;
