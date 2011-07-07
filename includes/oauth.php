@@ -91,7 +91,7 @@ class Empicamoto_Oauth_Google_Manager{
     }
     
     public function has_valid_request_token(){
-        return $this->has_request_token() && $this->getRequestToken()->isValid();
+        return $this->has_request_token() &&  get_class($this->getRequestToken()) == "Zend_Oauth_Http_RequestToken" && $this->getRequestToken()->isValid();
     }
 
     //Test whether site has been authenticated correctly with Google services
@@ -99,15 +99,13 @@ class Empicamoto_Oauth_Google_Manager{
         try{
             
     
-            #check whether an attempt was made, and if so if it was a failure -> try again 
-            $reqToken = $this->getRequestToken();
-            if ($reqToken == null) {
+            #check whether an attempt was made, and if so if it was a failure -> try again             
+            if ($this->has_valid_request_token()) {
                 // fetch a request token
                 $reqToken = $this->getConsumer()->getRequestToken(array('scope' => self::$scope_param));        
                 $this->setRequestToken($reqToken);
             }       
-
-            return $reqToken->isValid();
+            return $this->getRequestToken()->isValid();
         }catch(Exception $er)
         {
             $this->clearAll();
