@@ -8,7 +8,10 @@
     if (!empty($_GET) && isset($gauth->consumer) && $gauth->consumer->getLastRequestToken() != null) { 
         $gauth->setAccessToken( $consumer->getAccessToken($_GET, $gauth->consumer->getLastRequestToken()) );
     }
-    
-    header( "Location: " . admin_url("options-general.php?page=embpicamoto/includes/settings.php&tab=advanced-options"));
 
 ?>
+<html>
+    <head>
+        <META HTTP-EQUIV="refresh" CONTENT="0;wp-admin/options-general.php?page=embpicamoto/includes/settings.php&tab=advanced-options">
+    </head>
+</html>
