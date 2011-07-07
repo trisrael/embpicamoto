@@ -144,7 +144,7 @@ class Empicamoto_Oauth_Google_Manager{
     static $scope_param = 'http://picasaweb.google.com/data/';
 
     //Get Oauth config for use with Zend_Consumer
-    private function getConfig() {
+    public function getConfig() {
         return array(
             'requestScheme' => Zend_Oauth::REQUEST_SCHEME_HEADER,
             'callbackUrl' => $this->get_request_callback_url(),
