@@ -14,7 +14,7 @@ Author URI: http://github.com/trisrael
 #Load wordpress plugin settings
 require_once('includes/settings.php'); 
 require_once('includes/oauth_settings.php'); 
-require_once('oauth.php');
+require_once('includes/oauth.php');
 
 /////////////////////////////////////////////////////////////////////
 // add the shortcode handler for picasa galleries
