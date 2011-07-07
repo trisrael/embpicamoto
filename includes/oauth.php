@@ -11,23 +11,13 @@ require_once 'oauth_util.php';
 //Zend_Loader::loadClass ( 'Zend_OAuth_Consumer' );	
 
 
-interface Empicamoto_Oauth_AuthenticationUrls {
-    public function get_request_token_url();
-
-    public function get_request_callback_url();
-}
-
-class Empicamoto_Oauth_Google_Manager implements Empicamoto_Oauth_AuthenticationUrls {
-
-    /////////
-    //Variables
-    
-    private static $instance;
-    var $consumer; //Zend consumer, just for local usage (otherwise get's recreated on each new hit)
-    
+class Empicamoto_Oauth_Google_Manager{  
     
     //////////
     //Singleton 
+    
+    
+    private static $instance;
    
     //Zend consumer object
     //A private constructor; prevents direct creation of object
