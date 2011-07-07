@@ -47,7 +47,7 @@ class Empicamoto_Oauth_Google_Manager implements Empicamoto_Oauth_Authentication
 
     //Reset all state to begin oauth authentication process again. (Usually occurs after consumer credentials are changed by admin)
     public function reset() {
-        $consumer = null;    
+        $this->consumer = null;    
     }
 
     //Test whether site has been authenticated correctly with Google services
@@ -55,13 +55,13 @@ class Empicamoto_Oauth_Google_Manager implements Empicamoto_Oauth_Authentication
 
         #check whether an attempt was made, and if so if it was a failure -> try again
         
-        $last_attempt_invalid = create_function("", "return \$consumer->getLastRequestToken() && \$consumer->getLastRequestToken()->isValid();");
+        $last_attempt_invalid = create_function("", "return \$this->consumer->getLastRequestToken() && \$this->consumer->getLastRequestToken()->isValid();");
 
-        if (!isset($consumer) || $last_attempt_invalid()) {          
-            $consumer = new Zend_Oauth_Consumer($this->getConfig());            
+        if (!isset($this->consumer) || $last_attempt_invalid()) {          
+            $this->consumer = new Zend_Oauth_Consumer($this->getConfig());            
         }
         // fetch a request token
-        $reqToken = $consumer->getRequestToken( array('scope' => self::$scope_param) );
+        $reqToken = $this->consumer->getRequestToken( array('scope' => self::$scope_param) );
 
         return $reqToken->isValid();
     }
@@ -93,7 +93,7 @@ class Empicamoto_Oauth_Google_Manager implements Empicamoto_Oauth_Authentication
     function getLastRequestToken()
     {
         
-        return isset($consumer) ? $consumer->getLastRequestToken() : null;
+        return isset($this->consumer) ? $this->consumer->getLastRequestToken() : null;
     }
 
     function get_consumer_key() {
