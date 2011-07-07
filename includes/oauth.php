@@ -13,6 +13,7 @@ require_once 'oauth_util.php';
 
 interface Empicamoto_Oauth_AuthenticationUrls {
     public function get_request_token_url();
+
     public function get_request_callback_url();
 }
 
@@ -20,8 +21,8 @@ class Empicamoto_Oauth_Google_Manager implements Empicamoto_Oauth_Authentication
 
     private static $instance;
     //Zend consumer object
-    private $cons;
-    private $reqToken;
+    var $cons;
+    
 
     //A private constructor; prevents direct creation of object
     private function __construct() {
@@ -46,7 +47,7 @@ class Empicamoto_Oauth_Google_Manager implements Empicamoto_Oauth_Authentication
 
     //Reset all state to begin oauth authentication process again. (Usually occurs after consumer credentials are changed by admin)
     public function reset() {
-        $cons = null;
+        $cons = null;    
     }
 
     //Test whether site has been authenticated correctly with Google services
@@ -68,6 +69,12 @@ class Empicamoto_Oauth_Google_Manager implements Empicamoto_Oauth_Authentication
     //View output helper
 
     static $requestUrl = 'https://www.google.com/accounts/OAuthGetRequestToken';
+    
+    #Returns the most recent request token from the consumer object 
+    function getLastRequestToken()
+    {
+        return isset($cons) ? $cons->getLastRequestToken() : null;
+    }
 
     function get_consumer_key() {
         return Embpicamoto_Oauth_Util_Settings::get_consumer_key();

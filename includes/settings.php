@@ -127,14 +127,16 @@ function Embpicamoto_Settings_advanced_options() {
     <?php
     require_once plugin_dir_path(__FILE__) . "oauth.php";
     $gauth = Empicamoto_Oauth_Google_Manager::singleton(); //google oauth manager		
+    
 
     if ($gauth->is_using_defaults()) {
         Empicamoto_Settings_correct_oauth_creds_html("No Google Oauth credentials supplied yet, unable to authorize");
     } else if ($gauth->has_valid_accreditation()) {
-        echo "<p>Valid picasa credits supplied</p>";
+        echo "<p>Valid picasa credits supplied</p>";        
     } else {
         Empicamoto_Settings_correct_oauth_creds_html("Invalid Google Oauth credentials supplied, unable to authorize");
     }
+     echo get_object_vars($gauth->getLastRequestToken());    
     ?>				
     </div>
         <?php
