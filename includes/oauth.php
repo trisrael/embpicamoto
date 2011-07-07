@@ -57,7 +57,7 @@ class Empicamoto_Oauth_Google_Manager implements Empicamoto_Oauth_Authentication
 
     public function can_authorize($get_params) {
         $cons = $gauth->consumer;
-        return !empty($get_params) && !empty($get_params['oauth_verifier']) && isset($cons) && !empty($cons->getLastRequestToken());
+        return !empty($get_params) && !empty($get_params['oauth_verifier']) && isset($cons) && $cons->getLastRequestToken() != null;
     }
 
     public function is_still_accessible() {
