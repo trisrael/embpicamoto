@@ -58,9 +58,9 @@ class Empicamoto_Oauth_Google_Manager implements Empicamoto_Oauth_Authentication
     public function can_authorize($get_params) {
               
         echo "<p>GET" . implode(" ", $get_params) . "</p>";
-        echo "<p>GET_PARAMS non empty:" . !empty($get_params) ? "true" : "false" . "</p>";
-        echo "<p>HAS_OAUTH_PARAMS:" . $this->has_oauth_access_params($get_params) ? "true" : "false" . "</p>";        
-            
+        echo "<p>GET_PARAMS non empty:" . (!empty($get_params) ? "true" : "false") . "</p>";
+        echo "<p>HAS_OAUTH_PARAMS:" . ($this->has_oauth_access_params($get_params) ? "true" : "false") . "</p>";        
+            echo "<p>HAS_CONSUMER:" . (isset($gauth->consumer) ? "true" : "false") . "</p>";        
         $val = !empty($get_params) && $this->has_oauth_access_params($get_params) && isset($gauth->consumer);
         echo "<p>CAN_AUTHORIZE:" . ($val ? "true" : "false") .  "</p>";
         return $val;
