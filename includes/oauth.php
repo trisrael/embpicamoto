@@ -108,7 +108,7 @@ class Empicamoto_Oauth_Google_Manager implements Empicamoto_Oauth_Authentication
     }
 
     function get_request_callback_url() {
-        return plugins_url(append_plugin_name("request_callback.php", "/"), __FILE__);
+        return plugins_url("request_callback.php", dirname(__FILE__));
     }
 
 }
