@@ -62,7 +62,7 @@ class Empicamoto_Oauth_Google_Manager{
         echo "<p>HAS_OAUTH_PARAMS:" . ($this->has_oauth_access_params($get_params) ? "true" : "false") . "</p>";
         echo "<p>SESSION_CONSUMER:" . unserialize($_SESSION[self::requestTokenId]) . "</p>";
         
-        echo "<p>HAS_REQUEST_TOKEN_IN_SESSION" . ($this->has_request_token() != null ? "true" : "false")  . "</p>";
+        echo "<p>HAS_REQUEST_TOKEN" . ($this->has_request_token() ? "true" : "false")  . "</p>";
         $val = !empty($get_params) && $this->has_oauth_access_params($get_params) && $this->has_request_token();
         echo "<p>CAN_AUTHORIZE:" . ($val ? "true" : "false") . "</p>";
         return $val;
@@ -87,16 +87,9 @@ class Empicamoto_Oauth_Google_Manager{
     }
     
     public function has_request_token(){
-        return $this->getRequestToken() != null;
-    }
-    
-    public function has_valid_request_token(){
-        if($this->has_request_token()){
-            $tok = $this->getRequestToken();
-            return is_object($tok) && get_class($this->getRequestToken()) == "Zend_Oauth_Http_RequestToken" && $this->getRequestToken()->isValid();
-        }
-        return false;
-    }
+        $tok = $this->getRequestToken();
+        return is_object($tok) && get_class($this->getRequestToken()) == "Zend_Oauth_Http_RequestToken" && $this->getRequestToken()->isValid();
+    }    
 
     //Test whether site has been authenticated correctly with Google services
     public function has_valid_accreditation() {
@@ -104,7 +97,7 @@ class Empicamoto_Oauth_Google_Manager{
             
     
             #check whether an attempt was made, and if so if it was a failure -> try again             
-            if ($this->has_valid_request_token()) {
+            if (!$this->has_request_token()) {
                 // fetch a request token
                 $reqToken = $this->getConsumer()->getRequestToken(array('scope' => self::$scope_param));        
                 $this->setRequestToken($reqToken);
