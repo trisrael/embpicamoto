@@ -22,9 +22,7 @@ class Empicamoto_Oauth_Google_Manager implements Empicamoto_Oauth_Authentication
     private static $instance;
     //Zend consumer object
     var $consumer;
-    
     protected $_accessToken = null;
-    
 
     //A private constructor; prevents direct creation of object
     private function __construct() {
@@ -49,33 +47,49 @@ class Empicamoto_Oauth_Google_Manager implements Empicamoto_Oauth_Authentication
 
     //Reset all state to begin oauth authentication process again. (Usually occurs after consumer credentials are changed by admin)
     public function reset() {
-        $this->consumer = null;    
+        $this->consumer = null;
     }
-    
+
     //Simple existence check for _accessToken on singleton (NOTE: serialize and move into db using Settings API)
-    public function has_access(){
-       return $this->_accessToken != null;
+    public function has_access() {
+        return!empty($this->_accessToken);
+    }
+
+    public function can_authorize($get_params) {
+        return!empty($get_params) && !empty($get_params['oauth_verifier']) && isset($gauth->consumer) && !empty($gauth->consumer->getLastRequestToken());
+    }
+
+    public function is_still_accessible() {
+        return true;
+    }
+
+    public function authorize($get) {
+        try {
+            $this->setAccessToken($consumer->getAccessToken($get, $gauth->consumer->getLastRequestToken()));
+        } catch (Exception $er) {
+            return false;
+        }
+        return true;
     }
 
     //Test whether site has been authenticated correctly with Google services
     public function has_valid_accreditation() {
 
         #check whether an attempt was made, and if so if it was a failure -> try again
-        
+
         $last_attempt_invalid = create_function("\$consumer", "return \$consumer->getLastRequestToken() && \$consumer->getLastRequestToken()->isValid();");
 
-        if (!isset($this->consumer) || $last_attempt_invalid($this->consumer)) {          
-            $this->consumer = new Zend_Oauth_Consumer($this->getConfig());            
+        if (!isset($this->consumer) || $last_attempt_invalid($this->consumer)) {
+            $this->consumer = new Zend_Oauth_Consumer($this->getConfig());
         }
         // fetch a request token
-        $reqToken = $this->consumer->getRequestToken( array('scope' => self::$scope_param) );
+        $reqToken = $this->consumer->getRequestToken(array('scope' => self::$scope_param));
 
         return $reqToken->isValid();
     }
 
     //View output helper
-
-    //Static constants GOOGLE URLS plus
+    //Static constants GOOGLE URLS plus scope parameter
     static $requestUrl = 'https://www.google.com/accounts/OAuthGetRequestToken';
     static $userAuthUrl = 'https://www.google.com/accounts/OAuthAuthorizeToken';
     static $accessUrl = 'https://www.google.com/accounts/OAuthGetAccessToken';
@@ -84,17 +98,17 @@ class Empicamoto_Oauth_Google_Manager implements Empicamoto_Oauth_Authentication
     //Get Oauth config for use with Zend_Consumer
     private function getConfig() {
         return array(
-                'requestScheme' => Zend_Oauth::REQUEST_SCHEME_HEADER,
-                'callbackUrl' => $this->get_request_callback_url(), 
-                'siteUrl' => $this->get_request_token_url(), 
-                'signatureMethod' => 'HMAC-SHA1',
-                'consumerKey' => $this->get_consumer_key(), 
-                'consumerSecret' => $this->get_consumer_secret(),
-                'requestTokenUrl' => self::$requestUrl,
-                'userAuthorizationUrl' => self::$userAuthUrl,
-                'accessTokenUrl' => self::$accessUrl
-                    );
-    }    
+            'requestScheme' => Zend_Oauth::REQUEST_SCHEME_HEADER,
+            'callbackUrl' => $this->get_request_callback_url(),
+            'siteUrl' => $this->get_request_token_url(),
+            'signatureMethod' => 'HMAC-SHA1',
+            'consumerKey' => $this->get_consumer_key(),
+            'consumerSecret' => $this->get_consumer_secret(),
+            'requestTokenUrl' => self::$requestUrl,
+            'userAuthorizationUrl' => self::$userAuthUrl,
+            'accessTokenUrl' => self::$accessUrl
+        );
+    }
 
     function get_consumer_key() {
         return Embpicamoto_Oauth_Util_Settings::get_consumer_key();
@@ -109,11 +123,11 @@ class Empicamoto_Oauth_Google_Manager implements Empicamoto_Oauth_Authentication
     }
 
     function get_request_callback_url() {
-        return plugins_url("request_callback.php", dirname(__FILE__));
+        return admin_url("options-general.php?page=embpicamoto/includes/settings.php&tab=advanced-options");
     }
-    
-    function setAccessToken(){
-        
+
+    function setAccessToken($tok) {
+        $this->_accessToken = $tok;
     }
 
 }
