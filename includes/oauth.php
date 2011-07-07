@@ -96,14 +96,15 @@ class Empicamoto_Oauth_Google_Manager{
     //Test whether site has been authenticated correctly with Google services
     public function has_valid_accreditation() {
 
-        #check whether an attempt was made, and if so if it was a failure -> try again       
-        if (!$this->has_valid_request_token()) {
+        #check whether an attempt was made, and if so if it was a failure -> try again 
+        $reqToken = $this->getRequestToken();
+        if ($reqToken == null) {
             // fetch a request token
             $reqToken = $this->getConsumer()->getRequestToken(array('scope' => self::$scope_param));        
             $this->setRequestToken($reqToken);
         }       
         
-        return $this->getRequestToken()->isValid();
+        return $reqToken->isValid();
     }
     
     //////////////
