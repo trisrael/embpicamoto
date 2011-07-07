@@ -211,7 +211,7 @@ class Empicamoto_Oauth_Google_Manager{
     #For setter functions, an id is passed for what to set the object to be serialize to
     protected static function persist_token($id, $tok)
     {
-        update_option($id, tok);
+        update_option($id, $tok);
     }
     
     #For getter functions null is expected to be returned when unset, unserializing a value can result in error so instead return null when this is the case
