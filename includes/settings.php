@@ -104,12 +104,14 @@ function Embpicamoto_Settings_general_options() {
     settings_fields(Embpicamoto_Settings_Helper::SettingsId);
     do_settings_sections(__FILE__);
     ?>
-        <p class="submit"><input name="Submit" type="submit" class="button-primary"	value="<?php esc_attr_e('Save Changes'); ?>" /></p>
+        <p class="submit"><input name="Submit" type="submit" class="button-primary" value="<?php esc_attr_e('Save Changes'); ?>" /></p>
     </form>
     </div>
     <?php
 }
 
+//Helper method which shows a warning that something is wrong with the Oauth credentials as detailed in $msg params 
+//to the admin, and add a link redirecting them to the Oauth Settings page
 function Empicamoto_Settings_correct_oauth_creds_html($msg) {
     $sty = "-moz-border-radius: 6px 6px 6px 6px;";
     $sty = $sty . "-webkit-border-radius: 6px 6px 6px 6px;";
@@ -132,11 +134,13 @@ function Embpicamoto_Settings_advanced_options() {
     if ($gauth->is_using_defaults()) {
         Empicamoto_Settings_correct_oauth_creds_html("No Google Oauth credentials supplied yet, unable to authorize");
     } else if ($gauth->has_valid_accreditation()) {
-        echo "<p>Valid picasa credits supplied</p>";        
+        $approvalUrl = $consumer->getRedirectUrl(array('hd' => 'default'));
+        $googleThumbUrl = plugins_url(append_plugin_name("google.png", "/"));
+        echo "<a href=\"$approvalUrl\" title='Grant access'><img src='$googleThumbUrl'/></a>";      
     } else {
         Empicamoto_Settings_correct_oauth_creds_html("Invalid Google Oauth credentials supplied, unable to authorize");
     }
-     echo get_object_vars($gauth->getLastRequestToken());    
+    
     ?>				
     </div>
         <?php
