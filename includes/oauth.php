@@ -60,7 +60,7 @@ class Empicamoto_Oauth_Google_Manager implements Empicamoto_Oauth_Authentication
         echo "<p>GET" . implode(" ", $get_params) . "</p>";
         echo "<p>" . !empty($get_params) . "</p>";
         echo "<p>" . $this->has_oauth_access_params($get_params) . "</p>";        
-        $val = !empty($get_params) && $this->has_oauth_access_params($get_params) && isset($gauth->consumer) && $gauth->consumer->getLastRequestToken() != null;
+        $val = !empty($get_params) && $this->has_oauth_access_params($get_params) && isset($gauth->consumer);
         echo "<p>CAN_AUTHORIZE:" . ($val ? "true" : "false") .  "</p>";
         return $val;
     }
