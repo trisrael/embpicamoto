@@ -95,7 +95,7 @@ function Embpicamoto_Settings_page() {
 
 function Embpicamoto_General_Settings_description_html(){    
     $h= "<span>";
-    $h = $h . "Enter a login and password for Picasa (if not using";
+    $h = $h . "Enter a login and password for Picasa (if not using ";
     $h= $h . "<a href='?page=" . Embpicamoto_Settings_Helper::settingsPageRelUrl . "&tab=" . Embpicamoto_Settings_Helper::advancedTabId . "'>Oauth</a>";
     $h = $h . ") and edit image options if needed.</span>";
     return $h;
