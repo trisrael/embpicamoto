@@ -86,8 +86,9 @@ class Empicamoto_Oauth_Google_Manager{
         return true;
     }
     
-    public function has_request_token(){
+    public function has_request_token(){        
         $tok = $this->getRequestToken();
+        echo "<p>" . get_class($tok) . "</p>";
         return is_object($tok) && get_class($this->getRequestToken()) == "Zend_Oauth_Http_RequestToken" && $this->getRequestToken()->isValid();
     }    
 
