@@ -57,14 +57,15 @@ class Empicamoto_Oauth_Google_Manager{
     }
 
     public function can_authorize($get_params) {
-        echo "<p>GET" . implode(" ", $get_params) . "</p>";
-        echo "<p>GET_PARAMS non empty:" . (!empty($get_params) ? "true" : "false") . "</p>";
-        echo "<p>HAS_OAUTH_PARAMS:" . ($this->has_oauth_access_params($get_params) ? "true" : "false") . "</p>";
-        echo "<p>SESSION_CONSUMER:" . unserialize($_SESSION[self::requestTokenId]) . "</p>";
-        
-        echo "<p>HAS_REQUEST_TOKEN" . ($this->has_request_token() ? "true" : "false")  . "</p>";
+//        echo "<p>GET" . implode(" ", $get_params) . "</p>";
+//        echo "<p>GET_PARAMS non empty:" . (!empty($get_params) ? "true" : "false") . "</p>";
+//        echo "<p>HAS_OAUTH_PARAMS:" . ($this->has_oauth_access_params($get_params) ? "true" : "false") . "</p>";
+//        echo "<p>SESSION_CONSUMER:" . unserialize($_SESSION[self::requestTokenId]) . "</p>";
+//         echo "<p>CAN_AUTHORIZE:" . ($val ? "true" : "false") . "</p>";
+//        
+//        echo "<p>HAS_REQUEST_TOKEN" . ($this->has_request_token() ? "true" : "false")  . "</p>";
         $val = !empty($get_params) && $this->has_oauth_access_params($get_params) && $this->has_request_token();
-        echo "<p>CAN_AUTHORIZE:" . ($val ? "true" : "false") . "</p>";
+       
         return $val;
     }
 
@@ -87,8 +88,7 @@ class Empicamoto_Oauth_Google_Manager{
     }
     
     public function has_request_token(){        
-        $tok = $this->getRequestToken();
-        echo "<p>" . get_class($tok) . "</p>";
+        $tok = $this->getRequestToken();        
         return is_object($tok) && get_class($this->getRequestToken()) == "Zend_Oauth_Token_Request" && $this->getRequestToken()->isValid();
     }    
 
@@ -217,9 +217,7 @@ class Empicamoto_Oauth_Google_Manager{
     #For getter functions null is expected to be returned when unset, unserializing a value can result in error so instead return null when this is the case
     protected static function retrieve_token($id){
         return get_option($id, null);
-    }
-    
-    
+    }  
 
 }
 

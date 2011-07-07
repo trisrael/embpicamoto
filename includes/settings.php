@@ -68,10 +68,10 @@ function Embpicamoto_Settings_page() {
         <div class="icon32" id="icon-options-general"><br>
         </div>
         <div id='tabs'>
-    <?php
-    isset($_GET ['tab']) ? $currTab = $_GET ['tab'] : $currTab = Embpicamoto_Settings_Helper::defaultTabId;
-    tabs($currTab);
-    ?>
+            <?php
+            isset($_GET ['tab']) ? $currTab = $_GET ['tab'] : $currTab = Embpicamoto_Settings_Helper::defaultTabId;
+            tabs($currTab);
+            ?>
             <?php
             if ($_GET ['page'] == Embpicamoto_Settings_Helper::settingsPageRelUrl) {
 
@@ -93,18 +93,27 @@ function Embpicamoto_Settings_page() {
     <?php
 }
 
+function Embpicamoto_General_Settings_description_html(){    
+    $h= "<span>";
+    $h = $h . "Enter a login and password for Picasa (if not using";
+    $h= $h . "<a href='?page=" . Embpicamoto_Settings_Helper::settingsPageRelUrl . "&tab=" . Embpicamoto_Settings_Helper::advancedTabId . ">Oauth</a>";
+    $h = $h . ") and edit image options if needed.</span>";
+    return $h;
+}
+
+
 function Embpicamoto_Settings_general_options() {
     ?>
     <h2>General Settings</h2>
-    	Enter a login and password for Picasa (if not using
-    <a href='<?php echo ('?page=' . Embpicamoto_Settings_Helper::settingsPageRelUrl . '&tab=') . Embpicamoto_Settings_Helper::advancedTabId ?>'>Oauth</a>
-    	) and edit image options if needed.
-    <form action=”options.php” method=”post”>
-    <?php
-    settings_fields(Embpicamoto_Settings_Helper::SettingsId);
-    do_settings_sections(__FILE__);
-    ?>
-        <p class="submit"><input name="Submit" type="submit" class="button-primary" value="<?php esc_attr_e('Save Changes'); ?>" /></p>
+    <?php echo Embpicamoto_General_Settings_description_html() ?>
+    <form action='options.php' method='post'>
+        <?php
+            settings_fields(Embpicamoto_Settings_Helper::SettingsId);
+            do_settings_sections(__FILE__);
+        ?>
+        <p class="submit">
+            <input name="Submit" type="submit" class="button-primary" value="<?php esc_attr_e('Save Changes'); ?>" />
+        </p>
     </form>
     </div>
     <?php
@@ -126,28 +135,25 @@ function Embpicamoto_Settings_advanced_options() {
     <div id='auth-settings'>
         <h2>Picasa Authentication</h2>
 
-    <?php
-    require_once plugin_dir_path(__FILE__) . "oauth.php";
-    $gauth = Empicamoto_Oauth_Google_Manager::singleton(); //google oauth manager		
-    
-    
-    if($gauth->has_access_token() && $gauth->is_still_accessible()) {
-        echo "<p>Authorized with Google.</p>";
-    }
-    else if ($gauth->can_authorize($_GET) && $gauth->authorize($_GET)) {                 
-        echo "<p>Authorization with Google completed successfully.</p>";
-    }
-    else if ($gauth->using_defaults()) {
-        Empicamoto_Settings_correct_oauth_creds_html("No Google Oauth credentials supplied yet, unable to authorize");
-    } else if ($gauth->has_valid_accreditation()) {
-        $approvalUrl = $gauth->getConsumer()->getRedirectUrl(array('hd' => 'default'));
-        $googleThumbUrl = plugins_url(append_plugin_name("google.png", "/"));
-        echo "<a href=\"$approvalUrl\" title='Grant access'><img src='$googleThumbUrl'/></a>";      
-    } else {
-        Empicamoto_Settings_correct_oauth_creds_html("Invalid Google Oauth credentials supplied, unable to authorize");
-    }
-    
-    ?>				
+        <?php
+        require_once plugin_dir_path(__FILE__) . "oauth.php";
+        $gauth = Empicamoto_Oauth_Google_Manager::singleton(); //google oauth manager		
+
+
+        if ($gauth->has_access_token() && $gauth->is_still_accessible()) {
+            echo "<p>Authorized with Google.</p>";
+        } else if ($gauth->can_authorize($_GET) && $gauth->authorize($_GET)) {
+            echo "<p>Authorization with Google completed successfully.</p>";
+        } else if ($gauth->using_defaults()) {
+            Empicamoto_Settings_correct_oauth_creds_html("No Google Oauth credentials supplied yet, unable to authorize");
+        } else if ($gauth->has_valid_accreditation()) {
+            $approvalUrl = $gauth->getConsumer()->getRedirectUrl(array('hd' => 'default'));
+            $googleThumbUrl = plugins_url(append_plugin_name("google.png", "/"));
+            echo "<a href=\"$approvalUrl\" title='Grant access'><img src='$googleThumbUrl'/></a>";
+        } else {
+            Empicamoto_Settings_correct_oauth_creds_html("Invalid Google Oauth credentials supplied, unable to authorize");
+        }
+        ?>				
     </div>
         <?php
     }
@@ -305,12 +311,12 @@ function Embpicamoto_Settings_advanced_options() {
     function Embpicamoto_Settings_validate($input) {
         // strip all fields
 
-        $filterInput = create_function("$param_name", "$input [$param_name] = wp_filter_nohtml_kses ( $input [$param_name] );");
+        $filterInput = create_function("\$param_name, \$input", "\$input [\$param_name] = wp_filter_nohtml_kses ( \$input [\$param_name] );");
 
-        $filterInput(Embpicamoto_Settings_Helper::LoginId());
-        $filterInput(Embpicamoto_Settings_Helper::PasswordId());
-        $filterInput(Embpicamoto_Settings_Helper::ThumbId());
-        $filterInput(Embpicamoto_Settings_Helper::FullId());
+        $filterInput(Embpicamoto_Settings_Helper::LoginId(), $input);
+        $filterInput(Embpicamoto_Settings_Helper::PasswordId(), $input);
+        $filterInput(Embpicamoto_Settings_Helper::ThumbId(), $input);
+        $filterInput(Embpicamoto_Settings_Helper::FullId(), $input);
 
         // check image dimensions, defaulting to some size when not in valid options
 

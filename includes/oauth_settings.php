@@ -20,7 +20,7 @@ function Embpicamoto_Oauth_Settings_page() {
     <div class="wrap">
         <div class="icon32" id="icon-options-general"><br></div>
         <h2>Oauth Settings</h2>
-    			Enter authentication information to connect to the applications below.
+    	<span>Enter authentication information to connect to the applications below.</span>
         <form action="options.php" method="post">
         <?php settings_fields(Embpicamoto_Oauth_Util_Constants::SettingsId); ?>
             <?php do_settings_sections(__FILE__); ?>
