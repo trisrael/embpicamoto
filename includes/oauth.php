@@ -57,20 +57,37 @@ class Empicamoto_Oauth_Google_Manager implements Empicamoto_Oauth_Authentication
         
         $last_attempt_invalid = create_function("", "return \$cons->getLastRequestToken() && \$cons->getLastRequestToken()->isValid();");
 
-        if (!isset($cons) || $last_attempt_invalid()) {
-            $config = array('callbackUrl' => $this->get_request_callback_url(), 'siteUrl' => $this->get_request_token_url(), 'consumerKey' => $this->get_consumer_key(), 'consumerSecret' => $this->get_consumer_secret());
-            $cons = new Zend_Oauth_Consumer($config);
-            
+        if (!isset($cons) || $last_attempt_invalid()) {          
+            $cons = new Zend_Oauth_Consumer($this->getConfig());            
         }
         // fetch a request token
-        $reqToken = $cons->getRequestToken();
+        $reqToken = $cons->getRequestToken( array('scope' => self::$scope_param) );
 
         return $reqToken->isValid();
     }
 
     //View output helper
 
+    //Static constants GOOGLE URLS plus
     static $requestUrl = 'https://www.google.com/accounts/OAuthGetRequestToken';
+    static $userAuthUrl = 'https://www.google.com/accounts/OAuthAuthorizeToken';
+    static $accessUrl = 'https://www.google.com/accounts/OAuthGetAccessToken';
+    static $scope_param = 'http://picasaweb.google.com/data/';
+
+    //Get Oauth config for use with Zend_Consumer
+    private function getConfig() {
+        return array(
+                'requestScheme' => Zend_Oauth::REQUEST_SCHEME_HEADER,
+                'callbackUrl' => $this->get_request_callback_url(), 
+                'siteUrl' => $this->get_request_token_url(), 
+                'signatureMethod' => 'HMAC-SHA1',
+                'consumerKey' => $this->get_consumer_key(), 
+                'consumerSecret' => $this->get_consumer_secret(),
+                'requestTokenUrl' => self::$requestUrl,
+                'userAuthorizationUrl' => self::$userAuthUrl,
+                'accessTokenUrl' => self::$accessUrl
+                    );
+    }
     
     #Returns the most recent request token from the consumer object 
     function getLastRequestToken()
@@ -96,5 +113,9 @@ class Empicamoto_Oauth_Google_Manager implements Empicamoto_Oauth_Authentication
     }
 
 }
+
+$man = Empicamoto_Oauth_Google_Manager::singleton();
+$man->has_valid_accreditation();
+
 
 ?>
