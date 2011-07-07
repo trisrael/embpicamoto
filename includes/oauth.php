@@ -55,7 +55,7 @@ class Empicamoto_Oauth_Google_Manager implements Empicamoto_Oauth_Authentication
 
         #check whether an attempt was made, and if so if it was a failure -> try again
         
-        $last_attempt_invalid = create_function("", "return \$this->consumer->getLastRequestToken() && \$this->consumer->getLastRequestToken()->isValid();");
+        $last_attempt_invalid = create_function("", "return \$consumer->getLastRequestToken() && \$consumer->getLastRequestToken()->isValid();");
 
         if (!isset($this->consumer) || $last_attempt_invalid()) {          
             $this->consumer = new Zend_Oauth_Consumer($this->getConfig());            
@@ -91,8 +91,7 @@ class Empicamoto_Oauth_Google_Manager implements Empicamoto_Oauth_Authentication
     
     #Returns the most recent request token from the consumer object 
     function getLastRequestToken()
-    {
-        
+    {        
         return isset($this->consumer) ? $this->consumer->getLastRequestToken() : null;
     }
 
