@@ -11,7 +11,7 @@
             dialogId: "embpicamoto_dlg",
             albumsContainerId: "albums_container",
             albumClassName: "embicamoto_album",
-            albumIdPrefix: Embpicamoto.Dialog.Manager.Constants['albumClassName'] + "_"
+            albumIdPrefix: "embicamoto_album_"
         },
 
 
