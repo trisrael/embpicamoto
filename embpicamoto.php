@@ -253,7 +253,7 @@ function embpicamoto_embed_js() {
                 modal: true,
                 draggable: false,
                 resizable: false,
-                buttons: {'Insert': embpicamoto_dlg_insert}
+                buttons: {'Insert Photo': embpicamoto_dlg_insert, 'Insert Album': embpicamoto_dlg_insert}
             });           
 
     		
