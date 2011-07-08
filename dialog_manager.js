@@ -35,7 +35,8 @@
             
             //Switch between which album is showing when select is switched
             $(this.cssId(this.Constants.albumSelectId)).change(function(){
-                this.setAlbum( $(this.cssId( this.buildAlbumId(this.value)) ));
+                var that = Embpicamoto.Dialog.Manager;
+                that.setAlbum( $(that.cssId( that.buildAlbumId(this.value)) ));
             });
             
             
