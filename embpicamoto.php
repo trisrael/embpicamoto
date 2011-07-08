@@ -70,7 +70,7 @@ class Embpicamoto_Photos {
 
             $photos = array();
             $query = new Zend_Gdata_Photos_AlbumQuery();
-            $query->setAlbumId($id);
+            $query->setAlbumId($albumId);
 
             // http://code.google.com/intl/ru/apis/picasaweb/docs/1.0/reference.html
 
@@ -109,7 +109,7 @@ class Embpicamoto_Photos {
 
             $html = "";
 
-            $pageElId = create_function('$a', 'return "embpicamoto_album_' . $id . '_page_" . $a;'); #creates a unique id for an album page
+            $pageElId = create_function('$a', 'return "embpicamoto_album_' . $albumId . '_page_" . $a;'); #creates a unique id for an album page
             #foreach temporary variables
             $page_name = '';
 
@@ -145,7 +145,7 @@ class Embpicamoto_Photos {
 
             $html = $html . '</ul></div>'; #Finish the last page
             #Container html element variables
-            $wrap_el_id = "embpicamoto_album_$id";
+            $wrap_el_id = "embpicamoto_album_$albumId";
             $wrap_pre = "<div id='$wrap_el_id'>";
             $wrap_post = "</div>";
             if ($has_pages) { #Add in jQuery tabs conditionally
