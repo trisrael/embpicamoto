@@ -44,7 +44,7 @@
          Return each picamoto album HMTL container found within dialog
          */
         getAlbumEls: function(){            
-            var cssParts = [this.cssId(this.Constants.dialogId), this.cssId(this.Constants.albumsContainerId), this.cssClass(this.Constants.albumClasName)];
+            var cssParts = [this.cssId(this.Constants.dialogId), this.cssId(this.Constants.albumsContainerId), this.cssClass(this.Constants.albumClassName)];
             return $(cssParts.join(" "));
         },
         
