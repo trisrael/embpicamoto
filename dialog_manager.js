@@ -3,7 +3,6 @@
 
     Embpicamoto = {Dialog: {}};
 
-
     //Singleton object for controlling dialog in Edit form for Picasa insertions
     Embpicamoto.Dialog.Manager = {
         
@@ -41,7 +40,6 @@
             return $(this._activeAlbumEl);
         },
 
-
         /*
          Return each picamoto album HMTL container found within dialog
          */
@@ -53,7 +51,7 @@
         setAlbum: function(albumEl){
           this.hideAlbum();  
            
-          this._activeAlbumEl = $(albumEl);
+          this._activeAlbumEl = albumEl;
           
           this.showAlbum();
         },
