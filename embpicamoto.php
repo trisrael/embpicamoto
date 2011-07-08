@@ -26,6 +26,7 @@ class Embpicamoto_Photos {
         require_once 'Zend/Loader.php';
         
         Zend_Loader::loadClass('Zend_Gdata_ClientLogin');
+        Zend_Loader::loadClass('Zend_Gdata_Photos');
         
         $gauth = Embpicamoto_Oauth_Google_Manager::singleton();
 
@@ -60,9 +61,7 @@ function add_embpicamoto_shortcode($atts, $content = null) {
             require_once 'Zend/Loader.php';
 
             Zend_Loader::loadClass('Zend_Gdata');
-            Zend_Loader::loadClass('Zend_Gdata_Query');
-            
-            Zend_Loader::loadClass('Zend_Gdata_Photos');
+            Zend_Loader::loadClass('Zend_Gdata_Query');                
             Zend_Loader::loadClass('Zend_Gdata_Photos_UserQuery');
             Zend_Loader::loadClass('Zend_Gdata_Photos_AlbumQuery');
             Zend_Loader::loadClass('Zend_Gdata_Photos_PhotoQuery');
@@ -237,9 +236,9 @@ function embpicamoto_embed_js() {
         }
 
         function embpicamoto_dlg_insert() {
-            var album_id = jQuery("#<?php echo(Embpicamoto_Dialog::contentAlbum()) ?>").val();
-            var s_pp_val = jQuery("#<?php echo(Embpicamoto_Dialog::perPage()) ?>").val();
-            var c_pp_val = jQuery("#<?php echo(Embpicamoto_Dialog::customPerPage()) ?>").val();
+            var album_id = jQuery("#<?php echo(Embpicamoto_Dialog::contentAlbumId()) ?>").val();
+            var s_pp_val = jQuery("#<?php echo(Embpicamoto_Dialog::perPageId()) ?>").val();
+            var c_pp_val = jQuery("#<?php echo(Embpicamoto_Dialog::customPerPageId()) ?>").val();
             var pp_val = -1; //Default to infinity (Show all images on one page)
 
             if ( !isNaN( Number(c_pp_val) ) ){
@@ -283,8 +282,7 @@ function embpicamoto_js_dlg_markup() {
         require_once 'Zend/Loader.php';
 
         Zend_Loader::loadClass('Zend_Gdata');
-        Zend_Loader::loadClass('Zend_Gdata_Query');
-        Zend_Loader::loadClass('Zend_Gdata_Photos');
+        Zend_Loader::loadClass('Zend_Gdata_Query');        
         Zend_Loader::loadClass('Zend_Gdata_Photos_UserQuery');
         Zend_Loader::loadClass('Zend_Gdata_Photos_AlbumQuery');
         Zend_Loader::loadClass('Zend_Gdata_Photos_PhotoQuery');
@@ -324,6 +322,7 @@ function embpicamoto_js_dlg_markup() {
             $pp_opts_html = $pp_opts_html . '<option ' . $pp_opt_title . ' value="' . $pp_opt . '">' . $pp_opt . '</option>';
         }
     } catch (Exception $ex) {
+        echo "<p>$ex->getMessage()</p>";
         $success = false;
         $msg = $ex->getMessage();
     }
