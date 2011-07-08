@@ -146,7 +146,7 @@ class Embpicamoto_Photos {
             $html = $html . '</ul></div>'; #Finish the last page
             #Container html element variables
             $wrap_el_id = "embpicamoto_album_$albumId";
-            $wrap_pre = "<div id='$wrap_el_id'>";
+            $wrap_pre = "<div id='$wrap_el_id' class='picamoto_album'>";
             $wrap_post = "</div>";
             if ($has_pages) { #Add in jQuery tabs conditionally
                 //This line does not add in jQuery UI correctly
@@ -420,7 +420,7 @@ function add_embpicamoto_button() {
     if (get_user_option('rich_editing') == 'true') {
         add_filter('mce_external_plugins', 'add_embpicamoto_tinymce_plugin');
         add_filter('mce_buttons', 'register_embpicamoto_button');
-
+        wp_enqueue_script('jquery-ui-tabs'); 
         wp_enqueue_script('jquery-ui-dialog');  //Ensure jquery-ui-dialog is available on clientside (will add in jQuery automatically)
     }
 }
