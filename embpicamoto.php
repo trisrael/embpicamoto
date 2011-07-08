@@ -360,6 +360,25 @@ function embpicamoto_js_dlg_markup() {
                             <select id="<?php echo(Embpicamoto_Dialog::contentAlbumId()) ?>" style="width:98%"><?php echo $opts; ?></select>
                         </label>
                     </p>
+                    
+                    <p>
+                    <div id="albums_container">
+                        <?php 
+                            foreach ($albums as $album){
+                                
+                            
+                               $queryParams = array(
+                                    Embpicamoto_Settings_Helper::CropId() => 'yes',
+                                    Embpicamoto_Settings_Helper::ThumbId() => '140',
+                                    Embpicamoto_Settings_Helper::FullId() => '140'
+                                );
+                                echo Embpicamoto_Photos::buildAlbum($album['id'], 6, 3, $queryParams, true);
+                            }
+                                
+                        ?>
+                    </div>
+                        
+                    </p>
                     <p>
                         <label title="Images to Show per Album Page (default: All Images on Single Page)">
         						Per page:
