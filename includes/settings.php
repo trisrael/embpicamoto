@@ -334,7 +334,7 @@ function Embpicamoto_Settings_advanced_options() {
 //simple wrapper for html inputs for the next two render methods
     function Embpicamoto_Settings_html_input($id, $type_val) {
         $options = get_option(Embpicamoto_Settings_Helper::SettingsId);
-        echo "<input id=$id name='{Helper.html_name($id)}' size='40' type='$type_val' value='{$options[$id]}' />";
+        echo "<input id=$id name='{Embpicamoto_Settings_Helper.html_name($id)}' size='40' type='$type_val' value='{$options[$id]}' />";
     }
 
     function Embpicamoto_Settings_login_field_renderer() {
