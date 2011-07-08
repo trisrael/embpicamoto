@@ -15,8 +15,8 @@
         Constants: {         
             dialogId: "embpicamoto_dlg",
             albumsContainerId: "albums_container",
-            albumClassName: "embicamoto_album",
-            albumIdPrefix: "embicamoto_album_"
+            albumClassName: "embpicamoto_album",
+            albumIdPrefix: "embpicamoto_album_"
         },
 
 
