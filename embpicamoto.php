@@ -146,7 +146,7 @@ class Embpicamoto_Photos {
             $html = $html . '</ul></div>'; #Finish the last page
             #Container html element variables
             $wrap_el_id = "embpicamoto_album_$albumId";
-            $wrap_pre = "<div id='$wrap_el_id' class='picamoto_album'>";
+            $wrap_pre = "<div id='$wrap_el_id' class='embpicamoto_album'>";
             $wrap_post = "</div>";
             if ($has_pages) { #Add in jQuery tabs conditionally
                 //This line does not add in jQuery UI correctly
