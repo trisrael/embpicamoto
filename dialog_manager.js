@@ -5,7 +5,7 @@ Embpicamoto.Dialog.Manager = {
     
     init: function(){
         //Hide each album to begin with
-        jQuery.each(this.getAlbumEls(), function(el){ 
+        jQuery.each(this.getAlbumEls(), function(i, el){ 
             el.hide();
         })
         
