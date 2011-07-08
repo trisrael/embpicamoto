@@ -20,7 +20,6 @@
             albumIdPrefix: "embpicamoto_album_"
         },
 
-
         init: function(){
             //Hide each album to begin with
             var albums = this.getAlbumEls();
@@ -41,7 +40,7 @@
             
             
             //initiate select listener with toggle between albums showing
-        },
+        },        
         
         getAlbum: function(){
             return $(this._activeAlbumEl);
@@ -54,6 +53,19 @@
             var cssParts = [this.cssId(this.Constants.dialogId), this.cssId(this.Constants.albumsContainerId), this.cssClass(this.Constants.albumClassName)];
             return $(cssParts.join(" "));
         },
+        
+        getInsertPhotoButton: function(){
+          return this.getInsertButtonEls()[0];  
+        },
+        
+        getInsertAlbumButton: function(){
+          return this.getInsertButtonEls()[0];  
+        },
+                
+        getInsertButtonEls: function(){
+            return $(this.cssId(this.Constants.dialogId)+" button");
+        },
+        
         
         setAlbum: function(albumEl){
           this.hideAlbum();  
@@ -85,10 +97,7 @@
         
         showAlbum: function(){
             this.getAlbum().show();
-        } 
-        
-        
-
+        }
 
     }
 
