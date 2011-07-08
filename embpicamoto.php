@@ -186,9 +186,9 @@ function add_embpicamoto_shortcode($atts, $content = null) {
         return '';#Without an id for an albumid can't do anything    
     
     $queryParams = array(
-        Embpicamoto_Settings_Helper::getCropId() => Embpicamoto_Settings_Helper::getCrop(),
-        Embpicamoto_Settings_Helper::getThumbId() => Embpicamoto_Settings_Helper::getThumb(),
-        Embpicamoto_Settings_Helper::getFullId() => Embpicamoto_Settings_Helper::getFull()
+        Embpicamoto_Settings_Helper::CropId() => Embpicamoto_Settings_Helper::getCrop(),
+        Embpicamoto_Settings_Helper::ThumbId() => Embpicamoto_Settings_Helper::getThumb(),
+        Embpicamoto_Settings_Helper::FullId() => Embpicamoto_Settings_Helper::getFull()
     );
     
     buildAlbum($id, $per_page, $per_line, $queryParams);
