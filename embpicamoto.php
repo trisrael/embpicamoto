@@ -322,7 +322,7 @@ function embpicamoto_js_dlg_markup() {
             $pp_opts_html = $pp_opts_html . '<option ' . $pp_opt_title . ' value="' . $pp_opt . '">' . $pp_opt . '</option>';
         }
     } catch (Exception $ex) {
-        echo "<p>$ex->getMessage()</p>";
+        echo "<p id='failure_message'>$ex->getMessage()</p>";
         $success = false;
         $msg = $ex->getMessage();
     }
