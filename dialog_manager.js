@@ -4,6 +4,15 @@
     Embpicamoto = {Dialog: {}};
 
     Embpicamoto.Dialog.Manager = {
+        
+        
+        //Some helpful constans 
+        Constants: {         
+            dialogId: "embpicamoto_dlg",
+            albumsContainerId: "albums_container",
+            albumClassName: "embicamoto_album",
+            albumIdPrefix: this.Constants['albumClassName'] + "_"
+        },
 
 
         init: function(){
@@ -22,7 +31,18 @@
          Return each picamoto album HMTL container found within dialog
          */
         getAlbumEls: function(){
-            return $("#embpicamoto_dlg #albums_container .picamoto_album");
+            
+        var cssParts = [cssId(this.Constants.dialogId), cssId(this.Constants.albumsContainerId), cssClass(this.Constants.albumClasName)];
+            return $(cssParts.join(" "));
+        },
+        
+        
+        cssId: function (id){
+            return "#" + id;
+        },
+        
+        cssClass: function(className){
+            return "." + className;
         }
 
 
