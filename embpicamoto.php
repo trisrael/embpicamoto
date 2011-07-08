@@ -34,6 +34,7 @@ class Embpicamoto_Photos {
         if ($gauth->has_access_token()) {            
             $client = $gauth->getAccessToken()->getHttpClient($gauth->getConfig());
         } else {
+            echo "here";
             $login_val = Embpicamoto_Settings_Helper::getLogin();
             $pass_val = Embpicamoto_Settings_Helper::getPassword();
             $client = Zend_Gdata_ClientLogin::getHttpClient($login_val, $pass_val, Zend_Gdata_Photos::AUTH_SERVICE_NAME);
