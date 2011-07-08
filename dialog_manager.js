@@ -19,7 +19,7 @@ Embpicamoto.Dialog.Manager = {
      Return each picamoto album HMTL container found within dialog
      */
     getAlbumEls: function(){
-        return jQuery("#embpicamoto_dlg #album_container .picamoto_album");
+        return jQuery("#embpicamoto_dlg #albums_container .picamoto_album");
     }
     
     
