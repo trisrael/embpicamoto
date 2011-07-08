@@ -14,6 +14,7 @@
         //Some helpful constans 
         Constants: {         
             dialogId: "embpicamoto_dlg",
+            albumSelectId: "embpicamoto_dlg_album_id",
             albumsContainerId: "albums_container",
             albumClassName: "embpicamoto_album",
             albumIdPrefix: "embpicamoto_album_"
@@ -30,7 +31,12 @@
 
             //show first album      
             
-            this.setAlbum(albums[0]);          
+            this.setAlbum(albums[0]);   
+            
+            //Switch between which album is showing when select is switched
+            $(this.cssId(this.Constants.albumSelectId)).change(function(){
+                this.setAlbum( $(this.cssId( this.buildAlbumId(this.value)) ));
+            });
             
             
             //initiate select listener with toggle between albums showing
@@ -56,6 +62,8 @@
           this.showAlbum();
         },
         
+        //Helpers
+        
         
         cssId: function (id){
             return "#" + id;
@@ -63,6 +71,10 @@
         
         cssClass: function(className){
             return "." + className;
+        },
+        
+        buildAlbumId: function(id){
+            return this.Constants.albumIdPrefix + id;
         },
         
         //Actions 
