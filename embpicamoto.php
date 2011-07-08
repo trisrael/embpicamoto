@@ -369,7 +369,7 @@ function embpicamoto_js_dlg_markup() {
                             
                                $queryParams = array(
                                     Embpicamoto_Settings_Helper::CropId() => 'yes',
-                                    Embpicamoto_Settings_Helper::ThumbId() => '140',
+                                    Embpicamoto_Settings_Helper::ThumbId() => '40',
                                     Embpicamoto_Settings_Helper::FullId() => '140'
                                 );
                                 echo Embpicamoto_Photos::buildAlbum($album['id'], 6, 3, $queryParams, true);
