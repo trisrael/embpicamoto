@@ -105,6 +105,7 @@ class Embpicamoto_Oauth_Google_Manager{
                 $reqToken = $this->getConsumer()->getRequestToken(array('scope' => self::$scope_param));        
                 $this->setRequestToken($reqToken);
             }       
+            
             return $this->getRequestToken()->isValid();
             
         
