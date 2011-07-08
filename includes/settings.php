@@ -154,7 +154,7 @@ function Embpicamoto_Settings_advanced_options() {
         } else if ($gauth->has_valid_accreditation()) {
             $approvalUrl = $gauth->getConsumer()->getRedirectUrl(array('hd' => 'default'), $gauth->getRequestToken()); #Need to add persisted requested token to getRedirectUrl() call
             $googleThumbUrl = plugins_url(append_plugin_name("google.png", "/"));
-            echo "<a style='border: 2px solid #EEE;' href=\"$approvalUrl\" title='Grant access'><img src='$googleThumbUrl'/></a>";
+            echo "<a href=\"$approvalUrl\" title='Grant access'><img style='border: 2px solid #EEE;' src='$googleThumbUrl'/></a>";
         } else {
             Embpicamoto_Settings_correct_oauth_creds_html("Invalid Google Oauth credentials supplied, unable to authorize");
         }
