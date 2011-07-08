@@ -44,18 +44,18 @@ class Embpicamoto_Photos {
 
         return $service;
     }
-
-}
-
-/////////////////////////////////////////////////////////////////////
-// add the shortcode handler for picasa galleries
-// http://brettterpstra.com/adding-a-tinymce-button/
-function add_embpicamoto_shortcode($atts, $content = null) {
-    extract(shortcode_atts(array("id" => '', "per_page" => '', "per_line" => ''), $atts));
-    if (empty($id))
-        return '';#Without an id for an albumid can't do anything
     
-        try {           
+      /**
+      *
+      * @param type $albumId, Picasa Web Albums Id of album to be rendered
+      * @param type $per_page,number of photos to be shown per page
+      * @param type $per_line, number of photos to show per row
+      * @param type $picasaQueryParams, options for query being sent to Picasa (use ids in Empicamoto_Settings_Helper:: [CropId(), ThumbId(), FullId] for maintainability) 
+      * @param type $no_lightbox, when set to true, img is not surrounded by lightbox metadata
+      */
+    public static function buildAlbum($albumId, $per_page, $per_line, $queryParams, $no_lightbox = false){            
+        
+           try {           
             
             Embpicamoto_include_library();
             require_once 'Zend/Loader.php';
@@ -74,9 +74,9 @@ function add_embpicamoto_shortcode($atts, $content = null) {
 
             // http://code.google.com/intl/ru/apis/picasaweb/docs/1.0/reference.html
 
-            $suffix = Embpicamoto_Settings_Helper::getCrop() == 'no' ? 'u' : 'c';
-            $query->setThumbsize(Embpicamoto_Settings_Helper::getThumb() . $suffix);
-            $query->setImgMax(Embpicamoto_Settings_Helper::getFull() . $suffix);
+            $suffix = $queryParams[Embpicamoto_Settings_Helper::getCropId()] == 'no' ? 'u' : 'c';
+            $query->setThumbsize($queryParams[Embpicamoto_Settings_Helper::getThumbId()] . $suffix);
+            $query->setImgMax($queryParams[Embpicamoto_Settings_Helper::getFullId()] . $suffix);
             $results = $service->getAlbumFeed($query);
 
             while ($results != null) {
@@ -129,11 +129,18 @@ function add_embpicamoto_shortcode($atts, $content = null) {
                     $html = $html . "<div id='" . $pageElId($page_name) . "'><ul class='embpicamoto'>";
                 }
 
-                $html = $html . '<li>';
-                $html = $html . '<a rel="lightbox[' . $album['id'] . ']" target="_blank" href="' . $photo['fullsize'] . '">';
+                #only surround with lightbox metadata when $no_lightbox is false
+                if(!$no_lightbox){
+                    $html = $html . '<li>';
+                    $html = $html . '<a rel="lightbox[' . $album['id'] . ']" target="_blank" href="' . $photo['fullsize'] . '">';
+                }
+                
                 $html = $html . '<img src="' . $photo['thumbnail'] . '" />';
-                $html = $html . '</a>';
-                $html = $html . '</li>';
+                
+                if(!$no_lightbox){
+                    $html = $html . '</a>';
+                    $html = $html . '</li>';
+                }
             }
 
             $html = $html . '</ul></div>'; #Finish the last page
@@ -165,11 +172,26 @@ function add_embpicamoto_shortcode($atts, $content = null) {
             return $wrap_pre . $html_page_names . $html . $wrap_post . $script;
         } catch (Exception $ex) {
             return '<p style="color:red">' . $ex->getMessage() . '</p>';
+        }    
+        
         }
-
-
-    //TODO: here will be all zend gdata stufs to retrive album photos
-    return '<p style="text-align:center">' . $id . '</p>';
+}
+/////////////////////////////////////////////////////////////////////
+// add the shortcode handler for picasa galleries
+// http://brettterpstra.com/adding-a-tinymce-button/
+function add_embpicamoto_shortcode($atts, $content = null) {
+    extract(shortcode_atts(array("id" => '', "per_page" => '', "per_line" => ''), $atts));    
+    
+    if (empty($id))
+        return '';#Without an id for an albumid can't do anything    
+    
+    $queryParams = array(
+        Embpicamoto_Settings_Helper::getCropId() => Embpicamoto_Settings_Helper::getCrop(),
+        Embpicamoto_Settings_Helper::getThumbId() => Embpicamoto_Settings_Helper::getThumb(),
+        Embpicamoto_Settings_Helper::getFullId() => Embpicamoto_Settings_Helper::getFull()
+    );
+    
+    buildAlbum($id, $per_page, $per_line, $queryParams);
 }
 
 add_shortcode('embpicamoto', 'add_embpicamoto_shortcode');
