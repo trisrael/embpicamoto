@@ -74,9 +74,9 @@ class Embpicamoto_Photos {
 
             // http://code.google.com/intl/ru/apis/picasaweb/docs/1.0/reference.html
 
-            $suffix = $queryParams[Embpicamoto_Settings_Helper::getCropId()] == 'no' ? 'u' : 'c';
-            $query->setThumbsize($queryParams[Embpicamoto_Settings_Helper::getThumbId()] . $suffix);
-            $query->setImgMax($queryParams[Embpicamoto_Settings_Helper::getFullId()] . $suffix);
+            $suffix = $queryParams[Embpicamoto_Settings_Helper::CropId()] == 'no' ? 'u' : 'c';
+            $query->setThumbsize($queryParams[Embpicamoto_Settings_Helper::ThumbId()] . $suffix);
+            $query->setImgMax($queryParams[Embpicamoto_Settings_Helper::FullId()] . $suffix);
             $results = $service->getAlbumFeed($query);
 
             while ($results != null) {
