@@ -22,7 +22,7 @@ class Embpicamoto_Photos {
      * @return Zend_Gdata_Photos 
      */
     public static function getService() {
-        Empicamoto_include_library();
+        Embpicamoto_include_library();
         require_once 'Zend/Loader.php';
         
         Zend_Loader::loadClass('Zend_Gdata_ClientLogin');
@@ -57,7 +57,7 @@ function add_embpicamoto_shortcode($atts, $content = null) {
         try {
             
             
-            Empicamoto_include_library();
+            Embpicamoto_include_library();
             require_once 'Zend/Loader.php';
 
             Zend_Loader::loadClass('Zend_Gdata');
@@ -272,12 +272,12 @@ function embpicamoto_embed_js() {
 }
 
 function embpicamoto_js_dlg_markup() {
-    $options = get_option('embpicamoto_options');
+    
     $success = true;
     $msg = '';
     $opts = '';
     try {
-        Empicamoto_include_library();
+        Embpicamoto_include_library();
 
         require_once 'Zend/Loader.php';
 
