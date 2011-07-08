@@ -254,8 +254,8 @@ function embpicamoto_embed_js() {
                 buttons: {'Insert': embpicamoto_dlg_insert}
             });
             
-            var albumEls = jQuery("#albums_container div");
-            jQuery.each(albumEls, function(el){el.tabs();});
+//            var albumEls = jQuery("#albums_container div");
+//            jQuery.each(albumEls, function(el){el.tabs();});
     		
             jQuery("#embpicamoto_dlg").dialog("open");
         }
