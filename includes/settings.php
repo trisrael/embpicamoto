@@ -295,7 +295,7 @@ function Embpicamoto_Settings_advanced_options() {
          */
         public static function clearOauthLinkHtml(){
             $url = self::relativeSettingsPageUrlBuilder(self::advancedTabId, array(self::resetOauthTokens => "true"));
-            return "<a href='$url'>Clear</a>";            
+            return "<a href='$url' class='button-primary' title='Remove Google Oauth Acess Token'>Clear</a>";            
         }
 
     }
