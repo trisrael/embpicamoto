@@ -246,16 +246,16 @@ function embpicamoto_embed_js() {
     <script type="text/javascript">
         function embpicamoto_dlg_open() {
             embpicamoto_dlg_close();
+            
+            Embpicamoto.Dialog.Manager.init();
     		
             jQuery("#embpicamoto_dlg").dialog({
                 modal: true,
                 draggable: false,
                 resizable: false,
                 buttons: {'Insert': embpicamoto_dlg_insert}
-            });
-            
-//            var albumEls = jQuery("#albums_container div");
-//            jQuery.each(albumEls, function(el){el.tabs();});
+            });           
+
     		
             jQuery("#embpicamoto_dlg").dialog("open");
         }
@@ -421,6 +421,7 @@ function add_embpicamoto_button() {
         add_filter('mce_external_plugins', 'add_embpicamoto_tinymce_plugin');
         add_filter('mce_buttons', 'register_embpicamoto_button');
         wp_enqueue_script('jquery-ui-tabs'); 
+        wp_enqueue_script('embpicamoto-dialog-manager', plugins_url('dialog_manager.js', __FILE__));
         wp_enqueue_script('jquery-ui-dialog');  //Ensure jquery-ui-dialog is available on clientside (will add in jQuery automatically)
     }
 }
