@@ -121,7 +121,7 @@ function Embpicamoto_Settings_general_options() {
 
 //Helper method which shows a warning that something is wrong with the Oauth credentials as detailed in $msg params 
 //to the admin, and add a link redirecting them to the Oauth Settings page
-function Empicamoto_Settings_correct_oauth_creds_html($msg) {
+function Embpicamoto_Settings_correct_oauth_creds_html($msg) {
     $sty = "-moz-border-radius: 6px 6px 6px 6px;";
     $sty = $sty . "-webkit-border-radius: 6px 6px 6px 6px;";
     $sty = $sty . "border-top-width: 1px; border-top-style: solid;";
@@ -137,7 +137,7 @@ function Embpicamoto_Settings_advanced_options() {
 
         <?php
         require_once plugin_dir_path(__FILE__) . "oauth.php";
-        $gauth = Empicamoto_Oauth_Google_Manager::singleton(); //google oauth manager		
+        $gauth = Embpicamoto_Oauth_Google_Manager::singleton(); //google oauth manager		
 
 
         if ($gauth->has_access_token() && $gauth->is_still_accessible()) {
@@ -145,13 +145,13 @@ function Embpicamoto_Settings_advanced_options() {
         } else if ($gauth->can_authorize($_GET) && $gauth->authorize($_GET)) {
             echo "<p>Authorization with Google completed successfully.</p>";
         } else if ($gauth->using_defaults()) {
-            Empicamoto_Settings_correct_oauth_creds_html("No Google Oauth credentials supplied yet, unable to authorize");
+            Embpicamoto_Settings_correct_oauth_creds_html("No Google Oauth credentials supplied yet, unable to authorize");
         } else if ($gauth->has_valid_accreditation()) {
             $approvalUrl = $gauth->getConsumer()->getRedirectUrl(array('hd' => 'default'));
             $googleThumbUrl = plugins_url(append_plugin_name("google.png", "/"));
             echo "<a href=\"$approvalUrl\" title='Grant access'><img src='$googleThumbUrl'/></a>";
         } else {
-            Empicamoto_Settings_correct_oauth_creds_html("Invalid Google Oauth credentials supplied, unable to authorize");
+            Embpicamoto_Settings_correct_oauth_creds_html("Invalid Google Oauth credentials supplied, unable to authorize");
         }
         ?>				
     </div>
@@ -180,6 +180,9 @@ function Embpicamoto_Settings_advanced_options() {
         const Thumb = "thumb_size";
         const Full = "full_size";
         const Crop = "crop";
+        
+        
+        //TODO: Clean with some meta-programming if possible, this is super bloated.
 
         public static function settingsTabs() {
             return array(self::defaultTabId => 'General', self::advancedTabId => 'Advanced');
@@ -193,22 +196,42 @@ function Embpicamoto_Settings_advanced_options() {
         public static function LoginId() {
             return self::pre(self::Login);
         }
+        
+        public static function getLogin(){
+            return self::retrieve_option(self::LoginId());
+        }
 
         public static function PasswordId() {
             return self::pre(self::Password);
+        }
+        
+        public static function getPassword(){
+            return self::retrieve_option(self::PasswordId());
         }
 
         public static function ThumbId() {
             return self::pre(self::Thumb);
         }
+        
+        public static function getThumb() {
+            return self::retrieve_option(self::ThumbId());                    
+        }                
 
         public static function FullId() {
             return self::pre(self::Full);
         }
+        
+        public static function getFull() {
+            return self::retrieve_option(self::FullId());                    
+        }                
 
         public static function CropId() {
             return self::pre(self::Crop);
         }
+        
+        public static function getCrop() {
+            return self::retrieve_option(self::CropId());                    
+        }                
 
         public static function AuthSectionDesc() {
             return self::post_desc(self::AuthSectionId);
@@ -236,6 +259,11 @@ function Embpicamoto_Settings_advanced_options() {
         //Given a name, append 'desc' to it then namespace it as it should be a local const/var
         private static function post_desc($loc_name) {
             return Embpicamoto_Settings_ns($loc_name . "_desc");
+        }
+        
+        private static function retrieve_option($option_id){
+            $opts = get_option(self::SettingsId);
+            return $opts[$option_id];
         }
 
     }

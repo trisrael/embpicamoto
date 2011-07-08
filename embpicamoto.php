@@ -16,6 +16,33 @@ require_once('includes/settings.php');
 require_once('includes/oauth_settings.php'); 
 require_once('includes/oauth.php');
 
+
+class Embpicamoto_Photos
+{
+    /**
+     *Will create a service class for accessing Picasa Web Albums using Oauth as first priority, and falling back to ClientLogin when not available.
+     * @return Zend_Gdata_Photos 
+     */
+    public static function getService(){
+        
+        $gauth = Embpicamoto_Oauth_Google_Manager::singleton();
+        
+        $client = null; #Should cause an interesting exception if neither works
+        if($gauth->has_access_token()){
+            $client = $gauth->getAccessToken()->getHttpClient($gauth->getConfig());
+        }
+        else{            
+            $login_val = Embpicamoto_Settings_Helper::getLogin();
+            $pass_val = Embpicamoto_Settings_Helper::getPassword();
+            $client = Zend_Gdata_ClientLogin::getHttpClient($login_val, $pass_val, Zend_Gdata_Photos::AUTH_SERVICE_NAME);
+        }        
+        
+        $service = new Zend_Gdata_Photos($client); 
+        
+        return $service;
+    }
+}
+
 /////////////////////////////////////////////////////////////////////
 // add the shortcode handler for picasa galleries
 // http://brettterpstra.com/adding-a-tinymce-button/
@@ -27,7 +54,7 @@ function add_embpicamoto_shortcode($atts, $content = null) {
 		
 		if(!empty($options['embpicamoto_options_login']) && !empty($options['embpicamoto_options_password'])) {
 			try {
-
+                                #add library to include path
 				set_include_path(implode(PATH_SEPARATOR, array(
 					realpath(dirname(__FILE__) . '/library'),
 					get_include_path(),
@@ -43,19 +70,17 @@ function add_embpicamoto_shortcode($atts, $content = null) {
 				Zend_Loader::loadClass('Zend_Gdata_Photos_AlbumQuery');
 				Zend_Loader::loadClass('Zend_Gdata_Photos_PhotoQuery');
 
-//				$client = Zend_Gdata_ClientLogin::getHttpClient($options['embpicamoto_options_login'], $options['embpicamoto_options_password'], Zend_Gdata_Photos::AUTH_SERVICE_NAME);
-                                $gauth = Empicamoto_Oauth_Google_Manager::singleton();
-                                $client = $gauth->getAccessToken()->getHttpClient($gauth->getConfig());
-				$service = new Zend_Gdata_Photos($client); 
+				$service = Embpicamoto_Photos::getService();
 				
 				$photos = array();
 				$query = new Zend_Gdata_Photos_AlbumQuery();
 				$query->setAlbumId($id);
 
 				// http://code.google.com/intl/ru/apis/picasaweb/docs/1.0/reference.html
-				$suffix = $options['embpicamoto_options_crop'] == 'no' ? 'u' : 'c';
-				$query->setThumbsize($options['embpicamoto_options_thumb_size'] . $suffix);
-				$query->setImgMax($options['embpicamoto_options_full_size'] . $suffix);
+                                
+				$suffix = Embpicamoto_Settings_Helper::getCrop() == 'no' ? 'u' : 'c';
+				$query->setThumbsize(Embpicamoto_Settings_Helper::getThumb() . $suffix);
+				$query->setImgMax(Embpicamoto_Settings_Helper::getFull() . $suffix);
 				$results = $service->getAlbumFeed($query);
 				
 				while($results != null) {
@@ -71,9 +96,9 @@ function add_embpicamoto_shortcode($atts, $content = null) {
 						$results = $results->getNextFeed();
 					}
 					catch(Exception $e) {$results = null;}
-				}
+				}				
 				
-				//TODO: here is theming, change it as u need		
+                                #TODO: Need to add ability to theme without touching codebase here
 
 				$has_rows =	isset($per_line); #Check if user supplied a number per line
 				$has_pages= isset($per_page) && is_numeric($per_page) && $per_page > 0;
@@ -163,12 +188,12 @@ add_shortcode('embpicamoto', 'add_embpicamoto_shortcode');
 // embed some javascript for tinymce plugin
 
 
-class EmbpicamotoDlgIds{
+class Embpicamoto_Dialog{
 	private static $prefix = "embpicamoto_dlg_";
 		
-	public function customPerPage(){ return self::pre("custom_per_page");}
-	public function perPage(){ return self::pre("per_page");}
-	public function contentAlbum(){ return self::pre("album_id");}
+	public function customPerPageId(){ return self::pre("custom_per_page");}
+	public function perPageId(){ return self::pre("per_page");}
+	public function contentAlbumId(){ return self::pre("album_id");}
 
 	private static function pre($to_app){
 		return self::$prefix . $to_app;
@@ -211,9 +236,9 @@ function embpicamoto_embed_js() {
 	}
 
 	function embpicamoto_dlg_insert() {
-		var album_id = jQuery("#<?php echo(EmbpicamotoDlgIds::contentAlbum())?>").val();
-		var s_pp_val = jQuery("#<?php echo(EmbpicamotoDlgIds::perPage())?>").val();
-		var c_pp_val = jQuery("#<?php echo(EmbpicamotoDlgIds::customPerPage())?>").val();
+		var album_id = jQuery("#<?php echo(Embpicamoto_Dialog::contentAlbum())?>").val();
+		var s_pp_val = jQuery("#<?php echo(Embpicamoto_Dialog::perPage())?>").val();
+		var c_pp_val = jQuery("#<?php echo(Embpicamoto_Dialog::customPerPage())?>").val();
 		var pp_val = -1; //Default to infinity (Show all images on one page)
 
 		if ( !isNaN( Number(c_pp_val) ) ){
@@ -271,8 +296,8 @@ if(!empty($options['embpicamoto_options_login']) && !empty($options['embpicamoto
 		Zend_Loader::loadClass('Zend_Gdata_Photos_AlbumQuery');
 		Zend_Loader::loadClass('Zend_Gdata_Photos_PhotoQuery');
 
-		$client = Zend_Gdata_ClientLogin::getHttpClient($options['embpicamoto_options_login'], $options['embpicamoto_options_password'], Zend_Gdata_Photos::AUTH_SERVICE_NAME);
-		$service = new Zend_Gdata_Photos($client);
+		
+		$service = Embpicamoto_Photos::getService();
 		
 		$albums = array();
 	
@@ -319,17 +344,17 @@ if(!empty($options['embpicamoto_options_login']) && !empty($options['embpicamoto
 				<p>
 					<label>
 						Select album:
-						<select id="<?php echo(EmbpicamotoDlgIds::contentAlbum())?>" style="width:98%"><?php echo $opts;?></select>
+						<select id="<?php echo(Embpicamoto_Dialog::contentAlbum())?>" style="width:98%"><?php echo $opts;?></select>
 					</label>
 				</p>
 				<p>
 					<label title="Images to Show per Album Page (default: All Images on Single Page)">
 						Per page:
-						<select id="<?php echo(EmbpicamotoDlgIds::perPage())?>">
+						<select id="<?php echo(Embpicamoto_Dialog::perPage())?>">
 							<?php echo $pp_opts_html;?>
 						</select>
 					</label>
-					<label title="Custom Image to Show per Album Page Value">Custom:<input style="width: 2.5em" type='text' id="<?php echo EmbpicamotoDlgIds::customPerPage() ?>"/>
+					<label title="Custom Image to Show per Album Page Value">Custom:<input style="width: 2.5em" type='text' id="<?php echo Embpicamoto_Dialog::customPerPage() ?>"/>
 					</label>
 				</p>
 			<?php else:?>
