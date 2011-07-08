@@ -11,7 +11,7 @@
             dialogId: "embpicamoto_dlg",
             albumsContainerId: "albums_container",
             albumClassName: "embicamoto_album",
-            albumIdPrefix: this.Constants['albumClassName'] + "_"
+            albumIdPrefix: Embpicamoto.Dialog.Manager.Constants['albumClassName'] + "_"
         },
 
 
@@ -30,9 +30,8 @@
         /*
          Return each picamoto album HMTL container found within dialog
          */
-        getAlbumEls: function(){
-            
-        var cssParts = [cssId(this.Constants.dialogId), cssId(this.Constants.albumsContainerId), cssClass(this.Constants.albumClasName)];
+        getAlbumEls: function(){            
+            var cssParts = [cssId(this.Constants.dialogId), cssId(this.Constants.albumsContainerId), cssClass(this.Constants.albumClasName)];
             return $(cssParts.join(" "));
         },
         
