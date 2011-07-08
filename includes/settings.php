@@ -137,13 +137,19 @@ function Embpicamoto_Settings_advanced_options() {
 
         <?php
         require_once plugin_dir_path(__FILE__) . "oauth.php";
-        $gauth = Embpicamoto_Oauth_Google_Manager::singleton(); //google oauth manager		
+        $gauth = Embpicamoto_Oauth_Google_Manager::singleton(); //google oauth manager	
+        
+        #Reset access token, if 'reset' param is get
+        #NOTE: Is this really secure? Could a non admin hit this in here?        
+        if(isset($_GET) && $_GET[Embpicamoto_Settings_Helper::resetOauthTokens] == "true"){
+            $gauth->clearAll(); #Remove tokens
+        }
 
 
         if ($gauth->has_access_token() && $gauth->is_still_accessible()) {
-            echo "<p>Authorized with Google.</p>";
+            echo "<p>Authorized with Google." . Embpicamoto_Settings_Helper::clearOauthLinkHtml() . "</p>";
         } else if ($gauth->can_authorize($_GET) && $gauth->authorize($_GET)) {
-            echo "<p>Authorization with Google completed successfully.</p>";
+            echo "<p>Authorization with Google completed successfully.". Embpicamoto_Settings_Helper::clearOauthLinkHtml() . "</p>";
         } else if ($gauth->using_defaults()) {
             Embpicamoto_Settings_correct_oauth_creds_html("No Google Oauth credentials supplied yet, unable to authorize");
         } else if ($gauth->has_valid_accreditation()) {
@@ -181,8 +187,12 @@ function Embpicamoto_Settings_advanced_options() {
         const Full = "full_size";
         const Crop = "crop";
         
+        //Params 
         
-        //TODO: Clean with some meta-programming if possible, this is super bloated.
+        const resetOauthTokens = "reset-oauth-tokens";
+        
+        
+        //TODO: Clean with some meta-programming if possible, this is SUPER bloated and not uselessish (most are used at most twice)
 
         public static function settingsTabs() {
             return array(self::defaultTabId => 'General', self::advancedTabId => 'Advanced');
@@ -264,6 +274,29 @@ function Embpicamoto_Settings_advanced_options() {
         private static function retrieve_option($option_id){
             $opts = get_option(self::SettingsId);
             return $opts[$option_id];
+        }
+        
+        /**
+         *
+         * @param type $tab, the id of the tab in the settings page that the user will land on
+         * @param type $params,  
+         */
+        public static function relativeSettingsPageUrlBuilder($tab = self::defaultTabId, $params = array()){
+            $pre = self::settingsPageRelUrl . "?page=$tab"; 
+            
+            foreach ($params as $key => $value) {
+                $pre = $pre . "&$key=$value";
+            }
+            return $pre;
+        }
+        
+        /**
+         *Build a simple link redirecting user to same page (
+         * @return type (html <a> tag)
+         */
+        public static function clearOauthLinkHtml(){
+            $url = self::relativeSettingsPageUrlBuilder(self::advancedTabId, array(self::resetOauthTokens => "true"));
+            return "<a href='$url'>Clear</a>";            
         }
 
     }

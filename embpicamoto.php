@@ -54,8 +54,7 @@ function add_embpicamoto_shortcode($atts, $content = null) {
     if (empty($id))
         return '';#Without an id for an albumid can't do anything
     
-        try {
-            
+        try {           
             
             Embpicamoto_include_library();
             require_once 'Zend/Loader.php';
