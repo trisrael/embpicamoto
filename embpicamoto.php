@@ -191,7 +191,7 @@ function add_embpicamoto_shortcode($atts, $content = null) {
         Embpicamoto_Settings_Helper::FullId() => Embpicamoto_Settings_Helper::getFull()
     );
     
-    Embpicamoto_Photos::buildAlbum($id, $per_page, $per_line, $queryParams);
+    echo Embpicamoto_Photos::buildAlbum($id, $per_page, $per_line, $queryParams);
 }
 
 add_shortcode('embpicamoto', 'add_embpicamoto_shortcode');
