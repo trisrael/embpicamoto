@@ -253,7 +253,7 @@ function Embpicamoto_Settings_advanced_options() {
         //Helper Functions	
         //For html elements that are to be placed into wordpress settings in this context, add string wrapping to the parameter name given
         public static function html_name($param_name) {
-            return "{self::SettingsId}[$param_name]";
+            return self::SettingsId . "[$param_name]";
         }
 
         public static function add_field($param_name, $desc, $section_id) {
