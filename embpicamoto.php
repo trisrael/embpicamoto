@@ -31,8 +31,7 @@ class Embpicamoto_Photos {
         $gauth = Embpicamoto_Oauth_Google_Manager::singleton();
 
         $client = null; #Should cause an interesting exception if neither works
-        if ($gauth->has_access_token()) {
-            throw new Exception("Using Oauth");
+        if ($gauth->has_access_token()) {            
             $client = $gauth->getAccessToken()->getHttpClient($gauth->getConfig());
         } else {
             $login_val = Embpicamoto_Settings_Helper::getLogin();
