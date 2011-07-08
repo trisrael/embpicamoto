@@ -335,17 +335,18 @@ function embpicamoto_js_dlg_markup() {
                     <p>
                         <label>
         						Select album:
-                            <select id="<?php echo(Embpicamoto_Dialog::contentAlbum()) ?>" style="width:98%"><?php echo $opts; ?></select>
+                            <select id="<?php echo(Embpicamoto_Dialog::contentAlbumId()) ?>" style="width:98%"><?php echo $opts; ?></select>
                         </label>
                     </p>
                     <p>
                         <label title="Images to Show per Album Page (default: All Images on Single Page)">
         						Per page:
-                            <select id="<?php echo(Embpicamoto_Dialog::perPage()) ?>">
+                            <select id="<?php echo(Embpicamoto_Dialog::perPageId()) ?>">
+                                
         <?php echo $pp_opts_html; ?>
                             </select>
                         </label>
-                        <label title="Custom Image to Show per Album Page Value">Custom:<input style="width: 2.5em" type='text' id="<?php echo Embpicamoto_Dialog::customPerPage() ?>"/>
+                        <label title="Custom Image to Show per Album Page Value">Custom:<input style="width: 2.5em" type='text' id="<?php echo Embpicamoto_Dialog::customPerPageId() ?>"/>
                         </label>
                     </p>
                 <?php else: ?>
