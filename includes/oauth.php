@@ -47,16 +47,19 @@ class Embpicamoto_Oauth_Google_Manager{
     
     //Function testing whether user has changed their oauth consumer/secret from defaults
     public function using_defaults() {
+            echo "<p> this is where the problem is 4</p>";
         return ($this->get_consumer_key() == Embpicamoto_Oauth_Util_Defaults::consumerKey) && ($this->get_consumer_secret() == Embpicamoto_Oauth_Util_Defaults::consumerSecret);
     } 
 
 
     //Simple existence check for _accessToken on singleton (NOTE: serialize and move into db using Settings API)
     public function has_access_token() {
+            echo "<p> this is where the problem is 1</p>";
         return $this->getAccessToken() != null;
     }
 
     public function can_authorize($get_params) {
+            echo "<p> this is where the problem is 2</p>";
 //        echo "<p>GET" . implode(" ", $get_params) . "</p>";
 //        echo "<p>GET_PARAMS non empty:" . (!empty($get_params) ? "true" : "false") . "</p>";
 //        echo "<p>HAS_OAUTH_PARAMS:" . ($this->has_oauth_access_params($get_params) ? "true" : "false") . "</p>";
@@ -87,14 +90,14 @@ class Embpicamoto_Oauth_Google_Manager{
         return true;
     }
     
-    public function has_request_token(){        
+    public function has_request_token(){                
         $tok = $this->getRequestToken();        
         return is_object($tok) && get_class($this->getRequestToken()) == "Zend_Oauth_Token_Request" && $this->getRequestToken()->isValid();
     }    
 
     //Test whether site has been authenticated correctly with Google services
     public function has_valid_accreditation() {
-        
+            echo "<p> this is where the problem is 3</p>";
     
             #check whether an attempt was made, and if so if it was a failure -> try again             
             if (!$this->has_request_token()) {
@@ -111,6 +114,7 @@ class Embpicamoto_Oauth_Google_Manager{
     //Actions   
     
     public function authorize($get) {
+            echo "<p> this is where the problem is 2 1/2</p>";
         echo "<p>Made it to authorize</p>";
         try {
             $tok = $this->getRequestToken();

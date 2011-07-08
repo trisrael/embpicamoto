@@ -133,7 +133,7 @@ function Embpicamoto_Settings_correct_oauth_creds_html($msg) {
 function Embpicamoto_Settings_advanced_options() {
     ?>
     <div id='auth-settings'>
-        <h2>Picasa Authentication</h2>
+        <h2>Picasa Oauth Authentication</h2>
 
         <?php
         require_once plugin_dir_path(__FILE__) . "oauth.php";
