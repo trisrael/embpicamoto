@@ -145,7 +145,6 @@ function Embpicamoto_Settings_advanced_options() {
             $gauth->clearAll(); #Remove tokens
         }
 
-
         if ($gauth->has_access_token() && $gauth->is_still_accessible()) {
             echo "<p>Authorized with Google." . Embpicamoto_Settings_Helper::clearOauthLinkHtml() . "</p>";
         } else if ($gauth->can_authorize($_GET) && $gauth->authorize($_GET)) {
@@ -282,8 +281,8 @@ function Embpicamoto_Settings_advanced_options() {
          * @param type $params,  
          */
         public static function relativeSettingsPageUrlBuilder($tab = self::defaultTabId, $params = array()){
-            $pre = self::settingsPageRelUrl . "?page=$tab"; 
-            
+            $pre = admin_url("options-general.php");
+            $pre = $pre . "?page=" . self::settingsPageRelUrl . "&tab=$tab";
             foreach ($params as $key => $value) {
                 $pre = $pre . "&$key=$value";
             }
